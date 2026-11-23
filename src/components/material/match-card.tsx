@@ -27,11 +27,11 @@ import type { Match, MaterialListing, MaterialRequest } from "@/types";
 function ScoreRing({ score, confidence }: { score: number; confidence: Match["confidence"] }) {
   const radius = 18;
   const circumference = 2 * Math.PI * radius;
-  const color = confidence === "strong" ? "#1E5B45" : confidence === "review" ? "#B97A2B" : "#68786F";
+  const color = confidence === "strong" ? "var(--apple-blue)" : confidence === "review" ? "var(--amb)" : "var(--mut)";
   return (
     <div className="relative size-12 shrink-0">
       <svg viewBox="0 0 44 44" className="size-12 -rotate-90">
-        <circle cx="22" cy="22" r={radius} fill="none" stroke="#EDE8DA" strokeWidth="3" />
+        <circle cx="22" cy="22" r={radius} fill="none" stroke="var(--apple-hairline)" strokeWidth="3" />
         <circle
           cx="22"
           cy="22"

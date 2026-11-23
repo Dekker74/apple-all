@@ -4,40 +4,40 @@
 
 @layer base {
   :root {
-    /* Offcut Light Palette */
-    --bg: #F1F4EF;
-    --sf: #FFFFFF;
-    --sf2: #E8EFEA;
-    --ink: #13241B;
-    --mut: #5B6B62;
-    --line: #D9E1DA;
-    --moss: #2D5A43;
-    --moss-hover: #224634;
-    --mint: #CFE5D4;
-    --amb: #B87A12;
-    --on: #FFFFFF;
-    --danger: #B83B3B;
+    /* Apple-inspired palette: one blue accent, quiet neutral surfaces. */
+    --bg: #f5f5f7;
+    --sf: #ffffff;
+    --sf2: #fafafc;
+    --ink: #1d1d1f;
+    --mut: #7a7a7a;
+    --line: #e0e0e0;
+    --moss: #0066cc;
+    --moss-hover: #0071e3;
+    --mint: #eaf2fb;
+    --amb: #8a5410;
+    --on: #ffffff;
+    --danger: #c4372c;
 
     /* Legacy HSL tokens for compatibility */
-    --background: 100 20% 95%;
-    --foreground: 146 30% 11%;
+    --background: 220 14% 96%;
+    --foreground: 0 0% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 146 30% 11%;
+    --card-foreground: 0 0% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 146 30% 11%;
-    --primary: 145 36% 24%;
-    --primary-foreground: 100 20% 95%;
-    --secondary: 140 25% 92%;
-    --secondary-foreground: 146 30% 11%;
-    --muted: 140 25% 92%;
-    --muted-foreground: 153 8% 39%;
-    --accent: 133 29% 85%;
-    --accent-foreground: 145 36% 24%;
-    --destructive: 0 52% 47%;
+    --popover-foreground: 0 0% 11%;
+    --primary: 211 100% 40%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 0 0% 11%;
+    --muted: 240 5% 96%;
+    --muted-foreground: 0 0% 48%;
+    --accent: 211 100% 95%;
+    --accent-foreground: 211 100% 40%;
+    --destructive: 4 72% 48%;
     --destructive-foreground: 0 0% 100%;
-    --border: 133 13% 87%;
-    --input: 133 13% 84%;
-    --ring: 145 36% 24%;
+    --border: 0 0% 88%;
+    --input: 0 0% 86%;
+    --ring: 211 100% 40%;
     --radius: 1.125rem;
   }
 
@@ -219,12 +219,12 @@
 
 @layer utilities {
   .dot-grid {
-    background-image: radial-gradient(circle at 1px 1px, rgba(11, 27, 20, 0.12) 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, rgba(29, 29, 31, 0.08) 1px, transparent 0);
     background-size: 22px 22px;
   }
 
   .dot-grid-light {
-    background-image: radial-gradient(circle at 1px 1px, rgba(246, 245, 239, 0.16) 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.16) 1px, transparent 0);
     background-size: 22px 22px;
   }
 
@@ -298,79 +298,79 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d5d1c4;
+  background: #c7c7cc;
   border: 3px solid theme("colors.paper");
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #b9b5a7;
+  background: #a1a1a6;
 }
 
 /* Tema scuro: mantiene invariati i colori delle superfici scure esistenti
    (forest/lime) e ridefinisce solo sfondi, testi e bordi "chiari". */
 .dark {
   color-scheme: dark;
-  /* Offcut Dark Palette */
-  --bg: #0F1A14;
-  --sf: #16251C;
-  --sf2: #1C2E24;
-  --ink: #E8F0EA;
-  --mut: #9DB0A4;
-  --line: #264034;
-  --moss: #7FC79F;
-  --moss-hover: #92D4B0;
-  --mint: #1F3A2B;
-  --amb: #E0A944;
-  --on: #0F1A14;
-  --danger: #E06C6C;
+  /* Apple-inspired dark palette */
+  --bg: #000000;
+  --sf: #1d1d1f;
+  --sf2: #2a2a2c;
+  --ink: #ffffff;
+  --mut: #cccccc;
+  --line: #3a3a3c;
+  --moss: #2997ff;
+  --moss-hover: #0a84ff;
+  --mint: #10263d;
+  --amb: #e0a944;
+  --on: #ffffff;
+  --danger: #ff453a;
 }
 
 .dark body {
-  background-color: #0F1A14;
-  color: #E8F0EA;
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .dark [class*="bg-paper"],
 .dark .kbd {
-  background-color: #0F1A14;
+  background-color: #000000;
 }
 
 .dark .kbd {
-  color: #9DB0A4;
+  color: #cccccc;
 }
 
 .dark [class*="bg-white"],
 .dark .panel {
-  background-color: #16251C;
+  background-color: #1d1d1f;
 }
 
 .dark [class*="bg-sand"],
 .dark [class*="bg-mist"],
 .dark .skeleton {
-  background-color: #1C2E24;
+  background-color: #2a2a2c;
 }
 
 .dark [class*="bg-line"] {
-  background-color: #264034;
+  background-color: #3a3a3c;
 }
 
 .dark [class*="border-line"],
 .dark [class*="divide-line"],
 .dark .panel {
-  border-color: #264034;
+  border-color: #3a3a3c;
 }
 
 .dark [class*="border-sage"] {
-  border-color: #3E6454;
+  border-color: #1a3550;
 }
 
 .dark [class*="border-forest"] {
-  border-color: #2E6A52;
+  border-color: #12406b;
 }
 
 .dark [class*="text-ink"],
 .dark .field-label {
-  color: #E8F0EA;
+  color: #ffffff;
 }
 
 .dark [class*="text-muted"],
@@ -378,92 +378,92 @@
 .dark .eyebrow,
 .dark .micro-label,
 .dark [class*="text-[#4A5148]"] {
-  color: #9DB0A4;
+  color: #cccccc;
 }
 
 .dark [class*="text-moss"] {
-  color: #7FC79F;
+  color: #2997ff;
 }
 
 .dark [class*="text-sage"] {
-  color: #7FC79F;
+  color: #2997ff;
 }
 
 .dark [class*="text-forest"] {
-  color: #A7E8C0;
+  color: #409cff;
 }
 
-/* In dark il lime è una superficie verde profonda: il testo deve essere chiaro. */
+/* On dark chips, keep label text legible. */
 .dark [class~="bg-lime"] [class*="text-forest"],
 .dark [class~="bg-lime"][class*="text-forest"] {
-  color: #E8F0EA;
+  color: #ffffff;
 }
 
 .dark [class*="text-sky"] {
-  color: #A3D6EA;
+  color: #70b7ff;
 }
 
 .dark [class*="text-amber"] {
-  color: #E0A944;
+  color: #e0a944;
 }
 
 .dark [class*="text-clay"],
 .dark [class*="text-danger"] {
-  color: #E06C6C;
+  color: #ff453a;
 }
 
 .dark [class*="bg-forest"] {
-  background-color: #1E3B2D;
+  background-color: #0066cc;
 }
 
 .dark [class*="bg-moss"] {
-  background-color: #245B47;
+  background-color: #0a84ff;
 }
 
 .dark [class*="bg-lime"] {
-  background-color: #1F3A2B;
+  background-color: #2a2a2c;
 }
 
 .dark [class*="bg-lime"] [class*="text-ink"],
 .dark [class~="bg-lime"][class*="text-ink"] {
-  color: #E8F0EA;
+  color: #ffffff;
 }
 
 .dark [class*="bg-sage"] {
-  background-color: #3E6454;
+  background-color: #10263d;
 }
 
 .dark [class~="bg-danger"] {
-  background-color: #7A2B25;
+  background-color: #8e1f18;
 }
 
 .dark [class~="bg-amber"] {
-  background-color: #6B4716;
+  background-color: #6b4716;
 }
 
 .dark [class~="bg-clay"] {
-  background-color: #7A3423;
+  background-color: #7a3423;
 }
 
 .dark [class~="bg-sky"] {
-  background-color: #2C5568;
+  background-color: #10263d;
 }
 
 .dark .marketing-header {
-  background: rgba(15, 26, 20, 0.92);
-  border-bottom-color: #264034;
+  background: rgba(0, 0, 0, 0.88);
+  border-bottom-color: #3a3a3c;
 }
 
 .dark .table-row-hover:hover {
-  background-color: #16251C;
+  background-color: #1d1d1f;
 }
 
 .dark .link-underline {
-  text-decoration-color: #264034;
+  text-decoration-color: #3a3a3c;
 }
 
 .dark .dot-grid {
-  background-image: radial-gradient(circle at 1px 1px, rgba(232, 240, 234, 0.12) 1px, transparent 0);
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0);
 }
 
 .dark .skeleton::after {
@@ -471,25 +471,25 @@
 }
 
 .dark :focus-visible {
-  outline-color: #7FC79F;
+  outline-color: #409cff;
 }
 
 .dark :where(input, select, textarea):focus-visible {
-  outline-color: rgba(127, 199, 159, 0.35);
+  outline-color: rgba(64, 156, 255, 0.35);
 }
 
 .dark ::selection {
-  background: #1F3A2B;
-  color: #E8F0EA;
+  background: #1a3f66;
+  color: #ffffff;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #264034;
-  border-color: #0F1A14;
+  background: #3a3a3c;
+  border-color: #000000;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #3E6454;
+  background: #555557;
 }
 
 /* ========== OFFCUT COMPONENTS ========== */

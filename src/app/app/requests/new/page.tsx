@@ -344,7 +344,7 @@ export default function NewRequestPage() {
                       max={threshold.max}
                       value={threshold.value}
                       onChange={(e) => threshold.set(Number(e.target.value))}
-                      className="mt-3 w-full accent-[#0F3B2E]"
+                      className="mt-3 w-full accent-[#0066cc]"
                       aria-label={threshold.label}
                     />
                   </div>
@@ -441,7 +441,7 @@ export default function NewRequestPage() {
                   step={25}
                   value={radiusKm}
                   onChange={(e) => setRadiusKm(Number(e.target.value))}
-                  className="mt-3 w-full accent-[#0F3B2E]"
+                  className="mt-3 w-full accent-[#0066cc]"
                   aria-label="Raggio di ritiro"
                 />
                 <div className="mt-1 flex justify-between font-mono text-[12px] text-muted">

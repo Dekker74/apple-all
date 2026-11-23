@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OffcutLogo } from "@/components/offcut/logo";
 import { OffcutShell } from "@/components/offcut/shell";
 import { OffcutBotCard } from "@/components/offcut/bot-card";
@@ -71,6 +71,29 @@ export function AboutPage() {
   const c = COPY[lang];
   const [copied, setCopied] = useState<string | null>(null);
 
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>(".apple-reveal"));
+    if (!("IntersectionObserver" in window)) {
+      nodes.forEach((node) => node.classList.add("in-view"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -48px 0px" },
+    );
+
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [lang]);
+
   async function copyEmail(email: string) {
     try {
       await navigator.clipboard.writeText(email);
@@ -82,68 +105,102 @@ export function AboutPage() {
   }
 
   return (
-    <OffcutShell>
-      <section className="about-page">
-        <div className="about-hero card">
-          <div className="about-brand">
-            <OffcutLogo href={null} large />
-            <div>
-              <p className="eyebrow">{c.eyebrow}</p>
-              <h1>{c.title}</h1>
-            </div>
+    <OffcutShell bare>
+      <section className="apple-tile light apple-hero">
+        <div className="apple-container apple-hero-inner">
+          <div className="apple-reveal">
+            <OffcutLogo href={null} />
           </div>
-          <p className="about-lead">{c.lead}</p>
-          <p className="mut">{c.desc}</p>
-          <div className="about-actions">
-            <Link className="btn sm" href="/login">{c.start}</Link>
-            <Link className="btn sm ghost" href="/impatto">{c.footprint}</Link>
+          <p className="apple-page-title apple-reveal apple-delay-1">
+            {c.eyebrow} · {c.title}
+          </p>
+          <h1 className="apple-reveal apple-delay-2">{c.lead}</h1>
+          <p className="apple-lead apple-reveal apple-delay-3">{c.desc}</p>
+          <div className="apple-cta-row apple-reveal apple-delay-4">
+            <Link className="apple-btn primary" href="/login">{c.start}</Link>
+            <Link className="apple-btn ghost" href="/impatto">{c.footprint}</Link>
           </div>
         </div>
 
-        <div className="about-grid">
-          <article className="card">
-            <p className="eyebrow">{c.ideaEyebrow}</p>
-            <h2>{c.ideaTitle}</h2>
-            <p className="mut">{c.ideaDesc}</p>
-          </article>
-          <article className="card">
-            <p className="eyebrow">{c.roleEyebrow}</p>
-            <h2>{c.roleTitle}</h2>
-            <p className="mut">{c.roleDesc}</p>
-          </article>
+        <div className="apple-material-stack apple-reveal apple-delay-4" aria-hidden="true">
+          <div className="apple-material">
+            <i />
+            <span>Carta & cartone</span>
+            <strong>OCC 90/10</strong>
+          </div>
+          <div className="apple-material">
+            <i />
+            <span>Legno</span>
+            <strong>Pellet certificato</strong>
+          </div>
+          <div className="apple-material">
+            <i />
+            <span>Plastica</span>
+            <strong>PET trasparente</strong>
+          </div>
         </div>
+      </section>
 
-        <div className="card principles">
-          <h2>{c.principlesTitle}</h2>
-          <div className="principle-list">
+      <section className="apple-tile parchment">
+        <div className="apple-container">
+          <div className="apple-feature">
+            <article className="apple-reveal">
+              <p className="eyebrow">{c.ideaEyebrow}</p>
+              <h2>{c.ideaTitle}</h2>
+              <p>{c.ideaDesc}</p>
+            </article>
+            <article className="apple-reveal apple-delay-2">
+              <p className="eyebrow">{c.roleEyebrow}</p>
+              <h2>{c.roleTitle}</h2>
+              <p>{c.roleDesc}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="apple-tile dark">
+        <div className="apple-container">
+          <div className="apple-section-head apple-reveal">
+            <h2>{c.principlesTitle}</h2>
+          </div>
+          <div className="apple-principles">
             {c.principles.map(([title, body], index) => (
-              <div key={title}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <div><b>{title}</b><p className="mut">{body}</p></div>
+              <div className={`apple-principle apple-reveal apple-delay-${index + 1}`} key={title}>
+                <span className="num">{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        <div className="card contact-card">
-          <div>
+      <section className="apple-tile parchment">
+        <div className="apple-container apple-contact">
+          <div className="apple-reveal">
             <p className="eyebrow">{c.teamEyebrow}</p>
             <h2>{c.teamTitle}</h2>
-            <p className="mut">{c.teamDesc}</p>
+            <p>{c.teamDesc}</p>
           </div>
-          <div className="email-list">
+          <div className="apple-email-list apple-reveal apple-delay-2">
             {EMAILS.map((email) => (
-              <div className="email-row" key={email}>
+              <div className="apple-email-row" key={email}>
                 <span>{email}</span>
-                <button type="button" className="btn sm ghost copy-email" onClick={() => void copyEmail(email)}>
+                <button type="button" className="btn sm ghost" onClick={() => void copyEmail(email)}>
                   {copied === email ? c.copied : c.copy}
                 </button>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        <OffcutBotCard />
+      <section className="apple-tile light">
+        <div className="apple-container apple-reveal">
+          <OffcutBotCard />
+        </div>
       </section>
     </OffcutShell>
   );

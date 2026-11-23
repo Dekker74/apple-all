@@ -9,9 +9,9 @@ export const CATEGORY_ICONS: Record<MaterialCategory, LucideIcon> = {
 };
 
 const TONES: Record<MaterialCategory, string> = {
-  paper_cardboard: "bg-[#EFEAD9] text-[#8A6A2F]",
-  wood: "bg-[#E9E3D3] text-[#6B5334]",
-  plastic: "bg-[#DEEAE3] text-[#1E5B45]",
+  paper_cardboard: "bg-[#f5f5f7] text-[#0066cc]",
+  wood: "bg-[#fafafc] text-[#7a7a7a]",
+  plastic: "bg-[#eaf2fb] text-[#0066cc]",
 };
 
 export function CategoryIcon({

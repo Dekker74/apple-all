@@ -22,12 +22,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
           closeButton
           toastOptions={{
             style: {
-              background: "#0B1B14",
-              color: "#F6F5EF",
-              border: "1px solid rgba(246,245,239,0.14)",
-              borderRadius: "14px",
+              background: "#1d1d1f",
+              color: "#ffffff",
+              border: "1px solid rgba(255,255,255,0.14)",
+              borderRadius: "18px",
               fontSize: "13px",
               padding: "12px 16px",
+              boxShadow: "3px 5px 30px rgba(0,0,0,0.22)",
             },
           }}
         />

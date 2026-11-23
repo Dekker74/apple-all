@@ -375,7 +375,7 @@ export default function NewListingPage() {
                     max={100}
                     value={purity}
                     onChange={(e) => setPurity(Number(e.target.value))}
-                    className="mt-3 w-full accent-[#0F3B2E]"
+                    className="mt-3 w-full accent-[#0066cc]"
                     aria-label="Purezza dichiarata"
                   />
                 </Field>

@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils";
 import type { MaterialCategory } from "@/types";
 import { CategoryIcon } from "./category-icon";
 
-const GRADIENTS: Record<MaterialCategory, string> = {
-  paper_cardboard: "from-[#E8DFC9] via-[#DCD2B8] to-[#C9BC9A]",
-  wood: "from-[#DCCDB2] via-[#C9B48F] to-[#A98F68]",
-  plastic: "from-[#CFE0D4] via-[#AECBB9] to-[#7FA793]",
+const SURFACES: Record<MaterialCategory, string> = {
+  paper_cardboard: "bg-[#f5f5f7]",
+  wood: "bg-[#fafafc]",
+  plastic: "bg-[#eaf2fb]",
 };
 
 export function MaterialThumb({
@@ -28,7 +28,7 @@ export function MaterialThumb({
       <div className={cn("relative overflow-hidden bg-sand", className)}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={photos[0]} alt="" className="size-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/30 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-black/24" />
         <span className="absolute bottom-2 left-2 rounded-full bg-ink/60 px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-paper backdrop-blur">
           {meta.short}
         </span>
@@ -39,13 +39,12 @@ export function MaterialThumb({
   return (
     <div
       className={cn(
-        "relative overflow-hidden bg-gradient-to-br",
-        GRADIENTS[category],
+        "relative overflow-hidden",
+        SURFACES[category],
         className,
       )}
     >
-      <div className="absolute inset-0 dot-grid opacity-[0.35]" />
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_0%,rgba(255,255,255,0.5),transparent_55%)]" />
+      <div className="absolute inset-0 dot-grid opacity-[0.18]" />
       <span
         aria-hidden
         className={cn(

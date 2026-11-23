@@ -5,10 +5,12 @@ export function OffcutShell({
   children,
   footer = true,
   wide = false,
+  bare = false,
 }: {
   children: React.ReactNode;
   footer?: boolean;
   wide?: boolean;
+  bare?: boolean;
 }) {
   return (
     <div className="offcut-site">
@@ -16,7 +18,7 @@ export function OffcutShell({
         Vai al contenuto / Skip to content
       </a>
       <OffcutHeader />
-      <main id="main" className={`offcut-main${wide ? " offcut-main-wide" : ""}`}>
+      <main id="main" className={`offcut-main${wide ? " offcut-main-wide" : ""}${bare ? " offcut-main-bare" : ""}`}>
         {children}
       </main>
       {footer ? (

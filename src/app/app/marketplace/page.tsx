@@ -262,7 +262,7 @@ export default function MarketplacePage() {
                     type="checkbox"
                     checked={checked}
                     onChange={() => toggleCategory(cat.value)}
-                    className="size-3.5 accent-[#0F3B2E]"
+                    className="size-3.5 accent-[#0066cc]"
                   />
                   <span className="text-[11.5px]">{cat.label}</span>
                 </span>
@@ -353,7 +353,7 @@ export default function MarketplacePage() {
             step={1}
             value={filters.minPurity}
             onChange={(e) => setFilters((p) => ({ ...p, minPurity: Number(e.target.value) }))}
-            className="mt-1.5 w-full accent-[#0F3B2E]"
+            className="mt-1.5 w-full accent-[#0066cc]"
             aria-label="Percentuale minima di purezza"
           />
         </div>
@@ -386,7 +386,7 @@ export default function MarketplacePage() {
             step={25}
             value={filters.radiusKm}
             onChange={(e) => setFilters((p) => ({ ...p, radiusKm: Number(e.target.value) }))}
-            className="mt-1.5 w-full accent-[#0F3B2E]"
+            className="mt-1.5 w-full accent-[#0066cc]"
             aria-label="Raggio di ricerca in chilometri"
           />
         </div>
