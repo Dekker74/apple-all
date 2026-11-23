@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="Pallet e ritagli di legno in falegnameria">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFE9DA"/><stop offset="1" stop-color="#D9CFB8"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C79A5E"/><stop offset="1" stop-color="#9E713E"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#bg)"/>
+  <rect y="306" width="640" height="94" fill="#C9C0AC"/>
+  <ellipse cx="330" cy="322" rx="250" ry="24" fill="#B2A78D" opacity=".5"/>
+  <g transform="translate(74 150)">
+    <rect x="0" y="98" width="120" height="24" rx="3" fill="#8E6538"/>
+    <rect x="196" y="98" width="120" height="24" rx="3" fill="#8E6538"/>
+    <rect x="0" y="72" width="490" height="20" rx="3" fill="url(#wood)"/>
+    <rect x="0" y="46" width="490" height="20" rx="3" fill="url(#wood)"/>
+    <rect x="0" y="20" width="490" height="20" rx="3" fill="url(#wood)"/>
+    <g stroke="#7B5730" stroke-width="1.5" opacity=".45">
+      <path d="M18 26h130M176 26h160M360 26h110M18 52h190M240 52h180M18 78h140M190 78h260"/>
+    </g>
+    <g fill="#6F4F2C" opacity=".6"><circle cx="26" cy="30" r="2"/><circle cx="462" cy="30" r="2"/><circle cx="26" cy="56" r="2"/><circle cx="462" cy="56" r="2"/></g>
+  </g>
+  <g transform="translate(390 48) rotate(-8)">
+    <rect width="150" height="80" rx="4" fill="#B98A52"/>
+    <rect x="10" y="10" width="130" height="60" rx="2" fill="#C99C63"/>
+    <g stroke="#8E6538" stroke-width="2" opacity=".5"><path d="M20 20h110M20 34h110M20 48h110M20 60h110"/></g>
+  </g>
+  <g transform="translate(112 58) rotate(6)">
+    <rect width="124" height="62" rx="4" fill="#B98A52"/>
+    <g stroke="#8E6538" stroke-width="2" opacity=".5"><path d="M12 16h100M12 30h100M12 44h100"/></g>
+  </g>
+</svg>

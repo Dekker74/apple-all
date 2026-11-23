@@ -1,0 +1,313 @@
+# CircularLink
+
+A managed B2B marketplace for surplus **paper & cardboard**, **wood** and **plastic**. CircularLink matches supply to demand, prices the full delivered journey, and coordinates processing, transport and QC.
+
+This repository is the MVP build: a production-shaped Next.js application with a deterministic AI matching engine, a complete quote-to-collection workflow, and a Supabase-ready schema.
+
+---
+
+## Quick start
+
+```bash
+cd circularlink
+npm install
+npm run dev
+```
+
+Open http://localhost:3000.
+
+No environment variables are required. The app runs in **local demo mode**: state is persisted in `localStorage` and seeded with a realistic Northern Italian market.
+
+### Demo accounts
+
+| Role | Email | Password | Workspace |
+| --- | --- | --- | --- |
+| Buyer | `elena.ricci@northwind.demo` | `circular2026` | Northwind Packaging S.p.A. |
+| Supplier | `marco.bianchi@greenloop.demo` | `circular2026` | GreenLoop Fibres S.r.l. |
+
+The sign-in screen also has one-click buttons for both demo workspaces and sandbox SSO buttons (Google / Microsoft).
+
+### Scripts
+
+```bash
+npm run dev        # development server
+npm run build      # production build
+npm start          # serve the production build
+npm run typecheck  # TypeScript, no emit
+```
+
+---
+
+## What is implemented
+
+### Authentication & onboarding
+- Email/password sign-up and sign-in, plus SSO entry points.
+- Account type step: **Business** enabled, **Individual** explicitly deferred to Phase 2.
+- Market role: **Supplier**, **Buyer** or **Both**.
+- Company capture: legal name, VAT number with country prefix, country, optional website.
+- Primary site with launch-city coordinates (used for distance and delivered pricing).
+- Optional admin invites during onboarding; team management later in Settings.
+- Protected `/app` shell with hydration-safe auth guard and onboarding redirect.
+
+### Dashboard
+- Personalized greeting and workspace summary.
+- KPIs: open pipeline value, AI matches, open requests, active listings.
+- AI match feed split by “for my demand” / “for my supply”.
+- “Needs attention” queue (quotes awaiting acceptance, collection scheduling, strong matches).
+- Market pulse by category (average material price, active supply count).
+- Financial summary: committed value, commission earned, completed GMV, quarterly target.
+- Six-stage order pipeline and recent orders table.
+
+### Marketplace
+- Search plus strict filters:
+  - category — only the three MVP categories are tradeable
+  - quantity range (kg)
+  - maximum delivered budget (€/kg, all-in)
+  - condition and minimum purity
+  - distance radius from a chosen site
+- Sorting by AI fit, delivered price, distance, volume or recency.
+- Listing cards show material price, distance, estimated delivered price and AI score.
+- Detail page: composition, handling constraints, availability, evidence checklist, processing requirements, supplier profile, quantity selector and live delivered estimate.
+- “Request this material” creates an ad-hoc demand record, a match and a draft order.
+
+### Supplier flow
+Multi-step listing wizard (Material → Specification → Logistics & evidence → Review):
+- title, plain-language description, category restricted to the three MVP streams
+- condition, declared purity
+- composition parts summing to ~100%
+- available quantity, minimum order, material price
+- availability window
+- collection site, packaging, handling constraints
+- up to three compressed evidence photos (stored locally in this build)
+- publish or save draft; matches are rebuilt immediately
+
+### Buyer flow
+Multi-step request wizard (Material need → Volume & budget → Processing & review):
+- category restricted to the three MVP streams
+- acceptable composition chips and quality thresholds (purity, moisture, contamination)
+- quantity, frequency (one-off / monthly / quarterly)
+- maximum **delivered** budget, needed-by date, radius, delivery site
+- required processing steps with per-kg reference costs
+- publish triggers a full match rebuild
+
+### AI match cards
+Every card answers the four procurement questions:
+1. **What is it?** Material, supplier, city, reference, quantity, confidence.
+2. **Why does it match?** Human-readable reasons and risks from the scoring model.
+3. **What does it cost delivered?** Material + 6% commission + processing + transport + VAT.
+4. **What processing is required?** Chips for sorting, washing, shredding, pelletizing, de-inking, drying, baling.
+
+Tags: **Strong candidate** (score ≥ 80), **Needs technical review** (60–79), **Low confidence** (< 60). Cards support shortlisting and one-click order creation.
+
+### Orders & quotes
+Statuses: `Draft → Matched → Quote issued → Quote accepted → Collection scheduled → Completed` (plus `Cancelled`).
+
+- Orders list with stage pipeline, filters by status and buying/selling side.
+- Order detail with step rail, parties, material spec, quote breakdown, collection plan and timeline.
+- Actions:
+  - issue quote (14-day validity, 6% commission)
+  - accept quote
+  - schedule collection with window, carrier, processing partner, QC partner and site instructions
+  - confirm delivery & QC
+  - cancel order
+- Documents panel reflects quote, QC certificate, delivery note and commission invoice readiness.
+- Print-friendly quote/order summary.
+
+### Settings
+- Company legal details and market role.
+- Operating sites with city coordinates; add new sites.
+- Team members, roles, status and invitations.
+- Data & demo tab: auth provider status, workspace counts, reset demo data, demo credentials, sign out.
+
+### Public quote funnel (`/preventivo`)
+- Server-side intake: `POST /api/quotes` validates, rate-limits (5/10 min per IP), honeypot-spam-filters and persists to Supabase `quote_requests` (RLS: anon INSERT only).
+- Email via Resend: internal notification (reply-to = requester) + automatic confirmation to the requester, HTML-escaped, IT/EN.
+- Honest states: loading, field-level errors, success with reference `CL-XXXXXX`; if email or storage is unavailable the UI says so and never fakes success.
+- Without `RESEND_API_KEY` the lead is still stored and the form reports that email did not go out.
+
+### Impact calculator (`/impatto`)
+- Monthly tonnage slider + material + sell/buy intent → estimated annual savings (€) and CO₂e avoided, with sector-average factors and an explicit "indicative estimate" note.
+
+### Assistant
+- Floating rule-based chat on marketing pages (IT/EN): commissions, booking, footprint, quotes, matching. Optional read-aloud via Web Speech API. No external AI calls.
+
+### Inbox & booking (`/app/inbox`)
+- Tabs: Connections, Messages, Appointments (with badges).
+- Book pick-up / drop-off: material, condition, tons, hub, date, time slot, with a live fee breakdown (material value, 6% commission, fixed transport €120 and service €45 estimates, processing €0/15/30 per ton by condition) and net payout.
+- Appointments can be cancelled; messages are stored in the local demo store.
+
+---
+
+## Pricing model
+
+All delivered prices are computed in `src/lib/pricing.ts`:
+
+```
+material     = quantityKg × listing.pricePerKg
+commission   = material × 6%
+processing   = quantityKg × Σ(selected processing rates)
+transport    = base + quantityKg × perKg + distance × perKm
+subtotal     = material + commission + processing + transport
+VAT          = subtotal × 22%
+total        = subtotal + VAT
+delivered/kg = total ÷ quantityKg
+```
+
+Transport is consolidated by lane; the distance is a haversine calculation between the supplier site and the buyer site. Processing defaults are inferred from the listing condition and composition when no explicit request is present.
+
+## Matching model
+
+`src/lib/matching.ts` is deterministic and explainable:
+
+- composition affinity between listing composition and acceptable request inputs
+- volume coverage (full or partial)
+- purity, moisture and contamination threshold gaps
+- distance against the request radius
+- delivered price against the request budget ceiling
+
+The result is a 0–100 score, a confidence band, human-readable reasons and risks, the matched quantity, distance and a price breakdown. Matches below 55 are not surfaced. Rebuilding is idempotent and preserves shortlist/quote status.
+
+---
+
+## Architecture
+
+```
+src/
+  app/
+    page.tsx                     marketing site
+    login/ signup/               auth screens
+    onboarding/                  three-step workspace setup
+    auth/callback/               Supabase OAuth / magic-link callback
+    app/
+      layout.tsx                 protected shell (auth + hydration guard)
+      dashboard/                 overview, AI feed, pipeline
+      marketplace/[id]/          market and listing detail
+      matches/                   full match feed
+      listings/[new]/            supplier supply and wizard
+      requests/[new]/            buyer demand and wizard
+      orders/[id]/               orders, quotes, collection, timeline
+      settings/                  company, sites, team, demo data
+  components/
+    app/                         shell, navigation, page header, KPIs
+    auth/                        auth shell, forms, SSO
+    brand/                       logo and mark
+    material/                    match card, listing card, thumbnails, badges, price panel
+    ui/                          Radix-based primitives
+  lib/
+    store.ts                     Zustand store + persisted domain state
+    seed.ts                      deterministic Italian demo market
+    matching.ts                  scoring engine
+    pricing.ts                   distance, processing, breakdown, formatters
+    constants.ts                 categories, statuses, rates, cities
+    hooks.ts                     auth/org/match/order selectors
+    format.ts                    dates and relative time
+    supabase/client.ts           conditional browser client
+  types/index.ts                 domain model
+supabase/
+  migrations/20260101000000_init.sql
+  migrations/20261123000000_quote_requests.sql
+  migrations/20261123010000_chats.sql
+  seed.sql
+```
+
+### Quote email configuration (Resend)
+
+Server-side only, set in Vercel (or `.env.local`):
+
+```
+RESEND_API_KEY=re_...                 # never exposed to the browser
+QUOTE_FROM_EMAIL="CircularLink <onboarding@resend.dev>"
+QUOTE_NOTIFICATION_EMAIL=you@yourdomain.tld
+```
+
+- With no key: requests are stored, no email is sent, the form says so.
+- Test mode (no verified domain): Resend only delivers to the account owner's address; `from` must stay `onboarding@resend.dev`.
+- If the confirmation cannot be delivered, `/api/quotes` returns a prefilled `mailto:` link and the success screen opens the visitor's own mail client. This works for any recipient without a verified domain, but the user must press Send.
+- Production: verify a **real** domain at resend.com/domains (DNS records at your registrar), then set `QUOTE_FROM_EMAIL` to an address on that domain. Note: `circularlink.app` DNS is currently not delegated to Vercel and does not resolve; fix the registrar nameservers/A records before using it for email or canonical URLs. A DuckDNS hostname cannot be verified here: it exposes only one TXT record plus A/AAAA, while Resend requires separate SPF and DKIM records (usually CNAMEs).
+- Supabase Auth confirmation emails are separate from quote emails: with email confirmation enabled, `signUp` sends a confirmation to any registration address. This is how the Outlook test address can receive mail today, but it cannot carry quote content.
+
+### State strategy (MVP)
+
+The app is intentionally a **hybrid**:
+
+- **Auth** uses Supabase when `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are set; otherwise it uses local demo auth.
+- **Domain data** (organizations, listings, requests, matches, orders, quotes) is held in a persisted Zustand store seeded on first load. This keeps the demo self-contained and deterministic.
+- Persistent B2B conversations currently use the same local store, so chat history survives reloads. `supabase/migrations/20261123010000_chats.sql` adds the production `chats`/`messages` tables with participant-only RLS; applying it requires Supabase SQL-editor/`supabase db push` access.
+- The SQL schema, RLS policies and onboarding RPCs in `supabase/migrations` are the production path for moving that data to Postgres. The store actions map 1:1 to tables and RPCs.
+
+`localStorage` key: `circularlink-state-v1`. Reset it from **Settings → Data & demo**.
+
+---
+
+## Supabase setup
+
+1. Create a project at https://supabase.com.
+2. Run the migration:
+   ```bash
+   supabase link --project-ref <ref>
+   supabase db push
+   ```
+   Or paste `supabase/migrations/20260101000000_init.sql` into the SQL editor.
+3. Create the two demo users under **Authentication → Users**:
+   - `elena.ricci@northwind.demo`
+   - `marco.bianchi@greenloop.demo`
+   Use password `circular2026` and mark emails confirmed.
+4. Run `supabase/seed.sql`. It seeds the market and links existing demo profiles to the two organizations.
+5. Copy `.env.example` to `.env.local` and fill in:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
+   ```
+6. In **Authentication → URL Configuration**, add:
+   - Site URL: `http://localhost:3000`
+   - Redirect URLs: `http://localhost:3000/auth/callback`
+7. Enable the Google and/or Azure providers if you want live SSO.
+
+The schema includes:
+- enums for every domain status
+- profiles, organizations, memberships, locations
+- material listings and requests
+- matches with score, confidence, reasons, risks and price breakdown
+- orders, quotes, order events and partners
+- notifications
+- `create_organization()` and `invite_member()` security-definer RPCs
+- RLS on every table, scoped to organization membership and order parties
+- updated-at triggers and a profile-creation trigger on `auth.users`
+
+---
+
+## Domain model
+
+| Entity | Purpose |
+| --- | --- |
+| `Profile` | Auth-linked user, account type, onboarding state |
+| `Organization` | VAT-registered business, market role, verification |
+| `Membership` | User ↔ organization with owner/admin/member role |
+| `Location` | Operating site with coordinates for distance and pricing |
+| `MaterialListing` | Supplier surplus: composition, volume, condition, purity, price, evidence, handling |
+| `MaterialRequest` | Buyer demand: acceptable composition, thresholds, volume, budget, processing, radius |
+| `Match` | Scored supply–demand link with reasons, risks, quantity, distance and breakdown |
+| `Quote` | Itemised delivered price with validity and status |
+| `Order` | Commercial engagement across six states with collection plan and timeline |
+| `Partner` | Vetted processing, transport and QC provider |
+| `Notification` | In-app alerts with deep links |
+
+---
+
+## Product boundaries
+
+- **Only three categories** are tradeable: paper & cardboard, wood, plastic. The UI enforces this in both wizards and filters.
+- **Individual accounts** are disabled with an explicit Phase 2 label.
+- **Payments** are out of scope: quotes and invoices are recorded, not charged.
+- **Partner assignment** is deterministic in the demo (seeded directory); production would call partner availability and rate APIs.
+- **Photos** are compressed client-side and stored in the local persisted store; production uses Supabase Storage with signed URLs.
+- **Email delivery** for the public quote funnel is wired server-side via Resend (`/api/quotes`); in-app invitations and notifications are still recorded locally.
+
+## Next steps
+
+1. Move domain reads/writes from the Zustand store to Supabase queries and server actions.
+2. Add Storage buckets for listing evidence and QC certificates.
+3. Verify a sending domain in Resend and set `QUOTE_FROM_EMAIL` so confirmations reach any customer (test mode only delivers to the Resend account owner).
+4. Replace seeded partner selection with availability, rate cards and capacity checks.
+5. Add audit logging and a support console for dispute handling.
+6. Phase 2: individual accounts, additional categories, EU expansion.
