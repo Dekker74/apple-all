@@ -300,7 +300,7 @@ function QuoteForm() {
                   </p>
                 ) : null}
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <CitySelector
                   label={`${t("signup.zone")} *`}
                   value={form.zone}

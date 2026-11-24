@@ -30,16 +30,16 @@ export function UserMenu({ compact = false }: { compact?: boolean }) {
       <DropdownMenuTrigger asChild>
         <button
           className={cn(
-            "flex w-full items-center gap-2.5 rounded-xl text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/20",
+            "offcut-user-menu-trigger flex w-full items-center gap-2.5 rounded-xl text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/20",
             compact ? "px-1.5 py-1.5 hover:bg-white/70" : "p-1 hover:bg-sand",
           )}
         >
           <Avatar name={user.fullName} size="sm" />
-          <span className={cn("min-w-0 flex-1", compact ? "" : "hidden sm:block")}>
+          <span className={cn("offcut-user-menu-label min-w-0 flex-1", compact ? "" : "hidden sm:block")}>
             <span className="block truncate text-[12px] font-medium leading-tight">{user.fullName}</span>
             <span className="block truncate text-[11.5px] text-muted">{user.email}</span>
           </span>
-          <ChevronDown className="size-3.5 shrink-0 text-muted" />
+          <ChevronDown className="offcut-user-menu-chevron size-3.5 shrink-0 text-muted" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[260px]">
