@@ -4,16 +4,16 @@
 
 @layer base {
   :root {
-    /* Apple-inspired palette: one blue accent, quiet neutral surfaces. */
+    /* Apple-inspired palette: one green accent, quiet neutral surfaces. */
     --bg: #f5f5f7;
     --sf: #ffffff;
     --sf2: #fafafc;
     --ink: #1d1d1f;
     --mut: #7a7a7a;
     --line: #e0e0e0;
-    --moss: #0066cc;
-    --moss-hover: #0071e3;
-    --mint: #eaf2fb;
+    --moss: #14532d;
+    --moss-hover: #166534;
+    --mint: #e4f1e8;
     --amb: #8a5410;
     --on: #ffffff;
     --danger: #c4372c;
@@ -25,19 +25,19 @@
     --card-foreground: 0 0% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 11%;
-    --primary: 211 100% 40%;
+    --primary: 152 61% 21%;
     --primary-foreground: 0 0% 100%;
     --secondary: 240 5% 96%;
     --secondary-foreground: 0 0% 11%;
     --muted: 240 5% 96%;
     --muted-foreground: 0 0% 48%;
-    --accent: 211 100% 95%;
-    --accent-foreground: 211 100% 40%;
+    --accent: 150 30% 92%;
+    --accent-foreground: 152 61% 21%;
     --destructive: 4 72% 48%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 88%;
     --input: 0 0% 86%;
-    --ring: 211 100% 40%;
+    --ring: 152 61% 21%;
     --radius: 1.125rem;
   }
 
@@ -316,9 +316,9 @@
   --ink: #ffffff;
   --mut: #cccccc;
   --line: #3a3a3c;
-  --moss: #2997ff;
-  --moss-hover: #0a84ff;
-  --mint: #10263d;
+  --moss: #6ee7a8;
+  --moss-hover: #86efac;
+  --mint: #10291c;
   --amb: #e0a944;
   --on: #ffffff;
   --danger: #ff453a;
@@ -360,11 +360,11 @@
 }
 
 .dark [class~="border-sage"] {
-  border-color: #1a3550;
+  border-color: #1d4a33;
 }
 
 .dark [class~="border-forest"] {
-  border-color: #12406b;
+  border-color: #14532d;
 }
 
 .dark [class~="text-ink"],
@@ -381,15 +381,15 @@
 }
 
 .dark [class~="text-moss"] {
-  color: #2997ff;
+  color: #6ee7a8;
 }
 
 .dark [class~="text-sage"] {
-  color: #2997ff;
+  color: #6ee7a8;
 }
 
 .dark [class~="text-forest"] {
-  color: #409cff;
+  color: #86efac;
 }
 
 /* On dark chips, keep label text legible. */
@@ -399,7 +399,7 @@
 }
 
 .dark [class~="text-sky"] {
-  color: #70b7ff;
+  color: #7fd8ad;
 }
 
 .dark [class~="text-amber"] {
@@ -412,11 +412,11 @@
 }
 
 .dark [class~="bg-forest"] {
-  background-color: #0066cc;
+  background-color: #14532d;
 }
 
 .dark [class~="bg-moss"] {
-  background-color: #0a84ff;
+  background-color: #1b6e45;
 }
 
 .dark [class~="bg-lime"] {
@@ -429,7 +429,7 @@
 }
 
 .dark [class~="bg-sage"] {
-  background-color: #10263d;
+  background-color: #10291c;
 }
 
 .dark [class~="bg-danger"] {
@@ -445,7 +445,7 @@
 }
 
 .dark [class~="bg-sky"] {
-  background-color: #10263d;
+  background-color: #10291c;
 }
 
 .dark .marketing-header {
@@ -470,15 +470,15 @@
 }
 
 .dark :focus-visible {
-  outline-color: #409cff;
+  outline-color: #86efac;
 }
 
 .dark :where(input, select, textarea):focus-visible {
-  outline-color: rgba(64, 156, 255, 0.35);
+  outline-color: rgba(110, 231, 168, 0.35);
 }
 
 .dark ::selection {
-  background: #1a3f66;
+  background: #123a28;
   color: #ffffff;
 }
 

@@ -1,11 +1,11 @@
 /* apple.css — Apple-inspired skin layered on top of the legacy Offcut styles.
    The original component contracts and data flows stay untouched; this file only
-   changes presentation: one blue accent, quiet neutral surfaces, fluid motion. */
+   changes presentation: one green accent, quiet neutral surfaces, fluid motion. */
 
 :root {
-  --apple-blue: #0066cc;
-  --apple-blue-focus: #0071e3;
-  --apple-blue-on-dark: #2997ff;
+  --apple-blue: #14532d;
+  --apple-blue-focus: #166534;
+  --apple-blue-on-dark: #6ee7a8;
   --apple-ink: #1d1d1f;
   --apple-muted: #7a7a7a;
   --apple-canvas: #ffffff;
@@ -28,9 +28,9 @@
   --ink: #1d1d1f;
   --mut: #7a7a7a;
   --line: #e0e0e0;
-  --moss: #0066cc;
-  --moss-hover: #0071e3;
-  --mint: #eaf2fb;
+  --moss: #14532d;
+  --moss-hover: #166534;
+  --mint: #e4f1e8;
   --amb: #8a5410;
   --on: #ffffff;
   --danger: #c4372c;
@@ -38,10 +38,10 @@
 
 html.dark,
 :root[data-theme="dark"] {
-  /* Slightly deeper than iOS blue so white labels keep readable contrast. */
-  --apple-blue: #0071e3;
-  --apple-blue-focus: #0066cc;
-  --apple-blue-on-dark: #2997ff;
+  /* Deep green for filled controls, mint for labels on dark surfaces. */
+  --apple-blue: #1b6e45;
+  --apple-blue-focus: #14532d;
+  --apple-blue-on-dark: #6ee7a8;
   --apple-ink: #ffffff;
   --apple-muted: #cccccc;
   --apple-canvas: #1d1d1f;
@@ -56,16 +56,16 @@ html.dark,
   --ink: #ffffff;
   --mut: #cccccc;
   --line: #3a3a3c;
-  --moss: #2997ff;
-  --moss-hover: #0a84ff;
-  --mint: #10263d;
+  --moss: #6ee7a8;
+  --moss-hover: #86efac;
+  --mint: #10291c;
   --on: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]):not(.dark) {
-    --apple-blue: #0071e3;
-    --apple-blue-focus: #0066cc;
+    --apple-blue: #1b6e45;
+    --apple-blue-focus: #14532d;
     --apple-ink: #ffffff;
     --apple-muted: #cccccc;
     --apple-canvas: #1d1d1f;
@@ -79,9 +79,9 @@ html.dark,
     --ink: #ffffff;
     --mut: #cccccc;
     --line: #3a3a3c;
-    --moss: #2997ff;
-    --moss-hover: #0a84ff;
-    --mint: #10263d;
+    --moss: #6ee7a8;
+    --moss-hover: #86efac;
+    --mint: #10291c;
     --on: #ffffff;
   }
 }
@@ -133,12 +133,12 @@ h3 {
 }
 
 ::selection {
-  background: #d8e9fb;
+  background: #d8ecdf;
   color: #1d1d1f;
 }
 
 .dark ::selection {
-  background: #1a3f66;
+  background: #123a28;
   color: #ffffff;
 }
 
@@ -603,10 +603,10 @@ main.offcut-main-bare {
 .dark [class~="bg-mist/40"],
 .dark [class~="bg-mist/60"] { background-color: rgb(42 42 44 / 0.6) !important; }
 .dark [class~="bg-line/60"] { background-color: rgb(58 58 60 / 0.7) !important; }
-.dark [class~="bg-moss/50"] { background-color: rgb(10 132 255 / 0.5) !important; }
-.dark [class~="bg-moss/60"] { background-color: rgb(10 132 255 / 0.6) !important; }
-.dark [class~="bg-moss/70"] { background-color: rgb(10 132 255 / 0.7) !important; }
-.dark [class~="bg-forest/40"] { background-color: rgb(10 132 255 / 0.4) !important; }
+.dark [class~="bg-moss/50"] { background-color: rgb(27 110 69 / 0.5) !important; }
+.dark [class~="bg-moss/60"] { background-color: rgb(27 110 69 / 0.6) !important; }
+.dark [class~="bg-moss/70"] { background-color: rgb(27 110 69 / 0.7) !important; }
+.dark [class~="bg-forest/40"] { background-color: rgb(27 110 69 / 0.4) !important; }
 .dark [class~="bg-amber/10"],
 .dark [class~="bg-amber/15"] { background-color: rgb(224 169 68 / 0.12) !important; }
 .dark [class~="bg-amber/50"] { background-color: rgb(224 169 68 / 0.4) !important; }
@@ -615,7 +615,7 @@ main.offcut-main-bare {
 .dark [class~="bg-lime/25"],
 .dark [class~="bg-lime/30"] { background-color: rgb(255 255 255 / 0.09) !important; }
 .dark [class~="bg-sky/10"],
-.dark [class~="bg-sky/15"] { background-color: rgb(10 132 255 / 0.12) !important; }
+.dark [class~="bg-sky/15"] { background-color: rgb(27 110 69 / 0.12) !important; }
 .dark [class~="bg-danger/5"],
 .dark [class~="bg-danger/10"] { background-color: rgb(255 69 58 / 0.12) !important; }
 
@@ -631,7 +631,7 @@ main.offcut-main-bare {
 .dark [class~="border-sage/70"],
 .dark [class~="border-sage/80"],
 .dark [class~="border-forest/40"],
-.dark [class~="border-moss/30"] { border-color: rgb(10 132 255 / 0.32) !important; }
+.dark [class~="border-moss/30"] { border-color: rgb(27 110 69 / 0.32) !important; }
 .dark [class~="border-lime/20"],
 .dark [class~="border-lime/50"],
 .dark [class~="border-lime/60"] { border-color: rgb(255 255 255 / 0.18) !important; }
@@ -641,12 +641,12 @@ main.offcut-main-bare {
 .dark [class~="border-danger/25"],
 .dark [class~="border-danger/30"],
 .dark [class~="border-danger/40"] { border-color: rgb(255 69 58 / 0.32) !important; }
-.dark [class~="border-sky/30"] { border-color: rgb(10 132 255 / 0.35) !important; }
+.dark [class~="border-sky/30"] { border-color: rgb(27 110 69 / 0.35) !important; }
 .dark [class~="ring-moss/20"],
 .dark [class~="ring-moss/25"],
 .dark [class~="ring-moss/30"],
 .dark [class~="ring-moss/40"],
-.dark [class~="ring-white/15"] { --tw-ring-color: rgb(10 132 255 / 0.28) !important; }
+.dark [class~="ring-white/15"] { --tw-ring-color: rgb(27 110 69 / 0.28) !important; }
 .dark [class~="divide-line/60"],
 .dark [class~="divide-line/70"] { border-color: rgb(58 58 60 / 0.7) !important; }
 .dark [class~="divide-line/60"] > :not([hidden]) ~ :not([hidden]),
@@ -665,7 +665,7 @@ main.offcut-main-bare {
 .dark [class~="text-paper/55"],
 .dark [class~="text-paper/60"] { color: rgb(255 255 255 / 0.72) !important; }
 .dark [class~="text-paper/80"] { color: rgb(255 255 255 / 0.86) !important; }
-.dark [class~="text-lime/70"] { color: rgb(150 220 255 / 0.85) !important; }
+.dark [class~="text-lime/70"] { color: rgb(168 238 198 / 0.85) !important; }
 
 .dark [class~="bg-forest"] .text-paper,
 .dark [class~="bg-forest"].text-paper,
@@ -1336,7 +1336,7 @@ main.offcut-main-no-header {
   display: grid;
   place-items: center;
   font-size: 27px;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), 0 0 0 6px rgb(10 132 255 / 0.16);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), 0 0 0 6px rgb(110 231 168 / 0.16);
   transition: transform 280ms var(--apple-ease), background-color 220ms ease;
   animation: apple-breathe 2.8s ease-in-out infinite;
 }
@@ -1346,7 +1346,7 @@ main.offcut-main-no-header {
   position: absolute;
   inset: -9px;
   border-radius: 999px;
-  border: 2px solid rgb(10 132 255 / 0.35);
+  border: 2px solid rgb(110 231 168 / 0.35);
   animation: chat-pulse-ring 2.2s ease-out infinite;
   pointer-events: none;
 }
