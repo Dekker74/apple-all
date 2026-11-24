@@ -1,3 +1,5 @@
+import { CITIES } from "@/lib/constants";
+
 export type QuoteIntent = "have" | "search";
 export type QuoteLocale = "it" | "en";
 
@@ -50,7 +52,8 @@ export function validateQuotePayload(input: unknown): ValidationResult {
   if (!Number.isFinite(quantityKg) || quantityKg < 1 || quantityKg > 1_000_000) fields.quantityKg = "invalid";
 
   const zone = str(body.zone);
-  if (zone.length < 2 || zone.length > 80) fields.zone = "invalid";
+  const knownZone = CITIES.some((c) => c.city.toLowerCase() === zone.toLowerCase());
+  if (!knownZone || zone.length > 80) fields.zone = "invalid";
 
   const email = str(body.email).toLowerCase();
   if (email.length > 254 || !EMAIL_RE.test(email)) fields.email = "invalid";

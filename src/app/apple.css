@@ -259,6 +259,14 @@ textarea,
   transition: border-color 200ms ease, box-shadow 200ms ease, background-color 200ms ease;
 }
 
+/* Native selects vertically centre their label when block padding is removed.
+   The old 12px block padding shrank the content box below the line height,
+   which pushed the label down and clipped it. */
+select {
+  padding-block: 0;
+  line-height: 1.4;
+}
+
 input[type="range"] {
   padding: 0;
   border: 0;

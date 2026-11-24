@@ -60,7 +60,7 @@ export default function NewRequestPage() {
   const [acceptedConditions, setAcceptedConditions] = useState<MaterialCondition[]>([]);
 
   const [quantityKg, setQuantityKg] = useState("");
-  const [frequency, setFrequency] = useState<"one_off" | "monthly" | "quarterly">("monthly");
+  const [frequency, setFrequency] = useState<"one_off" | "weekly" | "monthly" | "quarterly">("monthly");
   const [maxBudget, setMaxBudget] = useState("");
   const [neededBy, setNeededBy] = useState(addDaysInput(21));
   const [radiusKm, setRadiusKm] = useState(250);
@@ -100,7 +100,7 @@ export default function NewRequestPage() {
     if (current === 0) {
       if (title.trim().length < 6) return fail("Dai alla richiesta un titolo chiaro.");
       if (!category) return fail("Seleziona una delle tre categorie MVP.");
-      if (description.trim().length < 25)
+      if (description.trim().length === 0)
         return fail("Descrivi l'impiego e i requisiti del materiale.");
       if (composition.length === 0) return fail("Aggiungi almeno una composizione accettabile.");
       if (acceptedConditions.length === 0)
@@ -111,7 +111,7 @@ export default function NewRequestPage() {
       if (quantity <= 0) return fail("Inserisci la quantità richiesta in chilogrammi.");
       if (budget <= 0) return fail("Imposta un budget massimo consegnato.");
       if (new Date(neededBy) < new Date(todayInput()))
-        return fail("La data richiesta deve essere nel futuro.");
+        return fail("La data di consegna deve essere nel futuro.");
       if (radiusKm < 25) return fail("Imposta un raggio di ritiro di almeno 25 km.");
       return true;
     }
@@ -335,8 +335,7 @@ export default function NewRequestPage() {
                   Condizioni accettabili <span className="text-clay">*</span>
                 </p>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Seleziona tutte le condizioni che puoi accettare. Le soglie tecniche vengono
-                  derivate automaticamente.
+                  Seleziona tutte le condizioni che puoi accettare.
                 </p>
                 <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
                   {CONDITIONS.map((option) => {
@@ -402,6 +401,7 @@ export default function NewRequestPage() {
                     onChange={(e) => setFrequency(e.target.value as typeof frequency)}
                   >
                     <option value="one_off">Acquisto una tantum</option>
+                    <option value="weekly">Ricorrenza settimanale</option>
                     <option value="monthly">Ricorrenza mensile</option>
                     <option value="quarterly">Ricorrenza trimestrale</option>
                   </Select>
@@ -429,7 +429,7 @@ export default function NewRequestPage() {
                     className="font-mono"
                   />
                 </Field>
-                <Field label="Entro il" required>
+                <Field label="Data di consegna richiesta" required>
                   <Input
                     type="date"
                     min={todayInput()}
@@ -541,7 +541,7 @@ export default function NewRequestPage() {
                     <p className="text-[13px] font-medium leading-[1.5]">{title || "Richiesta senza titolo"}</p>
                     <p className="mt-0.5 text-[12px] text-muted">
                       {category ? CATEGORY_MAP[category].label : "Nessuna categoria"} ·{" "}
-                      {selectedLocation?.city ?? "Sede"} · {frequency === "monthly" ? "Mensile" : frequency === "quarterly" ? "Trimestrale" : "Una tantum"}
+                      {selectedLocation?.city ?? "Sede"} · {frequency === "weekly" ? "Settimanale" : frequency === "monthly" ? "Mensile" : frequency === "quarterly" ? "Trimestrale" : "Una tantum"}
                     </p>
                   </div>
                 </div>
@@ -555,7 +555,7 @@ export default function NewRequestPage() {
                     <p className="mt-0.5 font-mono">{budget > 0 ? formatCurrency(budget) : "—"}</p>
                   </div>
                   <div>
-                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Entro il</p>
+                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Consegna</p>
                     <p className="mt-0.5 font-mono">{formatDate(neededBy, { withYear: false })}</p>
                   </div>
                   <div>
@@ -591,8 +591,6 @@ export default function NewRequestPage() {
                         .map((c) => CONDITIONS.find((o) => o.value === c)?.label)
                         .join(" + ")
                     : "nessuna selezionata"}.
-                  Soglie derivate: umidità ≤ {qualityThresholds.maxMoisturePct}%, contaminazione ≤{" "}
-                  {qualityThresholds.maxContaminationPct}%. Gli abbinamenti fuori tolleranza vengono segnalati per verifica tecnica.
                 </p>
               </div>
             </div>
@@ -666,7 +664,7 @@ export default function NewRequestPage() {
               {[
                 "Una delle tre categorie MVP",
                 "Composizione accettabile specificata",
-                "Soglie qualitative dichiarate",
+                "Condizioni accettabili selezionate",
                 "Massimale budget consegnato impostato",
                 "Fasi di lavorazione selezionate",
               ].map((item) => (

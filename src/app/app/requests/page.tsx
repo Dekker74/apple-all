@@ -63,7 +63,7 @@ export default function RequestsPage() {
       <PageHeader
         eyebrow="Domanda · i miei requisiti"
         title="Le mie richieste"
-        description={`${org?.name ?? "La tua organizzazione"} · specifica una volta, riutilizza ogni mese. Le richieste restano aperte mentre il motore cerca nuova offerta secondo le tue soglie.`}
+        description={`${org?.name ?? "La tua organizzazione"} · specifica una volta, riutilizza ogni mese. Le richieste restano aperte mentre il motore cerca nuova offerta secondo le condizioni accettate.`}
         actions={
           <Button size="sm" asChild>
             <Link href="/app/requests/new">
@@ -148,10 +148,10 @@ export default function RequestsPage() {
                           <MapPin className="size-3" /> {location?.city} · {request.radiusKm} km di raggio
                         </span>
                         <span className="flex items-center gap-1">
-                          <CalendarDays className="size-3" /> Entro il{" "}
+                          <CalendarDays className="size-3" /> Consegna{" "}
                           {formatDate(request.neededBy, { withYear: false })}
                         </span>
-                        <span className="capitalize">{request.frequency === "monthly" ? "Mensile" : request.frequency === "quarterly" ? "Trimestrale" : "Una tantum"}</span>
+                        <span className="capitalize">{request.frequency === "weekly" ? "Settimanale" : request.frequency === "monthly" ? "Mensile" : request.frequency === "quarterly" ? "Trimestrale" : "Una tantum"}</span>
                         <span>{CATEGORY_MAP[request.category].label}</span>
                       </div>
                       <div className="mt-2.5 flex flex-wrap gap-1.5">
@@ -221,7 +221,7 @@ export default function RequestsPage() {
           title={requests.length === 0 ? "Nessuna richiesta" : "Nessuna richiesta in questo stato"}
           description={
             requests.length === 0
-              ? "Definisci il materiale necessario, le soglie accettate e il budget consegnato. Il motore valuterà ogni annuncio."
+              ? "Definisci il materiale necessario, le condizioni accettate e il budget consegnato. Il motore valuterà ogni annuncio."
               : "Prova un altro filtro di stato o pubblica una nuova richiesta."
           }
           action={

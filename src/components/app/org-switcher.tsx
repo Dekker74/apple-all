@@ -33,8 +33,7 @@ export function OrgSwitcher({ className }: { className?: string }) {
     );
   }
 
-  const typeLabel =
-    currentOrg.type === "both" ? "Acquirente e fornitore" : currentOrg.type === "buyer" ? "Acquirente" : "Fornitore";
+  const typeLabel = "Acquirente e fornitore";
 
   return (
     <DropdownMenu>
@@ -74,7 +73,7 @@ export function OrgSwitcher({ className }: { className?: string }) {
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[12px] font-medium">{org.name}</span>
               <span className="block text-[11.5px] capitalize text-muted">
-                {org.type === "both" ? "Acquirente e fornitore" : org.type === "buyer" ? "Acquirente" : "Fornitore"} · {org.country}
+                Acquirente e fornitore · {org.country}
               </span>
             </span>
             {org.id === currentOrg.id ? <Check className="mt-1 size-3.5 text-moss" /> : null}

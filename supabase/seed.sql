@@ -17,7 +17,7 @@ values
     'IT04829170159',
     'IT',
     'northwind-packaging.demo',
-    'buyer',
+    'both',
     true,
     'Corrugated converter and food-packaging manufacturer. Replacing virgin fibre and polymer in trays, cases and protective packaging.'
   ),
@@ -29,7 +29,7 @@ values
     'greenloop-fibres.demo',
     'both',
     true,
-    'Recovery and upgrading of paper, wood and plastic streams across Emilia-Romagna and Veneto.'
+    'Recovery and upgrading of paper, wood and plastic streams in the Bologna area, Emilia-Romagna.'
   )
 on conflict (id) do nothing;
 
@@ -39,25 +39,25 @@ values
   (
     'aaaaaaaa-0000-4000-8000-000000000001',
     'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-    'Milan plant',
-    'Via Savona 42',
-    'Milan',
-    '20144',
+    'Bologna plant',
+    'Via Emilia Est 1240',
+    'Bologna',
+    '40127',
     'IT',
-    45.4642,
-    9.19,
+    44.5112,
+    11.3865,
     true
   ),
   (
     'aaaaaaaa-0000-4000-8000-000000000002',
     'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
-    'Verona converting line',
+    'Imola converting line',
     'Via dell''Industria 18',
-    'Verona',
-    '37135',
+    'Imola',
+    '40026',
     'IT',
-    45.4384,
-    10.9916,
+    44.3591,
+    11.7143,
     false
   ),
   (
@@ -77,13 +77,13 @@ on conflict (id) do nothing;
 -- ── Partners ─────────────────────────────────────────────────────────────────
 insert into partners (id, name, kind, coverage, rating, on_time_pct)
 values
-  ('cccccccc-0000-4000-8000-000000000001', 'TransItalia Logistics', 'transport', 'Northern & Central Italy', 4.70, 96),
-  ('cccccccc-0000-4000-8000-000000000002', 'Alpine Freight', 'transport', 'IT / AT / DE corridor', 4.50, 93),
+  ('cccccccc-0000-4000-8000-000000000001', 'TransItalia Logistics', 'transport', 'Emilia-Romagna · Bologna area', 4.70, 96),
+  ('cccccccc-0000-4000-8000-000000000002', 'Alpine Freight', 'transport', 'Italy · Emilia-Romagna', 4.50, 93),
   ('cccccccc-0000-4000-8000-000000000003', 'RePlast Hub Emilia', 'processing', 'Emilia-Romagna · polymers', 4.80, 97),
-  ('cccccccc-0000-4000-8000-000000000004', 'Cartiera di Verona', 'processing', 'Veneto · fibre', 4.60, 95),
-  ('cccccccc-0000-4000-8000-000000000005', 'LegnoCircolare', 'processing', 'Lombardy · wood', 4.40, 92),
-  ('cccccccc-0000-4000-8000-000000000006', 'Bureau Veritas Circular', 'qc', 'EU-wide sampling', 4.90, 99),
-  ('cccccccc-0000-4000-8000-000000000007', 'SGS Materials', 'qc', 'Italy · materials lab', 4.70, 97)
+  ('cccccccc-0000-4000-8000-000000000004', 'Cartiera di Bologna', 'processing', 'Bologna · fibre', 4.60, 95),
+  ('cccccccc-0000-4000-8000-000000000005', 'LegnoCircolare', 'processing', 'Bologna · wood', 4.40, 92),
+  ('cccccccc-0000-4000-8000-000000000006', 'Bureau Veritas Circular', 'qc', 'Emilia-Romagna · sampling', 4.90, 99),
+  ('cccccccc-0000-4000-8000-000000000007', 'SGS Materials', 'qc', 'Bologna · materials lab', 4.70, 97)
 on conflict (id) do nothing;
 
 -- ── Supply ───────────────────────────────────────────────────────────────────

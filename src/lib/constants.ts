@@ -44,7 +44,7 @@ export const CATEGORY_MAP = Object.fromEntries(
 ) as Record<MaterialCategory, (typeof CATEGORIES)[number]>;
 
 export const CONDITIONS: { value: MaterialCondition; label: string; hint: string }[] = [
-  { value: "clean", label: "Pulito", hint: "Flusso unico, bassa contaminazione" },
+  { value: "clean", label: "Pulito", hint: "Flusso unico e omogeneo" },
   { value: "mixed", label: "Misto", hint: "Flussi misti, separabili" },
   { value: "needs_processing", label: "Da lavorare", hint: "Lavaggio, cernita o rigranulazione" },
 ];
@@ -223,28 +223,20 @@ export const HANDLING_OPTIONS = [
   "Dichiarazione di assenza di pericoli",
 ];
 
-export const COUNTRIES = [
-  { code: "IT", label: "Italia", vatPrefix: "IT" },
-  { code: "DE", label: "Germania", vatPrefix: "DE" },
-  { code: "FR", label: "Francia", vatPrefix: "FR" },
-  { code: "ES", label: "Spagna", vatPrefix: "ES" },
-  { code: "NL", label: "Paesi Bassi", vatPrefix: "NL" },
-  { code: "AT", label: "Austria", vatPrefix: "AT" },
-];
+/** Offcut MVP: Italy only, Emilia-Romagna region, Bologna area. */
+export const COUNTRIES = [{ code: "IT", label: "Italia", vatPrefix: "IT" }];
 
 export const CITIES: { city: string; country: string; lat: number; lng: number; postalCode: string }[] = [
-  { city: "Milano", country: "IT", lat: 45.4642, lng: 9.19, postalCode: "20121" },
-  { city: "Torino", country: "IT", lat: 45.0703, lng: 7.6869, postalCode: "10121" },
   { city: "Bologna", country: "IT", lat: 44.4949, lng: 11.3426, postalCode: "40121" },
-  { city: "Verona", country: "IT", lat: 45.4384, lng: 10.9916, postalCode: "37121" },
-  { city: "Padova", country: "IT", lat: 45.4064, lng: 11.8768, postalCode: "35121" },
-  { city: "Brescia", country: "IT", lat: 45.5416, lng: 10.2118, postalCode: "25121" },
-  { city: "Modena", country: "IT", lat: 44.6471, lng: 10.9252, postalCode: "41121" },
-  { city: "Bergamo", country: "IT", lat: 45.6983, lng: 9.6773, postalCode: "24121" },
-  { city: "Ravenna", country: "IT", lat: 44.4184, lng: 12.2035, postalCode: "48121" },
-  { city: "Monza", country: "IT", lat: 45.5845, lng: 9.2744, postalCode: "20900" },
-  { city: "Monaco di Baviera", country: "DE", lat: 48.1351, lng: 11.582, postalCode: "80331" },
-  { city: "Lione", country: "FR", lat: 45.764, lng: 4.8357, postalCode: "69001" },
+  { city: "Imola", country: "IT", lat: 44.3591, lng: 11.7143, postalCode: "40026" },
+  { city: "Casalecchio di Reno", country: "IT", lat: 44.4872, lng: 11.2839, postalCode: "40033" },
+  { city: "San Lazzaro di Savena", country: "IT", lat: 44.4833, lng: 11.3667, postalCode: "40068" },
+  { city: "Castel Maggiore", country: "IT", lat: 44.5533, lng: 11.3667, postalCode: "40013" },
+  { city: "Zola Predosa", country: "IT", lat: 44.5053, lng: 11.2667, postalCode: "40069" },
+  { city: "Pianoro", country: "IT", lat: 44.3958, lng: 11.3333, postalCode: "40065" },
+  { city: "San Giovanni in Persiceto", country: "IT", lat: 44.6333, lng: 11.1167, postalCode: "40017" },
+  { city: "Molinella", country: "IT", lat: 44.6167, lng: 11.4667, postalCode: "40062" },
+  { city: "Budrio", country: "IT", lat: 44.5333, lng: 11.4667, postalCode: "40054" },
 ];
 
 export const DEMO_EMAILS = {

@@ -211,13 +211,6 @@ export function LoginForm() {
           </button>
         </div>
       </div>
-
-      <p className="mt-5 text-center text-[13px] text-muted">
-        {t("login.newHere")}{" "}
-        <Link href="/signup" className="font-medium text-forest hover:underline">
-          {t("login.createAccount")}
-        </Link>
-      </p>
     </div>
   );
 }

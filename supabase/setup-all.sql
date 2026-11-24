@@ -33,7 +33,7 @@ create type qc_status as enum ('pending', 'scheduled', 'passed', 'failed');
 create type partner_kind as enum ('processing', 'transport', 'qc');
 create type notification_tone as enum ('info', 'success', 'warning');
 create type order_event_kind as enum ('system', 'user', 'partner', 'finance');
-create type request_frequency as enum ('one_off', 'monthly', 'quarterly');
+create type request_frequency as enum ('one_off', 'weekly', 'monthly', 'quarterly');
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Tables

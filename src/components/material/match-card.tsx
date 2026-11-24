@@ -188,7 +188,7 @@ export function MatchCard({
             <span className="flex items-center gap-1">
               <MapPin className="size-3" /> {match.distanceKm} km
             </span>
-            <span>entro il {formatDate(request.neededBy, { withYear: false })}</span>
+            <span>consegna {formatDate(request.neededBy, { withYear: false })}</span>
           </div>
           {!compact ? (
             <div className="mt-2.5">

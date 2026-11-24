@@ -193,8 +193,6 @@ export default function DashboardPage() {
         : "Buonasera";
 
   const orderValue = (order: Order) => quoteByOrder.get(order.id)?.breakdown.total ?? null;
-  const isBuyer = org?.type === "buyer";
-  const isSupplier = org?.type === "supplier";
 
   async function handleRefresh() {
     setRefreshing(true);
@@ -231,26 +229,16 @@ export default function DashboardPage() {
             <Button variant="outline" size="sm" onClick={handleRefresh} disabled={refreshing}>
               <RefreshCw className={cn("size-3.5", refreshing && "animate-spin")} /> Aggiorna abbinamenti
             </Button>
-            {!isBuyer ? (
-              <Button variant="outline" size="sm" asChild>
-                <Link href="/app/listings/new">
-                  <Plus className="size-3.5" /> Pubblica materiale
-                </Link>
-              </Button>
-            ) : null}
-            {!isSupplier ? (
-              <Button size="sm" asChild>
-                <Link href="/app/requests/new">
-                  <Plus className="size-3.5" /> Nuova richiesta
-                </Link>
-              </Button>
-            ) : (
-              <Button size="sm" asChild>
-                <Link href="/app/listings/new">
-                  <Plus className="size-3.5" /> Pubblica materiale
-                </Link>
-              </Button>
-            )}
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/app/listings/new">
+                <Plus className="size-3.5" /> Pubblica materiale
+              </Link>
+            </Button>
+            <Button size="sm" asChild>
+              <Link href="/app/requests/new">
+                <Plus className="size-3.5" /> Nuova richiesta
+              </Link>
+            </Button>
           </>
         }
       />
@@ -662,7 +650,7 @@ export default function DashboardPage() {
       </section>
 
       <p className="flex items-center justify-center gap-1.5 pb-2 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted/60">
-        <MapPin className="size-3" /> Mercato MVP: carta e cartone · legno · plastica — Nord Italia
+        <MapPin className="size-3" /> Mercato MVP: carta e cartone · legno · plastica — Emilia-Romagna, area di Bologna
       </p>
     </div>
   );

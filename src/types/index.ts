@@ -144,7 +144,7 @@ export interface MaterialRequest {
   acceptedConditions?: MaterialCondition[];
   qualityThresholds: QualityThresholds;
   quantityKg: number;
-  frequency: "one_off" | "monthly" | "quarterly";
+  frequency: "one_off" | "weekly" | "monthly" | "quarterly";
   maxBudget: number;
   requiredProcessing: ProcessingType[];
   neededBy: string;

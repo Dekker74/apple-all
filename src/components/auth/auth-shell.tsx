@@ -8,7 +8,6 @@ import { ThemeToggle } from "@/components/theme-toggle";
 
 export function AuthShell({
   children,
-  mode,
 }: {
   children: React.ReactNode;
   mode: "signin" | "signup";
@@ -79,13 +78,6 @@ export function AuthShell({
               className="flex items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-ink"
             >
               <ArrowLeft className="size-3.5" /> <span className="hidden sm:inline">{t("auth.back")}</span>
-            </Link>
-            <span className="hidden h-4 w-px bg-line sm:block" />
-            <Link
-              href={mode === "signin" ? "/signup" : "/login"}
-              className="hidden text-[13px] font-medium text-forest hover:underline sm:inline"
-            >
-              {mode === "signin" ? t("login.createAccount") : t("login.signin")}
             </Link>
           </div>
         </header>

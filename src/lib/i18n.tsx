@@ -19,7 +19,7 @@ const it: Record<string, string> = {
   "nav.menu": "Apri menu",
   "nav.close": "Chiudi menu",
 
-  "hero.badge": "Nord Italia · carta, legno, plastica",
+  "hero.badge": "Emilia-Romagna · carta, legno, plastica",
   "hero.title1": "Materiale in eccedenza,",
   "hero.title2": "non rifiuto.",
   "hero.subtitle":
@@ -38,7 +38,7 @@ const it: Record<string, string> = {
   "hero.priceValue": "€4.046,74",
   "hero.reason1": "Composizione compatibile: OCC, cartone ondulato",
   "hero.reason2": "18,5 t disponibili: coprono l'intera richiesta",
-  "hero.reason3": "218 km da Milano · entro il raggio di 300 km",
+  "hero.reason3": "18 km da Bologna · entro il raggio di 100 km",
   "hero.process1": "Cernita",
   "hero.process2": "Imballaggio",
 
@@ -153,7 +153,7 @@ const it: Record<string, string> = {
     "Il fornitore riceve il pagamento dopo la conferma di consegna e del controllo qualità. Le condizioni esatte sono nel preventivo.",
   "faq.q5": "Quali zone coprite?",
   "faq.a5":
-    "Partiamo dal Nord Italia: Lombardia, Veneto, Emilia-Romagna, Piemonte e Trentino-Alto Adige. Altre zone su richiesta.",
+    "Partiamo dall'Emilia-Romagna, con le aziende dell'area di Bologna. Altre zone su richiesta.",
 
   "final.title1": "La prossima tonnellata",
   "final.title2": "può essere circolare.",
@@ -169,7 +169,7 @@ const it: Record<string, string> = {
   "footer.privacy": "Privacy",
   "footer.terms": "Termini",
   "footer.demoLogin": "Prova la demo",
-  "footer.disclaimer": "Progetto in fase di validazione · Nord Italia",
+  "footer.disclaimer": "Progetto in fase di validazione · Emilia-Romagna",
   "footer.tagline": "Carta · Legno · Plastica",
 
   "auth.asideEyebrow": "Il marketplace dei materiali gestiti",
@@ -196,12 +196,10 @@ const it: Record<string, string> = {
   "login.forgot": "Password dimenticata?",
   "login.signin": "Accedi",
   "login.demoTitle": "Prova la demo",
-  "login.demoBuyer": "Acquirente · Milano",
+  "login.demoBuyer": "Acquirente · Bologna",
   "login.demoSupplier": "Fornitore · Bologna",
   "login.error": "Impossibile accedere. Controlla email e password.",
   "login.demoError": "Accesso demo non riuscito.",
-  "login.newHere": "Non hai ancora un workspace?",
-  "login.createAccount": "Crea un account",
 
   "signup.eyebrow": "Inizia gratis",
   "signup.title": "Richiedi un preventivo",
@@ -295,7 +293,7 @@ const en: Record<string, string> = {
   "nav.menu": "Open menu",
   "nav.close": "Close menu",
 
-  "hero.badge": "Northern Italy · paper, wood, plastic",
+  "hero.badge": "Emilia-Romagna · paper, wood, plastic",
   "hero.title1": "Surplus material,",
   "hero.title2": "not surplus waste.",
   "hero.subtitle":
@@ -314,7 +312,7 @@ const en: Record<string, string> = {
   "hero.priceValue": "€4,046.74",
   "hero.reason1": "Compatible composition: OCC, corrugated board",
   "hero.reason2": "18.5 t available — the full request is covered",
-  "hero.reason3": "218 km from Milan · within a 300 km radius",
+  "hero.reason3": "18 km from Bologna · within a 100 km radius",
   "hero.process1": "Sorting",
   "hero.process2": "Baling",
 
@@ -429,7 +427,7 @@ const en: Record<string, string> = {
     "Suppliers are paid after delivery and quality confirmation. Exact terms are in the quote.",
   "faq.q5": "Which areas do you cover?",
   "faq.a5":
-    "We start in Northern Italy: Lombardy, Veneto, Emilia-Romagna, Piedmont and Trentino-Alto Adige. Other areas on request.",
+    "We start in Emilia-Romagna, with companies in the Bologna area. Other areas on request.",
 
   "final.title1": "Make the next tonne",
   "final.title2": "circular.",
@@ -445,7 +443,7 @@ const en: Record<string, string> = {
   "footer.privacy": "Privacy",
   "footer.terms": "Terms",
   "footer.demoLogin": "Try the demo",
-  "footer.disclaimer": "Project in validation · Northern Italy",
+  "footer.disclaimer": "Project in validation · Emilia-Romagna",
   "footer.tagline": "Paper · Wood · Plastic",
 
   "auth.asideEyebrow": "The managed materials marketplace",
@@ -472,12 +470,10 @@ const en: Record<string, string> = {
   "login.forgot": "Forgot password?",
   "login.signin": "Sign in",
   "login.demoTitle": "Try the demo",
-  "login.demoBuyer": "Buyer · Milan",
+  "login.demoBuyer": "Buyer · Bologna",
   "login.demoSupplier": "Supplier · Bologna",
   "login.error": "Unable to sign in. Check your email and password.",
   "login.demoError": "Demo sign-in failed.",
-  "login.newHere": "New to Offcut?",
-  "login.createAccount": "Create an account",
 
   "signup.eyebrow": "Start free",
   "signup.title": "Request a quote",

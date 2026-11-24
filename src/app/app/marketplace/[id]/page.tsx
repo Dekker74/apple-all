@@ -32,7 +32,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { CATEGORY_MAP, CONDITIONS, CONDITION_MAP, PROCESSING_MAP } from "@/lib/constants";
-import { formatDate } from "@/lib/format";
+import { addDaysInput, formatDate, todayInput } from "@/lib/format";
 import {
   useCurrentOrg,
   useMatchViews,
@@ -63,6 +63,7 @@ export default function ListingDetailPage() {
 
   const listing = listings.find((l) => l.id === params.id);
   const [quantity, setQuantity] = useState(listing?.minOrderKg ?? 1000);
+  const [deliveryDate, setDeliveryDate] = useState(addDaysInput(21));
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -161,9 +162,13 @@ export default function ListingDetailPage() {
 
   async function handleQuote() {
     if (!listing) return;
+    if (new Date(deliveryDate) < new Date(todayInput())) {
+      toast.error("Seleziona una data di consegna nel futuro.");
+      return;
+    }
     setSubmitting(true);
     try {
-      const orderId = requestQuoteForListing(listing.id, clampedQty);
+      const orderId = requestQuoteForListing(listing.id, clampedQty, deliveryDate);
       toast.success("Ordine creato", {
         description: "Rivedi il preventivo dettagliato ed emettilo quando pronto.",
       });
@@ -351,7 +356,7 @@ export default function ListingDetailPage() {
               {[
                 { title: "Ritiro", body: "Trasportatore prenotato dopo l'accettazione del preventivo. Vincoli di carico confermati in anticipo.", icon: Truck },
                 { title: "Lavorazione", body: processing.length > 0 ? processing.map((p) => PROCESSING_MAP[p].label).join(" · ") : "Semplice — il materiale viene spedito così com'è.", icon: Warehouse },
-                { title: "Controllo qualità", body: "Campionamento indipendente sulle condizioni dichiarate e sulle soglie di contaminazione.", icon: ShieldCheck },
+                { title: "Controllo qualità", body: "Campionamento indipendente sulle condizioni dichiarate e sulle specifiche concordate.", icon: ShieldCheck },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
@@ -410,6 +415,23 @@ export default function ListingDetailPage() {
                 </div>
                 <p className="mt-1.5 text-[11.5px] text-muted">
                   Min {formatKg(listing.minOrderKg)} · Massimo {formatKg(listing.quantityKg)} disponibili
+                </p>
+              </div>
+
+              <div className="mt-4">
+                <label htmlFor="delivery-date" className="field-label">
+                  Data di consegna desiderata
+                </label>
+                <Input
+                  id="delivery-date"
+                  type="date"
+                  min={todayInput()}
+                  value={deliveryDate}
+                  onChange={(e) => setDeliveryDate(e.target.value)}
+                  className="mt-1.5"
+                />
+                <p className="mt-1.5 text-[11.5px] text-muted">
+                  Scegli tu quando vuoi ricevere il materiale.
                 </p>
               </div>
 

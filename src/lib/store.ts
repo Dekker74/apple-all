@@ -207,7 +207,12 @@ export const APPOINTMENT_PROCESSING_RATES: Record<AppointmentCondition, number> 
 
 export const APPOINTMENT_TRANSPORT_FEE = 120;
 export const APPOINTMENT_SERVICE_FEE = 45;
-export const APPOINTMENT_HUBS = ["Milano", "Bologna", "Parma", "Modena", "Verona"] as const;
+export const APPOINTMENT_HUBS = [
+  "Bologna",
+  "Imola",
+  "Casalecchio di Reno",
+  "San Lazzaro di Savena",
+] as const;
 export const APPOINTMENT_SLOTS = ["08:00–11:00", "11:00–14:00", "14:00–18:00"] as const;
 
 export function computeAppointmentFinance(input: {
@@ -252,7 +257,7 @@ function createSeedAppointments(): Appointment[] {
     material: "cardboard",
     condition: "clean",
     tons: 8,
-    hub: "Verona",
+    hub: "Bologna",
     date: dateInputFromNow(-6),
     time: APPOINTMENT_SLOTS[2],
     status: "completed",
@@ -296,7 +301,7 @@ function createSeedInboxThreads(): InboxThread[] {
       id: "thr_seed_2",
       partnerName: "Cartiera Veneta S.p.A.",
       orgId: "org_cartiera",
-      subject: "Consegna cartone pulito · hub Verona",
+      subject: "Consegna cartone pulito · hub Bologna",
       unread: 0,
       messages: [
         {
@@ -356,7 +361,7 @@ interface Actions {
   generateMatches: () => number;
   setMatchStatus: (matchId: string, status: MatchStatus) => void;
   createOrderFromMatch: (matchId: string) => string;
-  requestQuoteForListing: (listingId: string, quantityKg: number) => string;
+  requestQuoteForListing: (listingId: string, quantityKg: number, neededBy?: string) => string;
   issueQuote: (orderId: string) => void;
   acceptQuote: (orderId: string) => void;
   scheduleCollection: (
@@ -848,7 +853,7 @@ export const useAppStore = create<AppStore>()(
         return id;
       },
 
-      requestQuoteForListing: (listingId, quantityKg) => {
+      requestQuoteForListing: (listingId, quantityKg, neededBy) => {
         const state = get();
         const listing = state.listings.find((l) => l.id === listingId);
         if (!listing) throw new Error("Listing not found.");
@@ -885,7 +890,7 @@ export const useAppStore = create<AppStore>()(
             0,
           ),
           requiredProcessing: listing.condition === "clean" ? [] : ["sorting"],
-          neededBy: new Date(Date.now() + 21 * 86_400_000).toISOString().slice(0, 10),
+          neededBy: neededBy ?? new Date(Date.now() + 21 * 86_400_000).toISOString().slice(0, 10),
           radiusKm: 350,
           status: "open",
           createdAt: nowIso(),

@@ -41,14 +41,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CITIES, COUNTRIES, ORG_TYPES } from "@/lib/constants";
+import { CITIES, COUNTRIES } from "@/lib/constants";
 import { formatDate, formatNumber } from "@/lib/format";
 import { useCurrentOrg, useCurrentUser, useOrgListings, useOrgLocations } from "@/lib/hooks";
 import { formatCurrency, formatKg } from "@/lib/pricing";
 import { useAppStore } from "@/lib/store";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
-import type { MemberRole, OrgType } from "@/types";
+import type { MemberRole } from "@/types";
 
 const TABS = [
   { value: "company", label: "Azienda", icon: Building2 },
@@ -83,7 +83,6 @@ export default function SettingsPage() {
   const [vatNumber, setVatNumber] = useState(org?.vatNumber ?? "");
   const [website, setWebsite] = useState(org?.website ?? "");
   const [description, setDescription] = useState(org?.description ?? "");
-  const [type, setType] = useState<OrgType>(org?.type ?? "buyer");
   const [savingCompany, setSavingCompany] = useState(false);
 
   const [newSite, setNewSite] = useState({
@@ -107,7 +106,6 @@ export default function SettingsPage() {
     setVatNumber(org.vatNumber);
     setWebsite(org.website ?? "");
     setDescription(org.description ?? "");
-    setType(org.type);
   }, [org?.id]);
 
   if (!org || !user) return null;
@@ -142,7 +140,7 @@ export default function SettingsPage() {
         vatNumber: vatNumber.trim().toUpperCase(),
         website: website.trim() || undefined,
         description: description.trim() || undefined,
-        type,
+        type: "both",
       });
       toast.success("Dati aziendali salvati");
     } finally {
@@ -254,18 +252,10 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="field-label">Ruolo di mercato</label>
-                <Select
-                  value={type}
-                  onChange={(e) => setType(e.target.value as OrgType)}
-                  className="mt-1.5"
-                >
-                  {ORG_TYPES.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label} — {option.hint}
-                    </option>
-                  ))}
-                </Select>
+                <label className="field-label">Modalità di mercato</label>
+                <p className="mt-1.5 rounded-xl border border-line bg-sand/40 px-3.5 py-2.5 text-[13px] text-muted">
+                  Acquirente e fornitore — puoi pubblicare materiale e inviare richieste.
+                </p>
               </div>
               <div>
                 <label className="field-label">
@@ -428,7 +418,7 @@ export default function SettingsPage() {
                 <Input
                   value={newSite.name}
                   onChange={(e) => setNewSite((prev) => ({ ...prev, name: e.target.value }))}
-                  placeholder="Stabilimento Milano"
+                  placeholder="Stabilimento Bologna"
                   className="mt-1.5"
                 />
               </div>

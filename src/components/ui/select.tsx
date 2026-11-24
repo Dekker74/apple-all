@@ -12,7 +12,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       <select
         ref={ref}
         className={cn(
-          "flex h-10 w-full appearance-none rounded-xl border border-line bg-white pl-3.5 pr-9 text-[16px] text-ink sm:text-[15px] transition-colors hover:border-sage/70 focus-visible:border-moss disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-10 w-full appearance-none items-center rounded-xl border border-line bg-white py-0 pl-3.5 pr-9 text-[16px] leading-none text-ink sm:text-[15px] transition-colors hover:border-sage/70 focus-visible:border-moss disabled:cursor-not-allowed disabled:opacity-50",
           !props.value && props.defaultValue === undefined && "text-muted",
           className,
         )}

@@ -101,7 +101,6 @@
   :where(input, select, textarea):focus-visible {
     outline: 3px solid var(--moss);
     outline-offset: 2px;
-    opacity: 0.35;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {

@@ -132,8 +132,8 @@ export default function NewListingPage() {
     if (currentStep === 0) {
       if (title.trim().length < 6) return fail("Dai al materiale un titolo chiaro e descrittivo.");
       if (!category) return fail("Seleziona una delle tre categorie MVP.");
-      if (description.trim().length < 30)
-        return fail("Descrivi il materiale in linguaggio semplice (almeno 30 caratteri).");
+      if (description.trim().length === 0)
+        return fail("Descrivi il materiale in linguaggio semplice.");
       if (conditionFlags.length === 0)
         return fail("Seleziona almeno una condizione del materiale.");
       return true;
@@ -362,7 +362,7 @@ export default function NewListingPage() {
               <Field
                 label="Descrizione in linguaggio semplice"
                 required
-                hint="Origine, qualità, contaminazione, impieghi. Evita descrizioni fatte solo di gergo."
+                hint="Origine, qualità e impieghi. Evita descrizioni fatte solo di gergo."
               >
                 <Textarea
                   value={description}

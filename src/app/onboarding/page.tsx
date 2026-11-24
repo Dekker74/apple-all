@@ -5,16 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
-  ArrowLeftRight,
   ArrowRight,
   Building2,
   Check,
   CircleCheck,
-  Factory,
   Loader2,
   Mail,
   Plus,
-  ShoppingCart,
   Sparkles,
   Trash2,
   UserRound,
@@ -31,33 +28,11 @@ import { CITIES, COUNTRIES } from "@/lib/constants";
 import { useCurrentUser, useHydrated } from "@/lib/hooks";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import type { MemberRole, OrgType } from "@/types";
+import type { MemberRole } from "@/types";
 
 const STEPS = [
   { title: "Tipo di account", sub: "Chi si sta registrando" },
-  { title: "Ruolo di mercato", sub: "Come partecipi" },
   { title: "Azienda e sedi", sub: "Legale e operativo" },
-];
-
-const ROLES: { value: OrgType; title: string; body: string; icon: typeof Factory }[] = [
-  {
-    value: "supplier",
-    title: "Fornitore",
-    body: "Genero materiale in eccedenza e cerco domanda qualificata.",
-    icon: Factory,
-  },
-  {
-    value: "buyer",
-    title: "Acquirente",
-    body: "Cerco materiale secondario e voglio un'offerta abbinata e consegnata.",
-    icon: ShoppingCart,
-  },
-  {
-    value: "both",
-    title: "Entrambi",
-    body: "Acquisto materiale secondario e vendo i miei flussi in eccedenza.",
-    icon: ArrowLeftRight,
-  },
 ];
 
 interface Invite {
@@ -75,14 +50,13 @@ export default function OnboardingPage() {
 
   const [step, setStep] = useState(0);
   const [accountRole, setAccountRole] = useState<"business" | "individual">("business");
-  const [orgType, setOrgType] = useState<OrgType | null>(null);
   const [companyName, setCompanyName] = useState("");
   const [country, setCountry] = useState("IT");
   const [vatNumber, setVatNumber] = useState("");
   const [website, setWebsite] = useState("");
   const [addressLine, setAddressLine] = useState("");
-  const [city, setCity] = useState("Milan");
-  const [postalCode, setPostalCode] = useState("20121");
+  const [city, setCity] = useState("Bologna");
+  const [postalCode, setPostalCode] = useState("40121");
   const [invites, setInvites] = useState<Invite[]>([{ email: "", role: "admin" }]);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -121,23 +95,11 @@ export default function OnboardingPage() {
         return;
       }
       setStep(1);
-      return;
-    }
-    if (step === 1) {
-      if (!orgType) {
-        setError("Seleziona come la tua azienda partecipa al mercato.");
-        return;
-      }
-      setStep(2);
     }
   }
 
   function submit() {
     setError(null);
-    if (!orgType) {
-      setStep(1);
-      return;
-    }
     if (companyName.trim().length < 2) {
       setError("Inserisci la ragione sociale.");
       return;
@@ -154,7 +116,7 @@ export default function OnboardingPage() {
     try {
       completeOnboarding({
         accountRole,
-        orgType,
+        orgType: "both",
         companyName,
         vatNumber,
         country,
@@ -181,7 +143,7 @@ export default function OnboardingPage() {
           <p className="eyebrow">Configurazione</p>
           <h1 className="mt-2 text-[30px] leading-tight">Configura il tuo spazio di lavoro</h1>
           <p className="mt-2 text-[11.5px] leading-relaxed text-muted">
-            Tre passaggi. Potrai invitare il tuo team in seguito.
+            Due passaggi. Potrai invitare il tuo team in seguito.
           </p>
           <ol className="mt-8 space-y-1">
             {STEPS.map((s, index) => {
@@ -236,7 +198,7 @@ export default function OnboardingPage() {
           <div className="rounded-2xl border border-line bg-white p-6 shadow-soft sm:p-8">
             <div className="flex items-center justify-between">
               <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">
-                Passo {step + 1} di 3
+                Passo {step + 1} di {STEPS.length}
               </span>
               <div className="flex gap-1">
                 {STEPS.map((_, i) => (
@@ -306,56 +268,6 @@ export default function OnboardingPage() {
 
             {step === 1 ? (
               <div className="mt-6">
-                <h2 className="text-[30px] leading-tight">Qual è il tuo ruolo di mercato?</h2>
-                <p className="mt-2 text-[12px] leading-relaxed text-muted">
-                  Puoi modificarlo in seguito. Scegliendo “Entrambi” sblocchi i flussi di offerta e domanda.
-                </p>
-                <div className="mt-6 space-y-2.5">
-                  {ROLES.map((role) => {
-                    const Icon = role.icon;
-                    const selected = orgType === role.value;
-                    return (
-                      <button
-                        key={role.value}
-                        onClick={() => setOrgType(role.value)}
-                        className={cn(
-                          "flex w-full items-start gap-3.5 rounded-xl border p-4 text-left transition-all",
-                          selected
-                            ? "border-forest bg-mist/40 ring-1 ring-forest"
-                            : "border-line hover:border-sage",
-                        )}
-                      >
-                        <span
-                          className={cn(
-                            "flex size-9 shrink-0 items-center justify-center rounded-lg",
-                            selected ? "bg-forest text-lime" : "bg-sand text-muted",
-                          )}
-                        >
-                          <Icon className="size-4" />
-                        </span>
-                        <span className="flex-1">
-                          <span className="block text-[13px] font-medium">{role.title}</span>
-                          <span className="mt-0.5 block text-[12px] leading-relaxed text-muted">
-                            {role.body}
-                          </span>
-                        </span>
-                        <span
-                          className={cn(
-                            "mt-1 flex size-4 items-center justify-center rounded-full border",
-                            selected ? "border-forest bg-forest" : "border-line",
-                          )}
-                        >
-                          {selected ? <Check className="size-2.5 text-lime" strokeWidth={3} /> : null}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : null}
-
-            {step === 2 ? (
-              <div className="mt-6">
                 <h2 className="text-[30px] leading-tight">Azienda e sede principale</h2>
                 <p className="mt-2 text-[12px] leading-relaxed text-muted">
                   Usiamo la sede principale per calcolare distanze e prezzi consegnati.
@@ -422,7 +334,7 @@ export default function OnboardingPage() {
                       <Input
                         value={addressLine}
                         onChange={(e) => setAddressLine(e.target.value)}
-                        placeholder="Via Savona 42"
+                        placeholder="Via Emilia Est 1240"
                         className="mt-1.5"
                       />
                     </div>
@@ -545,7 +457,7 @@ export default function OnboardingPage() {
               >
                 <ArrowLeft className="size-3.5" /> Indietro
               </Button>
-              {step < 2 ? (
+              {step < STEPS.length - 1 ? (
                 <Button type="button" onClick={next}>
                   Continua <ArrowRight className="size-3.5" />
                 </Button>
