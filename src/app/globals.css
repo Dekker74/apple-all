@@ -330,7 +330,7 @@
   color: #ffffff;
 }
 
-.dark [class*="bg-paper"],
+.dark [class~="bg-paper"],
 .dark .kbd {
   background-color: #000000;
 }
@@ -339,97 +339,97 @@
   color: #cccccc;
 }
 
-.dark [class*="bg-white"],
+.dark [class~="bg-white"],
 .dark .panel {
   background-color: #1d1d1f;
 }
 
-.dark [class*="bg-sand"],
-.dark [class*="bg-mist"],
+.dark [class~="bg-sand"],
+.dark [class~="bg-mist"],
 .dark .skeleton {
   background-color: #2a2a2c;
 }
 
-.dark [class*="bg-line"] {
+.dark [class~="bg-line"] {
   background-color: #3a3a3c;
 }
 
-.dark [class*="border-line"],
-.dark [class*="divide-line"],
+.dark [class~="border-line"],
+.dark [class~="divide-line"],
 .dark .panel {
   border-color: #3a3a3c;
 }
 
-.dark [class*="border-sage"] {
+.dark [class~="border-sage"] {
   border-color: #1a3550;
 }
 
-.dark [class*="border-forest"] {
+.dark [class~="border-forest"] {
   border-color: #12406b;
 }
 
-.dark [class*="text-ink"],
+.dark [class~="text-ink"],
 .dark .field-label {
   color: #ffffff;
 }
 
-.dark [class*="text-muted"],
+.dark [class~="text-muted"],
 .dark .hint,
 .dark .eyebrow,
 .dark .micro-label,
-.dark [class*="text-[#4A5148]"] {
+.dark [class~="text-[#4A5148]"] {
   color: #cccccc;
 }
 
-.dark [class*="text-moss"] {
+.dark [class~="text-moss"] {
   color: #2997ff;
 }
 
-.dark [class*="text-sage"] {
+.dark [class~="text-sage"] {
   color: #2997ff;
 }
 
-.dark [class*="text-forest"] {
+.dark [class~="text-forest"] {
   color: #409cff;
 }
 
 /* On dark chips, keep label text legible. */
-.dark [class~="bg-lime"] [class*="text-forest"],
-.dark [class~="bg-lime"][class*="text-forest"] {
+.dark [class~="bg-lime"] [class~="text-forest"],
+.dark [class~="bg-lime"][class~="text-forest"] {
   color: #ffffff;
 }
 
-.dark [class*="text-sky"] {
+.dark [class~="text-sky"] {
   color: #70b7ff;
 }
 
-.dark [class*="text-amber"] {
+.dark [class~="text-amber"] {
   color: #e0a944;
 }
 
-.dark [class*="text-clay"],
-.dark [class*="text-danger"] {
+.dark [class~="text-clay"],
+.dark [class~="text-danger"] {
   color: #ff453a;
 }
 
-.dark [class*="bg-forest"] {
+.dark [class~="bg-forest"] {
   background-color: #0066cc;
 }
 
-.dark [class*="bg-moss"] {
+.dark [class~="bg-moss"] {
   background-color: #0a84ff;
 }
 
-.dark [class*="bg-lime"] {
+.dark [class~="bg-lime"] {
   background-color: #2a2a2c;
 }
 
-.dark [class*="bg-lime"] [class*="text-ink"],
-.dark [class~="bg-lime"][class*="text-ink"] {
+.dark [class~="bg-lime"] [class~="text-ink"],
+.dark [class~="bg-lime"][class~="text-ink"] {
   color: #ffffff;
 }
 
-.dark [class*="bg-sage"] {
+.dark [class~="bg-sage"] {
   background-color: #10263d;
 }
 
@@ -611,7 +611,7 @@
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 999;
+  z-index: 55;
   display: flex;
   flex-direction: column;
   gap: 12px;

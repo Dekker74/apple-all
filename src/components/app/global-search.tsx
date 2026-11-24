@@ -20,13 +20,16 @@ export function GlobalSearch() {
 
   return (
     <form className="offcut-app-search" onSubmit={submit} role="search">
-      <Search className="size-3.5 shrink-0 text-muted" aria-hidden />
+      <Search className="search-icon size-3.5 shrink-0 text-muted" aria-hidden />
       <input
         aria-label="Cerca materiali"
         placeholder="Cerca materiali…"
         value={query}
         onChange={(event) => setQuery(event.target.value)}
       />
+      <button className="search-submit" type="submit" aria-label="Apri la ricerca materiali">
+        <Search className="size-4" aria-hidden />
+      </button>
     </form>
   );
 }

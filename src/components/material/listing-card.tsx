@@ -27,7 +27,7 @@ export function ListingCard({
     <Link
       href={`/app/marketplace/${listing.id}`}
       className={cn(
-        "group flex flex-col overflow-hidden rounded-2xl border border-line bg-white transition-all duration-300 hover:-translate-y-0.5 hover:border-sage/70 hover:shadow-lift",
+        "group relative z-0 flex flex-col overflow-hidden rounded-2xl border border-line bg-white transition-all duration-300 hover:z-10 hover:-translate-y-0.5 hover:border-sage/70 hover:shadow-lift",
         className,
       )}
     >

@@ -19,6 +19,7 @@
   --apple-on-dark: #ffffff;
   --apple-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --header-h: 44px;
+  --app-bar-h: 60px;
 
   /* Keep legacy component variables aligned with the Apple palette. */
   --bg: #f5f5f7;
@@ -284,6 +285,8 @@ textarea:focus,
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 4px;
+  flex-wrap: wrap;
+  max-width: 100%;
 }
 
 .seg button,
@@ -292,6 +295,7 @@ textarea:focus,
   border-radius: 999px;
   font-size: 14px;
   font-weight: 400;
+  white-space: nowrap;
   transition: background-color 200ms ease, color 200ms ease, transform 200ms var(--apple-ease);
 }
 
@@ -334,6 +338,8 @@ header#top {
   z-index: 60;
   height: var(--header-h);
   display: flex;
+  flex-wrap: nowrap;
+  overflow: hidden;
   align-items: center;
   gap: 4px;
   padding: 0 22px;
@@ -508,54 +514,54 @@ main.offcut-main-bare {
   color: var(--apple-muted);
 }
 
-.dark [class*="text-muted"],
-.dark [class*="text-[#4A5148]"],
+.dark [class~="text-muted"],
+.dark [class~="text-[#4A5148]"],
 .dark .hint,
 .dark .eyebrow,
 .dark .micro-label {
   color: #cccccc;
 }
 
-.dark [class*="text-moss"],
-.dark [class*="text-forest"],
-.dark [class*="text-sage"],
+.dark [class~="text-moss"],
+.dark [class~="text-forest"],
+.dark [class~="text-sage"],
 .dark .eyebrow,
 .dark .offcut-eyebrow {
   color: var(--apple-blue-on-dark);
 }
 
-.dark [class*="text-ink"],
+.dark [class~="text-ink"],
 .dark .field-label {
   color: #ffffff;
 }
 
-.dark [class*="bg-white"],
+.dark [class~="bg-white"],
 .dark .panel,
 .dark .card,
 .dark .offcut-card {
   background-color: #1d1d1f;
 }
 
-.dark [class*="bg-paper"],
-.dark [class*="bg-sand"],
-.dark [class*="bg-mist"],
+.dark [class~="bg-paper"],
+.dark [class~="bg-sand"],
+.dark [class~="bg-mist"],
 .dark .kbd,
 .dark .skeleton {
   background-color: #2a2a2c;
 }
 
-.dark [class*="border-line"],
-.dark [class*="divide-line"],
+.dark [class~="border-line"],
+.dark [class~="divide-line"],
 .dark .panel {
   border-color: #3a3a3c;
 }
 
-.dark [class*="bg-forest"],
-.dark [class*="bg-moss"] {
+.dark [class~="bg-forest"],
+.dark [class~="bg-moss"] {
   background-color: #0066cc !important;
 }
 
-.dark [class*="bg-lime"] {
+.dark [class~="bg-lime"] {
   background-color: #2a2a2c !important;
 }
 
@@ -749,53 +755,38 @@ main.offcut-main-bare {
 
 .apple-material-stack {
   position: relative;
-  width: min(660px, 86vw);
-  height: 250px;
-  margin: 64px auto 0;
-  perspective: 900px;
+  width: min(960px, 100%);
+  margin: 56px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .apple-material {
-  --tx: 0px;
-  --rot: 0deg;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 300px;
-  height: 174px;
-  margin: -87px 0 0 -150px;
+  position: relative;
+  width: auto;
+  min-height: 174px;
   border-radius: 18px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--apple-hairline);
   background: #ffffff;
-  box-shadow: 3px 5px 30px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 18px;
   color: #1d1d1f;
   text-align: left;
-  transform: translateX(var(--tx)) rotate(var(--rot));
-  animation: apple-float 7s ease-in-out infinite;
 }
 
 .apple-material:nth-child(1) {
-  --tx: -130px;
-  --rot: -12deg;
-  --float-delay: -1.4s;
   background: #fafafc;
 }
 
 .apple-material:nth-child(2) {
-  --tx: 0px;
-  --rot: 3deg;
-  --float-delay: -3.2s;
-  z-index: 2;
+  background: #ffffff;
 }
 
 .apple-material:nth-child(3) {
-  --tx: 130px;
-  --rot: 14deg;
-  --float-delay: -5s;
   background: #f5f5f7;
 }
 
@@ -991,25 +982,105 @@ main.offcut-main-bare {
 
 /* ---------- Authenticated workspace ---------- */
 
+main.offcut-main-no-header {
+  padding-top: 0;
+}
+
 .offcut-app-bar {
   position: sticky;
-  top: var(--header-h);
+  top: 0;
   z-index: 50;
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 10px 24px;
+  gap: 10px;
+  flex-wrap: nowrap;
+  box-sizing: border-box;
+  width: 100vw;
+  height: var(--app-bar-h);
+  min-height: var(--app-bar-h);
+  margin-left: calc(50% - 50vw);
+  padding: 0 max(16px, calc((100vw - 1272px) / 2));
   border-bottom: 1px solid var(--apple-hairline);
-  background: color-mix(in srgb, var(--apple-parchment) 82%, transparent);
+  background: color-mix(in srgb, var(--apple-parchment) 88%, transparent);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
+  overflow: hidden;
+}
+
+.top-app-sticky {
+  top: var(--app-bar-h);
+}
+
+.offcut-app-bar > .brand {
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 0;
+  font-size: 15px;
+}
+
+.offcut-app-bar > .brand .brand-mark {
+  width: 20px;
+  height: 20px;
+}
+
+.offcut-app-links {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.offcut-app-links::-webkit-scrollbar {
+  display: none;
+}
+
+.offcut-app-tools {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 0;
+}
+
+.app-bar-utility {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.app-bar-languages {
+  display: flex;
+  gap: 2px !important;
+}
+
+.app-bar-languages .pill-btn {
+  min-width: 26px;
+  padding: 4px 6px !important;
+  font-size: 10px !important;
+}
+
+.app-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--apple-hairline);
+  border-radius: 999px;
+  background: var(--apple-canvas);
+  color: var(--apple-blue);
 }
 
 .offcut-app-links a {
   border-radius: 999px;
-  padding: 7px 13px;
+  padding: 7px 12px;
   font-size: 12px;
+  white-space: nowrap;
   color: var(--apple-muted);
   transition: background-color 200ms ease, color 200ms ease;
 }
@@ -1023,11 +1094,43 @@ main.offcut-main-bare {
 }
 
 .offcut-app-search {
-  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  min-width: 0;
+  max-width: none;
+  height: 38px;
+  width: 170px;
+  padding: 0 10px;
   border-radius: 999px;
   background: var(--apple-canvas);
   border: 1px solid var(--apple-hairline);
   transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.offcut-app-search .search-submit {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--apple-blue);
+}
+
+.offcut-app-tools .offcut-org-switcher {
+  max-width: 150px;
+}
+
+.offcut-user-menu-trigger {
+  width: 36px;
+  padding: 4px;
+  justify-content: center;
+}
+
+.offcut-user-menu-label,
+.offcut-user-menu-chevron {
+  display: none;
 }
 
 .offcut-app-search:focus-within {
@@ -1036,10 +1139,17 @@ main.offcut-main-bare {
 }
 
 .offcut-app-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--apple-ink);
   font-size: 13px;
+  outline: none;
 }
 
 .offcut-app-content {
+  padding-top: 18px;
   animation: apple-rise 520ms var(--apple-ease) both;
 }
 
@@ -1078,7 +1188,7 @@ main.offcut-main-bare {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  z-index: 999;
+  z-index: 55;
 }
 
 #chat-toggle {
@@ -1225,10 +1335,6 @@ main.offcut-main-bare {
   transform: none;
 }
 
-.apple-material {
-  animation-delay: var(--float-delay, 0s);
-}
-
 .apple-hero-inner > .apple-reveal:nth-child(2) {
   --apple-delay: 80ms;
 }
@@ -1371,6 +1477,14 @@ section[data-v="auth"] .seg a.on {
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1024px) {
+  .offcut-app-tools .offcut-org-switcher {
+    display: none;
+  }
+
+  .offcut-app-search {
+    width: 140px;
+  }
+
   .apple-hero {
     flex-direction: column;
   }
@@ -1386,6 +1500,14 @@ section[data-v="auth"] .seg a.on {
 }
 
 @media (max-width: 900px) {
+  .offcut-app-bar > .brand span {
+    display: none;
+  }
+
+  .offcut-app-search {
+    width: 120px;
+  }
+
   .apple-tile {
     padding: 64px 20px;
   }
@@ -1417,34 +1539,27 @@ section[data-v="auth"] .seg a.on {
   }
 
   .apple-material-stack {
-    height: 210px;
-    margin-top: 48px;
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    gap: 12px;
+    margin-top: 40px;
   }
 
   .apple-material {
-    width: 230px;
-    height: 136px;
-    margin: -68px 0 0 -115px;
-  }
-
-  .apple-material:nth-child(1) {
-    --tx: -92px;
-    --rot: -10deg;
-  }
-
-  .apple-material:nth-child(3) {
-    --tx: 92px;
-    --rot: 10deg;
+    min-height: 112px;
+    padding: 14px;
   }
 }
 
 @media (max-width: 640px) {
   :root {
     --header-h: 84px;
+    --app-bar-h: 64px;
   }
 
   header#top {
     height: var(--header-h);
+    flex-wrap: wrap;
     align-content: center;
     gap: 4px;
     padding: 6px 12px 8px;
@@ -1477,6 +1592,10 @@ section[data-v="auth"] .seg a.on {
     padding: 32px 16px 72px;
   }
 
+  main.offcut-main.offcut-main-no-header {
+    padding-top: 0;
+  }
+
   .apple-tile {
     padding: 56px 16px;
   }
@@ -1499,25 +1618,12 @@ section[data-v="auth"] .seg a.on {
   }
 
   .apple-material-stack {
-    height: 170px;
-    margin-top: 40px;
+    gap: 10px;
   }
 
   .apple-material {
-    width: 190px;
-    height: 112px;
-    margin: -56px 0 0 -95px;
+    min-height: 104px;
     padding: 12px;
-  }
-
-  .apple-material:nth-child(1) {
-    --tx: -62px;
-    --rot: -9deg;
-  }
-
-  .apple-material:nth-child(3) {
-    --tx: 62px;
-    --rot: 9deg;
   }
 
   .apple-material strong {
@@ -1554,28 +1660,63 @@ section[data-v="auth"] .seg a.on {
   }
 
   .offcut-app-bar {
-    padding: 8px 14px;
+    gap: 6px;
+    padding: 0 12px;
+  }
+
+  .offcut-app-links a {
+    padding: 6px 8px;
+    font-size: 11px;
   }
 
   .offcut-app-tools {
-    flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
+  }
+
+  .app-bar-utility {
+    gap: 4px;
+  }
+
+  .app-bar-languages .pill-btn {
+    min-width: 22px;
+    padding: 3px 4px !important;
+    font-size: 9px !important;
+  }
+
+  .app-theme-toggle {
+    width: 30px;
+    height: 30px;
   }
 
   .offcut-app-search {
+    width: 32px;
+    height: 32px;
     min-width: 0;
-    flex: 1 1 150px;
-  }
-
-  .offcut-user-menu-trigger {
-    width: 36px;
-    padding: 4px;
+    min-height: 0;
+    padding: 0;
     justify-content: center;
   }
 
-  .offcut-user-menu-label,
-  .offcut-user-menu-chevron {
+  .offcut-app-search .search-icon,
+  .offcut-app-search input {
     display: none;
+  }
+
+  .offcut-app-search .search-submit {
+    display: flex;
+  }
+
+  .offcut-app-tools button {
+    min-width: 30px;
+    min-height: 30px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .offcut-user-menu-trigger {
+    width: 30px;
+    padding: 3px;
+    justify-content: center;
   }
 
   main.offcut-main,

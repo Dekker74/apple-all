@@ -493,7 +493,7 @@ export default function MarketplacePage() {
 
       <div className="grid gap-6 lg:grid-cols-[248px_1fr]">
         <aside className="hidden lg:block">
-          <div className="sticky top-[92px] rounded-2xl border border-line bg-white p-4">
+          <div className="sticky top-app-sticky rounded-2xl border border-line bg-white p-4">
             <div className="mb-3 flex items-center justify-between border-b border-line/70 pb-3">
               <div className="flex items-center gap-1.5 text-[12px] font-medium">
                 <SlidersHorizontal className="size-3.5 text-muted" /> Filters

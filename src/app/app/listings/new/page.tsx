@@ -761,7 +761,7 @@ export default function NewListingPage() {
           </div>
         </div>
 
-        <aside className="space-y-3 lg:sticky lg:top-[92px]">
+        <aside className="space-y-3 lg:sticky lg:top-app-sticky">
           <div className="rounded-2xl border border-line bg-white p-4">
             <p className="eyebrow">Anteprima annuncio</p>
             <MaterialThumb

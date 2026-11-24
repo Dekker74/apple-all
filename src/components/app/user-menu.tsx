@@ -29,6 +29,8 @@ export function UserMenu({ compact = false }: { compact?: boolean }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button
+          aria-label={`${user.fullName} — account menu`}
+          title={`${user.fullName} — account menu`}
           className={cn(
             "offcut-user-menu-trigger flex w-full items-center gap-2.5 rounded-xl text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-moss/20",
             compact ? "px-1.5 py-1.5 hover:bg-white/70" : "p-1 hover:bg-sand",

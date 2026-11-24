@@ -6,19 +6,21 @@ export function OffcutShell({
   footer = true,
   wide = false,
   bare = false,
+  header = true,
 }: {
   children: React.ReactNode;
   footer?: boolean;
   wide?: boolean;
   bare?: boolean;
+  header?: boolean;
 }) {
   return (
     <div className="offcut-site">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-moss focus:px-4 focus:py-2 focus:text-[14px] focus:text-white">
         Vai al contenuto / Skip to content
       </a>
-      <OffcutHeader />
-      <main id="main" className={`offcut-main${wide ? " offcut-main-wide" : ""}${bare ? " offcut-main-bare" : ""}`}>
+      {header ? <OffcutHeader /> : null}
+      <main id="main" className={`offcut-main${wide ? " offcut-main-wide" : ""}${bare ? " offcut-main-bare" : ""}${header ? "" : " offcut-main-no-header"}`}>
         {children}
       </main>
       {footer ? (

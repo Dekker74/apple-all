@@ -48,7 +48,7 @@ export function MaterialThumb({
       <span
         aria-hidden
         className={cn(
-          "absolute -bottom-6 -right-2 select-none font-display leading-none text-ink/15",
+          "absolute bottom-0 right-0 select-none font-display leading-none text-ink/15",
           compact ? "text-[74px]" : "text-[120px]",
         )}
       >

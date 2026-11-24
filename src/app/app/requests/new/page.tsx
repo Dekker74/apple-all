@@ -597,7 +597,7 @@ export default function NewRequestPage() {
           </div>
         </div>
 
-        <aside className="space-y-3 lg:sticky lg:top-[92px]">
+        <aside className="space-y-3 lg:sticky lg:top-app-sticky">
           <div className="rounded-2xl border border-line bg-white p-4">
             <p className="eyebrow">Anteprima domanda</p>
             <div className="mt-3 flex items-center gap-2.5">

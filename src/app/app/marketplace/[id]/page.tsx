@@ -360,7 +360,7 @@ export default function ListingDetailPage() {
         </div>
 
         <aside className="min-w-0">
-          <div className="sticky top-[92px] space-y-3">
+          <div className="sticky top-app-sticky space-y-3">
             <div className="rounded-2xl border border-line bg-white p-5">
               <div className="flex items-start justify-between">
                 <div>

@@ -944,7 +944,7 @@ export default function OrderDetailPage() {
           </section>
         </div>
 
-        <aside className="space-y-3 lg:sticky lg:top-[92px]">
+        <aside className="space-y-3 lg:sticky lg:top-app-sticky">
           <div className="rounded-2xl border border-forest bg-forest p-5 text-paper">
             <div className="flex items-center gap-2">
               <span className="flex size-8 items-center justify-center rounded-lg bg-paper/10 text-lime">
