@@ -9,9 +9,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-moss text-white shadow-none hover:bg-[#0071e3]",
+          "bg-moss text-white shadow-none hover:bg-[#166534]",
         accent:
-          "bg-mint text-moss shadow-none hover:bg-[#d8e9fb]",
+          "bg-mint text-moss shadow-none hover:bg-[#d8ecdf]",
         outline:
           "border border-line bg-white text-ink hover:border-moss hover:bg-mint",
         subtle: "bg-sand text-moss hover:bg-mist",
