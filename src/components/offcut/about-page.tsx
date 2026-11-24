@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { OffcutLogo } from "@/components/offcut/logo";
 import { OffcutShell } from "@/components/offcut/shell";
-import { OffcutBotCard } from "@/components/offcut/bot-card";
 import { useI18n } from "@/lib/i18n";
 
 const COPY = {
@@ -26,6 +25,11 @@ const COPY = {
       ["Colleghiamo", "Mettiamo in contatto chi offre materiali e chi potrebbe usarli."],
       ["Manteniamo il valore in circolazione", "Privilegiamo il riutilizzo diretto quando possibile, poi il recupero e il riciclo."],
       ["Rendiamo gli scambi concreti", "Una volta trovato l'abbinamento, prenoti ritiro o consegna direttamente con Offcut."],
+    ],
+    materials: [
+      { image: "/images/material-carta.svg", label: "Carta & cartone", example: "OCC 90/10" },
+      { image: "/images/material-legno.svg", label: "Legno", example: "Pellet certificato" },
+      { image: "/images/material-plastica.svg", label: "Plastica", example: "PET trasparente" },
     ],
     teamEyebrow: "CONTATTACI",
     teamTitle: "Conosci il team",
@@ -51,6 +55,11 @@ const COPY = {
       ["Connect", "Bring material suppliers and potential users together."],
       ["Keep value in circulation", "Prioritise direct reuse where suitable, then recovery and recycling when needed."],
       ["Make exchanges practical", "Once connected, book a pick-up or drop-off directly with Offcut."],
+    ],
+    materials: [
+      { image: "/images/material-carta.svg", label: "Paper & cardboard", example: "OCC 90/10" },
+      { image: "/images/material-legno.svg", label: "Wood", example: "Certified pellets" },
+      { image: "/images/material-plastica.svg", label: "Plastic", example: "Clear PET" },
     ],
     teamEyebrow: "GET IN TOUCH",
     teamTitle: "Meet the team",
@@ -122,22 +131,15 @@ export function AboutPage() {
           </div>
         </div>
 
-        <div className="apple-material-stack apple-reveal apple-delay-4" aria-hidden="true">
-          <div className="apple-material">
-            <i />
-            <span>Carta & cartone</span>
-            <strong>OCC 90/10</strong>
-          </div>
-          <div className="apple-material">
-            <i />
-            <span>Legno</span>
-            <strong>Pellet certificato</strong>
-          </div>
-          <div className="apple-material">
-            <i />
-            <span>Plastica</span>
-            <strong>PET trasparente</strong>
-          </div>
+        <div className="apple-material-stack apple-reveal apple-delay-4">
+          {c.materials.map((material) => (
+            <div className="apple-material" key={material.image}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={material.image} alt={material.label} />
+              <span>{material.label}</span>
+              <strong>{material.example}</strong>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -194,12 +196,6 @@ export function AboutPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="apple-tile light">
-        <div className="apple-container apple-reveal">
-          <OffcutBotCard />
         </div>
       </section>
     </OffcutShell>

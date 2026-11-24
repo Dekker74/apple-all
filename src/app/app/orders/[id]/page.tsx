@@ -51,7 +51,14 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CATEGORY_MAP, CONDITION_MAP, ORDER_STATUS_META, ORDER_STEPS, PROCESSING_MAP } from "@/lib/constants";
+import {
+  CATEGORY_MAP,
+  CONDITIONS,
+  CONDITION_MAP,
+  ORDER_STATUS_META,
+  ORDER_STEPS,
+  PROCESSING_MAP,
+} from "@/lib/constants";
 import { daysUntil, formatDate, formatDateTime, relativeTime, todayInput } from "@/lib/format";
 import { useCurrentOrg, useCurrentUser } from "@/lib/hooks";
 import { formatCurrency, formatKg, formatPerKg } from "@/lib/pricing";
@@ -687,7 +694,10 @@ export default function OrderDetailPage() {
                     {listing ? (
                       <>
                         <Badge variant="success">{CONDITION_MAP[listing.condition].label}</Badge>
-                        <Badge variant="outline">{listing.purityPct}% purezza</Badge>
+                        <Badge variant="outline">
+                          {CONDITIONS.find((c) => c.value === listing.condition)?.label ??
+                            CONDITION_MAP[listing.condition].label}
+                        </Badge>
                         <Badge variant="muted">{listing.packaging}</Badge>
                       </>
                     ) : null}

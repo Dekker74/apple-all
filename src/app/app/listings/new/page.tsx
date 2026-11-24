@@ -12,7 +12,6 @@ import {
   Info,
   Loader2,
   MapPin,
-  Package,
   Plus,
   Sparkles,
   Trash2,
@@ -34,6 +33,8 @@ import {
   CATEGORY_MAP,
   CONDITIONS,
   HANDLING_OPTIONS,
+  deriveCondition,
+  derivePurityPct,
 } from "@/lib/constants";
 import { addDaysInput, formatDate, todayInput } from "@/lib/format";
 import { useCurrentOrg, useOrgLocations, usePrimaryLocation } from "@/lib/hooks";
@@ -83,8 +84,7 @@ export default function NewListingPage() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState<MaterialCategory | null>(null);
   const [description, setDescription] = useState("");
-  const [condition, setCondition] = useState<MaterialCondition>("clean");
-  const [purity, setPurity] = useState(95);
+  const [conditionFlags, setConditionFlags] = useState<MaterialCondition[]>([]);
 
   const [composition, setComposition] = useState([{ material: "", percent: 100 }]);
   const [quantityKg, setQuantityKg] = useState("");
@@ -107,6 +107,8 @@ export default function NewListingPage() {
   const compositionTotal = composition.reduce((sum, part) => sum + (Number(part.percent) || 0), 0);
   const quantity = Number(quantityKg) || 0;
   const price = Number(pricePerKg) || 0;
+  const condition = deriveCondition(conditionFlags);
+  const purity = derivePurityPct(conditionFlags);
 
   const selectedLocation = useMemo(
     () => locations.find((l) => l.id === locationId) ?? primary,
@@ -119,6 +121,12 @@ export default function NewListingPage() {
     );
   }
 
+  function toggleCondition(value: MaterialCondition) {
+    setConditionFlags((prev) =>
+      prev.includes(value) ? prev.filter((c) => c !== value) : [...prev, value],
+    );
+  }
+
   function validate(currentStep: number): boolean {
     setError(null);
     if (currentStep === 0) {
@@ -126,7 +134,8 @@ export default function NewListingPage() {
       if (!category) return fail("Seleziona una delle tre categorie MVP.");
       if (description.trim().length < 30)
         return fail("Descrivi il materiale in linguaggio semplice (almeno 30 caratteri).");
-      if (purity < 50 || purity > 100) return fail("La purezza deve essere tra il 50% e il 100%.");
+      if (conditionFlags.length === 0)
+        return fail("Seleziona almeno una condizione del materiale.");
       return true;
     }
     if (currentStep === 1) {
@@ -178,6 +187,7 @@ export default function NewListingPage() {
         })),
         quantityKg: quantity,
         condition,
+        conditionFlags,
         purityPct: purity,
         pricePerKg: price,
         availableFrom,
@@ -206,18 +216,25 @@ export default function NewListingPage() {
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     if (photos.length >= 3) {
-      toast.error("Massimo 3 foto in questa versione MVP.");
+      toast.error("Puoi caricare al massimo 3 foto.");
       return;
+    }
+    const candidates = Array.from(files).slice(0, 3 - photos.length);
+    const valid = candidates.filter((file) => file.type.startsWith("image/") && file.size <= 8_000_000);
+    if (valid.length === 0) {
+      toast.error("Scegli un'immagine JPEG, PNG o WebP di massimo 8 MB.");
+      return;
+    }
+    if (valid.length < candidates.length) {
+      toast.error("Alcuni file non sono immagini valide e sono stati ignorati.");
     }
     setUploading(true);
     try {
-      const nextFiles = Array.from(files).slice(0, 3 - photos.length);
-      const compressed = await Promise.all(
-        nextFiles.filter((f) => f.size < 6_000_000).map((f) => compressImage(f)),
-      );
+      const compressed = await Promise.all(valid.map((file) => compressImage(file)));
       setPhotos((prev) => [...prev, ...compressed].slice(0, 3));
+      toast.success(compressed.length === 1 ? "Foto aggiunta all'annuncio." : "Foto aggiunte all'annuncio.");
     } catch {
-      toast.error("Impossibile leggere quell'immagine.");
+      toast.error("Impossibile leggere quell'immagine. Prova con un altro file.");
     } finally {
       setUploading(false);
     }
@@ -355,30 +372,47 @@ export default function NewListingPage() {
                 />
               </Field>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Condizione" required>
-                  <Select
-                    value={condition}
-                    onChange={(e) => setCondition(e.target.value as MaterialCondition)}
-                  >
-                    {CONDITIONS.map((c) => (
-                      <option key={c.value} value={c.value}>
-                        {c.label} — {c.hint}
-                      </option>
-                    ))}
-                  </Select>
-                </Field>
-                <Field label={`Purezza dichiarata — ${purity}%`} hint="Gli acquirenti lo vedono prima di richiedere un preventivo.">
-                  <input
-                    type="range"
-                    min={50}
-                    max={100}
-                    value={purity}
-                    onChange={(e) => setPurity(Number(e.target.value))}
-                    className="mt-3 w-full accent-[#0066cc]"
-                    aria-label="Purezza dichiarata"
-                  />
-                </Field>
+              <div>
+                <p className="field-label">
+                  Condizioni del prodotto <span className="text-clay">*</span>
+                </p>
+                <p className="mt-0.5 text-[12px] text-muted">
+                  Seleziona tutto quello che descrive il materiale. Puoi scegliere più di una condizione.
+                </p>
+                <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
+                  {CONDITIONS.map((option) => {
+                    const checked = conditionFlags.includes(option.value);
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        aria-pressed={checked}
+                        onClick={() => toggleCondition(option.value)}
+                        className={cn(
+                          "flex items-start gap-2.5 rounded-xl border p-3 text-left transition-colors",
+                          checked
+                            ? "border-forest bg-mist/40 ring-1 ring-forest"
+                            : "border-line hover:border-sage",
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "mt-0.5 flex size-4 shrink-0 items-center justify-center rounded border",
+                            checked ? "border-forest bg-forest text-paper" : "border-line",
+                          )}
+                        >
+                          {checked ? <Check className="size-3" strokeWidth={3} /> : null}
+                        </span>
+                        <span>
+                          <span className="block text-[12px] font-medium">{option.label}</span>
+                          <span className="mt-0.5 block text-[11.5px] leading-[1.45] text-muted">
+                            {option.hint}
+                          </span>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           ) : null}
@@ -587,7 +621,7 @@ export default function NewListingPage() {
 
               <div>
                 <div className="flex items-center justify-between">
-                  <p className="field-label">Foto e evidenze</p>
+                  <p className="field-label">Foto del prodotto</p>
                   <span className="font-mono text-[12px] text-muted">{photos.length}/3</span>
                 </div>
                 <div className="mt-2 grid grid-cols-3 gap-2">
@@ -615,10 +649,13 @@ export default function NewListingPage() {
                       <span className="text-[11.5px]">{uploading ? "Elaborazione…" : "Aggiungi foto"}</span>
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/png,image/jpeg,image/webp"
                         multiple
                         className="sr-only"
-                        onChange={(e) => handleFiles(e.target.files)}
+                        onChange={(e) => {
+                          void handleFiles(e.target.files);
+                          e.target.value = "";
+                        }}
                         disabled={uploading}
                       />
                     </label>
@@ -626,8 +663,8 @@ export default function NewListingPage() {
                 </div>
                 <p className="mt-2 flex items-start gap-1.5 text-[11.5px] leading-relaxed text-muted">
                   <Info className="mt-0.5 size-3 shrink-0" />
-                  In questa versione MVP le foto vengono compresse e salvate localmente. In produzione si usa
-                  Supabase Storage con URL firmati.
+                  Mostra il materiale reale: foto chiare aumentano la fiducia degli acquirenti. Le immagini
+                  vengono compresse prima di essere allegate all'annuncio.
                 </p>
               </div>
 
@@ -669,10 +706,17 @@ export default function NewListingPage() {
                   <p className="text-[13px] font-medium leading-[1.5]">{title || "Annuncio senza titolo"}</p>
                   <p className="mt-1 text-[12px] text-muted">
                     {category ? CATEGORY_MAP[category].label : "Nessuna categoria"} ·{" "}
-                    {CONDITIONS.find((c) => c.value === condition)?.label} · {purity}% di purezza
+                    {conditionFlags.length > 0
+                      ? conditionFlags.map((c) => CONDITIONS.find((o) => o.value === c)?.label).join(" + ")
+                      : "Condizioni non selezionate"}
                   </p>
                   <p className="mt-1 line-clamp-2 text-[12px] leading-relaxed text-muted">
                     {description || "Nessuna descrizione"}
+                  </p>
+                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
+                    {photos.length === 0
+                      ? "Nessuna foto allegata"
+                      : `${photos.length} ${photos.length === 1 ? "foto allegata" : "foto allegate"}`}
                   </p>
                 </div>
               </div>
@@ -778,6 +822,13 @@ export default function NewListingPage() {
               {category ? CATEGORY_MAP[category].label : "Categoria non selezionata"} ·{" "}
               {selectedLocation?.city ?? "Sede"}
             </p>
+            <p className="mt-1 text-[11.5px] text-muted">
+              {conditionFlags.length > 0
+                ? conditionFlags
+                    .map((c) => CONDITIONS.find((o) => o.value === c)?.label)
+                    .join(" + ")
+                : "Condizioni da selezionare"}
+            </p>
             <div className="mt-3 grid grid-cols-2 gap-2 border-t border-line pt-3 text-[12px]">
               <div>
                 <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Volume</p>
@@ -788,25 +839,6 @@ export default function NewListingPage() {
                 <p className="mt-0.5 font-mono">{price > 0 ? formatPerKg(price) : "—"}</p>
               </div>
             </div>
-          </div>
-          <div className="rounded-2xl border border-line bg-white/60 p-4">
-            <p className="flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-              <Package className="size-3" /> Checklist qualità
-            </p>
-            <ul className="mt-2.5 space-y-2 text-[12px] text-muted">
-              {[
-                "La categoria è una delle tre filiere MVP",
-                "La composizione somma circa il 100%",
-                "Disponibilità e ordine minimo impostati",
-                "Vincoli di movimentazione dichiarati",
-                "Foto o evidenze allegate (facoltativo)",
-              ].map((item) => (
-                <li key={item} className="flex gap-2">
-                  <Check className="mt-0.5 size-3 shrink-0 text-moss" />
-                  {item}
-                </li>
-              ))}
-            </ul>
           </div>
         </aside>
       </div>

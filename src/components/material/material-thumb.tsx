@@ -4,9 +4,9 @@ import type { MaterialCategory } from "@/types";
 import { CategoryIcon } from "./category-icon";
 
 const SURFACES: Record<MaterialCategory, string> = {
-  paper_cardboard: "bg-[#f5f5f7]",
-  wood: "bg-[#fafafc]",
-  plastic: "bg-[#eaf2fb]",
+  paper_cardboard: "bg-sand",
+  wood: "bg-paper",
+  plastic: "bg-mist",
 };
 
 export function MaterialThumb({
@@ -44,17 +44,7 @@ export function MaterialThumb({
         className,
       )}
     >
-      <div className="absolute inset-0 dot-grid opacity-[0.18]" />
-      <span
-        aria-hidden
-        className={cn(
-          "absolute bottom-0 right-0 select-none font-display leading-none text-ink/15",
-          compact ? "text-[74px]" : "text-[120px]",
-        )}
-      >
-        {meta.glyph}
-      </span>
-      <div className="relative flex h-full flex-col justify-between p-3">
+      <div className="flex h-full flex-col justify-between p-3">
         <CategoryIcon category={category} size="sm" className="border-white/40 bg-white/50 backdrop-blur" />
         <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-ink/55">
           {reference}

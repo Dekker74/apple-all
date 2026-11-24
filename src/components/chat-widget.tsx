@@ -15,15 +15,24 @@ const SUGGESTED_CHIPS = [
   "Calcola il mio impatto CO₂",
 ];
 
+const GREETING: Message = {
+  role: "bot",
+  content:
+    "Ciao! Sono Offcut Bot. Chiedimi come funziona il matching, i costi, come prenotare un ritiro, o calcolare il tuo impatto ambientale.",
+};
+
+const FIRST_VISIT_INTRO: Message = {
+  role: "bot",
+  content:
+    "Ciao! Sono Offcut Bot, l'assistente di Offcut. Ti aiuto a capire come funziona il marketplace per i materiali in eccedenza: abbinamenti, prezzi e commissioni, ritiro e consegna, impatto ambientale. Scegli una domanda qui sotto o scrivimi pure.",
+};
+
+const HISTORY_KEY = "circularlink-chat-history";
+const INTRO_KEY = "circularlink-chat-intro-shown";
+
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "bot",
-      content:
-        "Ciao! Sono Offcut Bot. Chiedimi come funziona il matching, i costi, come prenotare un ritiro, o calcolare il tuo impatto ambientale.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([GREETING]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -43,25 +52,39 @@ export function ChatWidget() {
     }
   }, [isOpen]);
 
-  // Load chat history from localStorage
+  // Load history and, on the very first visit only, open with a short intro.
   useEffect(() => {
-    const stored = localStorage.getItem("circularlink-chat-history");
-    if (stored) {
-      try {
+    let hasHistory = false;
+    try {
+      const stored = localStorage.getItem(HISTORY_KEY);
+      if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setMessages(parsed);
+          hasHistory = true;
         }
-      } catch (e) {
-        console.error("Failed to parse chat history:", e);
       }
+    } catch (e) {
+      console.error("Failed to parse chat history:", e);
+    }
+
+    try {
+      // The intro should welcome someone landing on the public homepage; it
+      // must not cover forms when a user opens a deep link such as /login.
+      if (!localStorage.getItem(INTRO_KEY) && window.location.pathname === "/") {
+        if (!hasHistory) setMessages([FIRST_VISIT_INTRO]);
+        setIsOpen(true);
+        localStorage.setItem(INTRO_KEY, "1");
+      }
+    } catch (e) {
+      console.error("Failed to save chat intro state:", e);
     }
   }, []);
 
   // Save chat history to localStorage
   useEffect(() => {
     if (messages.length > 1) {
-      localStorage.setItem("circularlink-chat-history", JSON.stringify(messages));
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(messages));
     }
   }, [messages]);
 
@@ -250,14 +273,19 @@ export function ChatWidget() {
         </div>
       </div>
 
-      <button
-        id="chat-toggle"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Chiudi chat" : "Apri chat"}
-        title="Offcut Bot"
-      >
-        {isOpen ? "✕" : "💬"}
-      </button>
+      <div className="chat-launcher">
+        <span className="chat-launcher-label" aria-hidden="true">
+          Chiedi al bot
+        </span>
+        <button
+          id="chat-toggle"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Chiudi chat" : "Apri chat con Offcut Bot"}
+          title="Offcut Bot"
+        >
+          {isOpen ? "✕" : "💬"}
+        </button>
+      </div>
     </div>
   );
 }

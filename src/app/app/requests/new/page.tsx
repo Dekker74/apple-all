@@ -28,14 +28,16 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   CATEGORIES,
   CATEGORY_MAP,
+  CONDITIONS,
   PROCESSING_OPTIONS,
+  deriveQualityThresholds,
 } from "@/lib/constants";
 import { addDaysInput, formatDate, todayInput } from "@/lib/format";
 import { useCurrentOrg, useOrgLocations, usePrimaryLocation } from "@/lib/hooks";
 import { formatCurrency, formatKg, formatPerKg } from "@/lib/pricing";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import type { MaterialCategory, ProcessingType } from "@/types";
+import type { MaterialCategory, MaterialCondition, ProcessingType } from "@/types";
 
 const STEPS = ["Richiesta materiale", "Volume e budget", "Lavorazione e revisione"];
 
@@ -55,9 +57,7 @@ export default function NewRequestPage() {
   const [description, setDescription] = useState("");
   const [composition, setComposition] = useState<string[]>([]);
   const [compositionInput, setCompositionInput] = useState("");
-  const [minPurity, setMinPurity] = useState(95);
-  const [maxMoisture, setMaxMoisture] = useState(8);
-  const [maxContamination, setMaxContamination] = useState(2);
+  const [acceptedConditions, setAcceptedConditions] = useState<MaterialCondition[]>([]);
 
   const [quantityKg, setQuantityKg] = useState("");
   const [frequency, setFrequency] = useState<"one_off" | "monthly" | "quarterly">("monthly");
@@ -76,6 +76,7 @@ export default function NewRequestPage() {
   const quantity = Number(quantityKg) || 0;
   const budget = Number(maxBudget) || 0;
   const budgetPerKg = quantity > 0 ? budget / quantity : 0;
+  const qualityThresholds = deriveQualityThresholds(acceptedConditions);
   const selectedLocation = useMemo(
     () => locations.find((l) => l.id === locationId) ?? primary,
     [locations, locationId, primary],
@@ -88,6 +89,12 @@ export default function NewRequestPage() {
     setCompositionInput("");
   }
 
+  function toggleCondition(value: MaterialCondition) {
+    setAcceptedConditions((prev) =>
+      prev.includes(value) ? prev.filter((c) => c !== value) : [...prev, value],
+    );
+  }
+
   function validate(current: number): boolean {
     setError(null);
     if (current === 0) {
@@ -96,6 +103,8 @@ export default function NewRequestPage() {
       if (description.trim().length < 25)
         return fail("Descrivi l'impiego e i requisiti del materiale.");
       if (composition.length === 0) return fail("Aggiungi almeno una composizione accettabile.");
+      if (acceptedConditions.length === 0)
+        return fail("Seleziona almeno una condizione accettabile.");
       return true;
     }
     if (current === 1) {
@@ -135,11 +144,8 @@ export default function NewRequestPage() {
         description: description.trim(),
         category,
         acceptableComposition: composition,
-        qualityThresholds: {
-          minPurityPct: minPurity,
-          maxMoisturePct: maxMoisture,
-          maxContaminationPct: maxContamination,
-        },
+        acceptedConditions,
+        qualityThresholds,
         quantityKg: quantity,
         frequency,
         maxBudget: budget,
@@ -324,31 +330,48 @@ export default function NewRequestPage() {
                 )}
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-3">
-                {[
-                  { label: "Purezza minima", value: minPurity, set: setMinPurity, min: 50, max: 100, unit: "%" },
-                  { label: "Umidità massima", value: maxMoisture, set: setMaxMoisture, min: 0, max: 25, unit: "%" },
-                  { label: "Contaminazione massima", value: maxContamination, set: setMaxContamination, min: 0, max: 15, unit: "%" },
-                ].map((threshold) => (
-                  <div key={threshold.label}>
-                    <div className="flex items-center justify-between">
-                      <p className="field-label">{threshold.label}</p>
-                      <span className="font-mono text-[11.5px]">
-                        {threshold.value}
-                        {threshold.unit}
-                      </span>
-                    </div>
-                    <input
-                      type="range"
-                      min={threshold.min}
-                      max={threshold.max}
-                      value={threshold.value}
-                      onChange={(e) => threshold.set(Number(e.target.value))}
-                      className="mt-3 w-full accent-[#0066cc]"
-                      aria-label={threshold.label}
-                    />
-                  </div>
-                ))}
+              <div>
+                <p className="field-label">
+                  Condizioni accettabili <span className="text-clay">*</span>
+                </p>
+                <p className="mt-0.5 text-[12px] text-muted">
+                  Seleziona tutte le condizioni che puoi accettare. Le soglie tecniche vengono
+                  derivate automaticamente.
+                </p>
+                <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
+                  {CONDITIONS.map((option) => {
+                    const checked = acceptedConditions.includes(option.value);
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        aria-pressed={checked}
+                        onClick={() => toggleCondition(option.value)}
+                        className={cn(
+                          "flex items-start gap-2.5 rounded-xl border p-3 text-left transition-colors",
+                          checked
+                            ? "border-forest bg-mist/40 ring-1 ring-forest"
+                            : "border-line hover:border-sage",
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "mt-0.5 flex size-4 shrink-0 items-center justify-center rounded border",
+                            checked ? "border-forest bg-forest text-paper" : "border-line",
+                          )}
+                        >
+                          {checked ? <Check className="size-3" strokeWidth={3} /> : null}
+                        </span>
+                        <span>
+                          <span className="block text-[12px] font-medium">{option.label}</span>
+                          <span className="mt-0.5 block text-[11.5px] leading-[1.45] text-muted">
+                            {option.hint}
+                          </span>
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           ) : null}
@@ -546,6 +569,11 @@ export default function NewRequestPage() {
                       {c}
                     </span>
                   ))}
+                  {acceptedConditions.map((c) => (
+                    <span key={c} className="rounded-full border border-line bg-mist/40 px-1.5 py-0.5 text-[11.5px] text-moss">
+                      {CONDITIONS.find((o) => o.value === c)?.label}
+                    </span>
+                  ))}
                   {processing.map((p) => (
                     <span key={p} className="rounded-full border border-line bg-white px-1.5 py-0.5 text-[11.5px] text-moss">
                       {PROCESSING_OPTIONS.find((o) => o.value === p)?.label}
@@ -557,9 +585,14 @@ export default function NewRequestPage() {
               <div className="flex items-start gap-2 rounded-xl border border-lime/50 bg-lime/10 p-3.5">
                 <Sparkles className="mt-0.5 size-4 shrink-0 text-moss" />
                 <p className="text-[12px] leading-relaxed text-ink/80">
-                  Soglie qualitative: purezza ≥ {minPurity}%, umidità ≤ {maxMoisture}%, contaminazione ≤{" "}
-                  {maxContamination}%. Gli abbinamenti fuori tolleranza vengono segnalati per verifica tecnica e non accettati
-                  automaticamente.
+                  Condizioni accettabili:{" "}
+                  {acceptedConditions.length > 0
+                    ? acceptedConditions
+                        .map((c) => CONDITIONS.find((o) => o.value === c)?.label)
+                        .join(" + ")
+                    : "nessuna selezionata"}.
+                  Soglie derivate: umidità ≤ {qualityThresholds.maxMoisturePct}%, contaminazione ≤{" "}
+                  {qualityThresholds.maxContaminationPct}%. Gli abbinamenti fuori tolleranza vengono segnalati per verifica tecnica.
                 </p>
               </div>
             </div>

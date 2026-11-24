@@ -331,7 +331,7 @@ export default function DashboardPage() {
                 <Sparkles className="size-3 text-moss" /> Feed abbinamenti AI
               </p>
               <p className="mt-1 text-[12px] text-muted">
-                Classificati per composizione, volume, purezza, distanza e budget consegnato.
+                Classificati per composizione, volume, condizioni, distanza e budget consegnato.
               </p>
             </div>
             <div className="flex items-center gap-1 rounded-full border border-line bg-paper/60 p-1">

@@ -31,7 +31,7 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { CATEGORY_MAP, CONDITION_MAP, PROCESSING_MAP } from "@/lib/constants";
+import { CATEGORY_MAP, CONDITIONS, CONDITION_MAP, PROCESSING_MAP } from "@/lib/constants";
 import { formatDate } from "@/lib/format";
 import {
   useCurrentOrg,
@@ -124,6 +124,13 @@ export default function ListingDetailPage() {
     )
     .slice(0, 3);
 
+  const declaredConditions = listing.conditionFlags?.length
+    ? listing.conditionFlags
+    : [listing.condition];
+  const conditionLabel = declaredConditions
+    .map((value) => CONDITIONS.find((option) => option.value === value)?.label ?? CONDITION_MAP[value].label)
+    .join(" + ");
+
   const evidence = [
     {
       label: "Dichiarazione di composizione",
@@ -146,8 +153,8 @@ export default function ListingDetailPage() {
       ok: listing.photos.length > 0,
     },
     {
-      label: "Evidenze purezza / umidità",
-      note: `Dichiarata ${listing.purityPct}% di purezza · verifica di laboratorio al QC`,
+      label: "Condizioni dichiarate",
+      note: `${conditionLabel} · verifica visiva al QC`,
       ok: true,
     },
   ];
@@ -230,7 +237,7 @@ export default function ListingDetailPage() {
                   { label: "Prezzo materiale", value: formatPerKg(listing.pricePerKg), icon: Package },
                   { label: "Quantità", value: formatKg(listing.quantityKg), icon: Warehouse },
                   { label: "Ordine min.", value: formatKg(listing.minOrderKg), icon: Truck },
-                  { label: "Purezza", value: `${listing.purityPct}%`, icon: ShieldCheck },
+                  { label: "Condizione", value: CONDITION_MAP[listing.condition].label, icon: ShieldCheck },
                 ].map((item) => {
                   const Icon = item.icon;
                   return (
@@ -344,7 +351,7 @@ export default function ListingDetailPage() {
               {[
                 { title: "Ritiro", body: "Trasportatore prenotato dopo l'accettazione del preventivo. Vincoli di carico confermati in anticipo.", icon: Truck },
                 { title: "Lavorazione", body: processing.length > 0 ? processing.map((p) => PROCESSING_MAP[p].label).join(" · ") : "Semplice — il materiale viene spedito così com'è.", icon: Warehouse },
-                { title: "Controllo qualità", body: "Campionamento indipendente su purezza e soglie di contaminazione dichiarate.", icon: ShieldCheck },
+                { title: "Controllo qualità", body: "Campionamento indipendente sulle condizioni dichiarate e sulle soglie di contaminazione.", icon: ShieldCheck },
               ].map((item) => {
                 const Icon = item.icon;
                 return (

@@ -1,4 +1,4 @@
-import { PROCESSING_MAP } from "@/lib/constants";
+import { CONDITION_MAP, PROCESSING_MAP } from "@/lib/constants";
 import { computePriceBreakdown, formatKg, formatPerKg, haversineKm, resolveProcessing } from "@/lib/pricing";
 import type {
   Location,
@@ -158,10 +158,15 @@ export function evaluateMatch(
     );
   }
 
-  if (listing.purityPct >= minPurityPct) {
-    reasons.push(`Purezza ${listing.purityPct}% soddisfa la soglia del ${minPurityPct}% threshold`);
+  const declaredConditions = listing.conditionFlags?.length
+    ? listing.conditionFlags
+    : [listing.condition];
+  const accepted = request.acceptedConditions;
+  const conditionLabel = CONDITION_MAP[listing.condition].label;
+  if (!accepted || accepted.length === 0 || declaredConditions.some((c) => accepted.includes(c))) {
+    reasons.push(`Condizione ${conditionLabel} compatibile con la richiesta`);
   } else {
-    risks.push(`Purezza ${listing.purityPct}% è sotto la soglia del ${minPurityPct}% threshold`);
+    risks.push(`Condizione ${conditionLabel} non tra quelle accettate — verifica tecnica`);
   }
 
   const budgetPerKg = budgetForQuantity / quantityKg;

@@ -50,6 +50,12 @@ function findOrgForUser(state: DataState, userId: string | null): string | null 
   return membership?.orgId ?? null;
 }
 
+const DEMO_USER_IDS = new Set(["usr_elena", "usr_marco"]);
+
+function isDemoUserId(userId: string | null | undefined): boolean {
+  return !!userId && DEMO_USER_IDS.has(userId);
+}
+
 export function rebuildMatches(data: {
   listings: MaterialListing[];
   requests: MaterialRequest[];
@@ -94,6 +100,7 @@ export interface NewListingInput {
   composition: { material: string; percent: number }[];
   quantityKg: number;
   condition: MaterialCondition;
+  conditionFlags?: MaterialCondition[];
   purityPct: number;
   pricePerKg: number;
   availableFrom: string;
@@ -111,6 +118,7 @@ export interface NewRequestInput {
   description: string;
   category: MaterialCategory;
   acceptableComposition: string[];
+  acceptedConditions?: MaterialCondition[];
   qualityThresholds: { minPurityPct: number; maxMoisturePct: number; maxContaminationPct: number };
   quantityKg: number;
   frequency: MaterialRequest["frequency"];
@@ -401,6 +409,29 @@ async function hashPassword(password: string, salt: string): Promise<string> {
 
 const seed = createSeedData();
 
+/** Demo mail/appointments are sample content. Real accounts start with an empty
+ *  inbox so they never see conversations they did not create. */
+function demoWorkspacePatch(state: DataState, enabled: boolean): Partial<DataState> {
+  if (!enabled) {
+    return {
+      appointments: state.appointments.filter((a) => !a.id.startsWith("appt_seed_")),
+      inboxThreads: state.inboxThreads.filter((t) => !t.id.startsWith("thr_seed_")),
+      notifications: state.notifications.filter((n) => !n.id.startsWith("ntf_seed_")),
+    };
+  }
+
+  const merge = <T extends { id: string }>(seeded: T[], current: T[]): T[] => {
+    const existing = new Set(current.map((item) => item.id));
+    return [...seeded.filter((item) => !existing.has(item.id)), ...current];
+  };
+
+  return {
+    appointments: merge(createSeedAppointments(), state.appointments),
+    inboxThreads: merge(createSeedInboxThreads(), state.inboxThreads),
+    notifications: merge(seed.notifications, state.notifications),
+  };
+}
+
 const initialState: DataState = {
   ...seed,
   session: { userId: null },
@@ -439,6 +470,7 @@ function applySupabaseUser(state: DataState, user: { id: string; email?: string;
     profiles = [...profiles, profile];
   }
   return {
+    ...demoWorkspacePatch(state, isDemoUserId(profile.id)),
     profiles,
     session: { userId: profile.id },
     currentOrgId: findOrgForUser(state, profile.id),
@@ -477,6 +509,7 @@ export const useAppStore = create<AppStore>()(
         }
 
         set((s) => ({
+          ...demoWorkspacePatch(s, account.isDemo),
           session: { userId: profile.id },
           currentOrgId: findOrgForUser(s, profile.id),
           authChecked: true,
@@ -524,6 +557,7 @@ export const useAppStore = create<AppStore>()(
           passwordSalt: salt,
         };
         set((s) => ({
+          ...demoWorkspacePatch(s, false),
           profiles: [...s.profiles, profile],
           accounts: [...s.accounts, account],
           session: { userId: profile.id },
@@ -557,6 +591,7 @@ export const useAppStore = create<AppStore>()(
         const profile = state.profiles.find((p) => p.id === "usr_elena");
         if (!profile) throw new Error("Demo SSO is unavailable.");
         set((s) => ({
+          ...demoWorkspacePatch(s, true),
           session: { userId: profile.id },
           currentOrgId: findOrgForUser(s, profile.id),
           authChecked: true,
@@ -1175,7 +1210,15 @@ export const useAppStore = create<AppStore>()(
     }),
     {
       name: "circularlink-state-v1",
-      version: 1,
+      version: 2,
+      migrate: (persisted, version) => {
+        const state = persisted as DataState;
+        if (version >= 2 || !state) return state;
+        return {
+          ...state,
+          ...demoWorkspacePatch(state, isDemoUserId(state.session?.userId)),
+        };
+      },
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
         // Functions are dropped by JSON serialization; data is persisted as-is.

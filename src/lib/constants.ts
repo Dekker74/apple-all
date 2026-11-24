@@ -53,6 +53,47 @@ export const CONDITION_MAP = Object.fromEntries(
   CONDITIONS.map((c) => [c.value, c]),
 ) as Record<MaterialCondition, (typeof CONDITIONS)[number]>;
 
+/** Internal quality values used by the matching engine. The UI never asks for
+ *  a purity percentage: sellers and buyers describe the material condition. */
+const CONDITION_QUALITY: Record<
+  MaterialCondition,
+  { purityPct: number; minPurityPct: number; maxMoisturePct: number; maxContaminationPct: number }
+> = {
+  clean: { purityPct: 95, minPurityPct: 90, maxMoisturePct: 8, maxContaminationPct: 2 },
+  mixed: { purityPct: 80, minPurityPct: 78, maxMoisturePct: 12, maxContaminationPct: 4 },
+  needs_processing: {
+    purityPct: 65,
+    minPurityPct: 60,
+    maxMoisturePct: 20,
+    maxContaminationPct: 8,
+  },
+};
+
+/** Most conservative selected condition wins, so matches never overstate quality. */
+export function deriveCondition(selected: MaterialCondition[]): MaterialCondition {
+  if (selected.includes("needs_processing")) return "needs_processing";
+  if (selected.includes("mixed")) return "mixed";
+  return "clean";
+}
+
+export function derivePurityPct(selected: MaterialCondition[]): number {
+  if (selected.length === 0) return CONDITION_QUALITY.clean.purityPct;
+  return Math.min(...selected.map((value) => CONDITION_QUALITY[value].purityPct));
+}
+
+export function deriveQualityThresholds(selected: MaterialCondition[]): {
+  minPurityPct: number;
+  maxMoisturePct: number;
+  maxContaminationPct: number;
+} {
+  const values = selected.length > 0 ? selected : (["clean"] as MaterialCondition[]);
+  return {
+    minPurityPct: Math.min(...values.map((v) => CONDITION_QUALITY[v].minPurityPct)),
+    maxMoisturePct: Math.max(...values.map((v) => CONDITION_QUALITY[v].maxMoisturePct)),
+    maxContaminationPct: Math.max(...values.map((v) => CONDITION_QUALITY[v].maxContaminationPct)),
+  };
+}
+
 export const PROCESSING_OPTIONS: { value: ProcessingType; label: string; perKg: number }[] = [
   { value: "sorting", label: "Cernita e QC", perKg: 0.035 },
   { value: "washing", label: "Lavaggio", perKg: 0.085 },

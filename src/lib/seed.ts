@@ -1036,7 +1036,7 @@ export function createSeedData(): SeedData {
 
   const notifications: NotificationItem[] = [
     {
-      id: uid("ntf"),
+      id: "ntf_seed_1",
       title: "Preventivo CL-2026-0139 in attesa di accettazione",
       body: "18 t di OCC kraft · 4.046 € consegnati · valido 12 giorni.",
       href: "/app/orders/ord_occ",
@@ -1045,7 +1045,7 @@ export function createSeedData(): SeedData {
       tone: "warning",
     },
     {
-      id: uid("ntf"),
+      id: "ntf_seed_2",
       title: "Ritiro confermato per CL-2026-0146",
       body: "TransItalia Logistics prenotata per la fascia 08:00–13:00. Campionamento QC prenotato con Bureau Veritas.",
       href: "/app/orders/ord_rpet",
@@ -1054,7 +1054,7 @@ export function createSeedData(): SeedData {
       tone: "success",
     },
     {
-      id: uid("ntf"),
+      id: "ntf_seed_3",
       title: "2 abbinamenti solidi per vaschette rPET",
       body: "Nuova fornitura di rPET lavato disponibile entro 250 km da te.",
       href: "/app/matches",
@@ -1063,7 +1063,7 @@ export function createSeedData(): SeedData {
       tone: "info",
     },
     {
-      id: uid("ntf"),
+      id: "ntf_seed_4",
       title: "Certificato QC emesso — CL-2026-0124",
       body: "I ritagli di rovere hanno superato i controlli di umidità e contaminazione. Certificato QC-2026-8891 disponibile.",
       href: "/app/orders/ord_oak",

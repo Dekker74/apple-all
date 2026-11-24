@@ -55,9 +55,6 @@ export function KpiCard({
         className,
       )}
     >
-      {accent === "lime" ? (
-        <span className="absolute right-0 top-0 h-16 w-16 rounded-bl-[48px] bg-lime/20" />
-      ) : null}
       <div className="relative flex items-start justify-between">
         <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{label}</p>
         {Icon ? <Icon className="size-3.5 text-muted/70" strokeWidth={1.8} /> : null}

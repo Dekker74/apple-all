@@ -37,15 +37,12 @@ import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import type { MaterialCategory, MaterialCondition } from "@/types";
 
-type ConditionFilter = MaterialCondition | "any";
-
 interface Filters {
   categories: MaterialCategory[];
   minKg: string;
   maxKg: string;
   maxDelivered: string;
-  condition: ConditionFilter;
-  minPurity: number;
+  conditions: MaterialCondition[];
   radiusKm: number;
   query: string;
   locationId: string;
@@ -97,8 +94,7 @@ export default function MarketplacePage() {
     minKg: "",
     maxKg: "",
     maxDelivered: "",
-    condition: "any",
-    minPurity: 0,
+    conditions: [],
     radiusKm: 500,
     query: queryParam,
     locationId: primary?.id ?? "",
@@ -164,8 +160,12 @@ export default function MarketplacePage() {
       if (listing.quantityKg < minKg) return false;
       if (listing.quantityKg > maxKg) return false;
       if (item.breakdown.deliveredPerKg > maxDelivered) return false;
-      if (filters.condition !== "any" && listing.condition !== filters.condition) return false;
-      if (listing.purityPct < filters.minPurity) return false;
+      if (filters.conditions.length > 0) {
+        const listingConditions = listing.conditionFlags?.length
+          ? listing.conditionFlags
+          : [listing.condition];
+        if (!filters.conditions.some((value) => listingConditions.includes(value))) return false;
+      }
       if (item.distanceKm > filters.radiusKm) return false;
       if (q) {
         const haystack = `${listing.title} ${listing.description} ${listing.reference} ${listing.composition
@@ -198,8 +198,7 @@ export default function MarketplacePage() {
     (filters.minKg ? 1 : 0) +
     (filters.maxKg ? 1 : 0) +
     (filters.maxDelivered ? 1 : 0) +
-    (filters.condition !== "any" ? 1 : 0) +
-    (filters.minPurity > 0 ? 1 : 0) +
+    filters.conditions.length +
     (filters.radiusKm < 500 ? 1 : 0);
 
   const avgDelivered =
@@ -216,14 +215,22 @@ export default function MarketplacePage() {
     }));
   }
 
+  function toggleCondition(value: MaterialCondition) {
+    setFilters((prev) => ({
+      ...prev,
+      conditions: prev.conditions.includes(value)
+        ? prev.conditions.filter((c) => c !== value)
+        : [...prev.conditions, value],
+    }));
+  }
+
   function reset() {
     setFilters({
       categories: [],
       minKg: "",
       maxKg: "",
       maxDelivered: "",
-      condition: "any",
-      minPurity: 0,
+      conditions: [],
       radiusKm: 500,
       query: "",
       locationId: primary?.id ?? "",
@@ -326,36 +333,30 @@ export default function MarketplacePage() {
         </p>
       </FilterSection>
 
-      <FilterSection title="Condizione e purezza">
-        <Select
-          value={filters.condition}
-          onChange={(e) =>
-            setFilters((p) => ({ ...p, condition: e.target.value as ConditionFilter }))
-          }
-          className="h-9 text-[11.5px]"
-        >
-          <option value="any">Qualsiasi condizione</option>
-          {CONDITIONS.map((c) => (
-            <option key={c.value} value={c.value}>
-              {c.label}
-            </option>
-          ))}
-        </Select>
-        <div className="mt-3">
-          <div className="flex items-center justify-between text-[11.5px]">
-            <span className="text-muted">Purezza minima</span>
-            <span className="font-mono">{filters.minPurity}%</span>
-          </div>
-          <input
-            type="range"
-            min={0}
-            max={100}
-            step={1}
-            value={filters.minPurity}
-            onChange={(e) => setFilters((p) => ({ ...p, minPurity: Number(e.target.value) }))}
-            className="mt-1.5 w-full accent-[#0066cc]"
-            aria-label="Percentuale minima di purezza"
-          />
+      <FilterSection title="Condizioni del materiale">
+        <p className="mb-2 text-[11.5px] leading-relaxed text-muted">
+          Seleziona una o più condizioni. I materiali che corrispondono anche solo a una verranno mostrati.
+        </p>
+        <div className="flex flex-wrap gap-1.5">
+          {CONDITIONS.map((option) => {
+            const active = filters.conditions.includes(option.value);
+            return (
+              <button
+                key={option.value}
+                type="button"
+                aria-pressed={active}
+                onClick={() => toggleCondition(option.value)}
+                className={cn(
+                  "rounded-full border px-3 py-1.5 text-[11.5px] transition-colors",
+                  active
+                    ? "border-forest bg-forest text-paper"
+                    : "border-line bg-white/60 text-muted hover:border-sage hover:text-ink",
+                )}
+              >
+                {option.label}
+              </button>
+            );
+          })}
         </div>
       </FilterSection>
 

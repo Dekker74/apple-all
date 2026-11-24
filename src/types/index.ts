@@ -108,6 +108,9 @@ export interface MaterialListing {
   composition: CompositionPart[];
   quantityKg: number;
   condition: MaterialCondition;
+  /** All condition statements chosen by the seller. Older seeds omit it. */
+  conditionFlags?: MaterialCondition[];
+  /** Kept for the matching engine; derived from conditionFlags, never exposed in forms. */
   purityPct: number;
   pricePerKg: number;
   currency: "EUR";
@@ -137,6 +140,8 @@ export interface MaterialRequest {
   description: string;
   category: MaterialCategory;
   acceptableComposition: string[];
+  /** Buyer-selected conditions. Older seeds omit it. */
+  acceptedConditions?: MaterialCondition[];
   qualityThresholds: QualityThresholds;
   quantityKg: number;
   frequency: "one_off" | "monthly" | "quarterly";
