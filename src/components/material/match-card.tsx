@@ -27,7 +27,7 @@ import type { Match, MaterialListing, MaterialRequest } from "@/types";
 function ScoreRing({ score, confidence }: { score: number; confidence: Match["confidence"] }) {
   const radius = 18;
   const circumference = 2 * Math.PI * radius;
-  const color = confidence === "strong" ? "var(--apple-blue)" : confidence === "review" ? "var(--amb)" : "var(--mut)";
+  const color = confidence === "strong" ? "var(--apple-accent)" : confidence === "review" ? "var(--amb)" : "var(--mut)";
   return (
     <div className="relative size-12 shrink-0">
       <svg viewBox="0 0 44 44" className="size-12 -rotate-90">

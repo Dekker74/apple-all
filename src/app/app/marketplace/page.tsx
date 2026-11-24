@@ -269,7 +269,7 @@ export default function MarketplacePage() {
                     type="checkbox"
                     checked={checked}
                     onChange={() => toggleCategory(cat.value)}
-                    className="size-3.5 accent-[#0066cc]"
+                    className="size-3.5 accent-[#14532d]"
                   />
                   <span className="text-[11.5px]">{cat.label}</span>
                 </span>
@@ -387,7 +387,7 @@ export default function MarketplacePage() {
             step={25}
             value={filters.radiusKm}
             onChange={(e) => setFilters((p) => ({ ...p, radiusKm: Number(e.target.value) }))}
-            className="mt-1.5 w-full accent-[#0066cc]"
+            className="mt-1.5 w-full accent-[#14532d]"
             aria-label="Raggio di ricerca in chilometri"
           />
         </div>

@@ -4,40 +4,40 @@
 
 @layer base {
   :root {
-    /* Apple-inspired palette: one blue accent, quiet neutral surfaces. */
-    --bg: #f5f5f7;
+    /* Deep-green accent on quiet, slightly green-tinted neutrals. */
+    --bg: #f4f7f4;
     --sf: #ffffff;
-    --sf2: #fafafc;
-    --ink: #1d1d1f;
-    --mut: #7a7a7a;
-    --line: #e0e0e0;
-    --moss: #0066cc;
-    --moss-hover: #0071e3;
-    --mint: #eaf2fb;
-    --amb: #8a5410;
+    --sf2: #f8faf8;
+    --ink: #15231b;
+    --mut: #5f6b64;
+    --line: #dce5de;
+    --moss: #14532d;
+    --moss-hover: #166534;
+    --mint: #e4f1e8;
+    --amb: #7a4b0d;
     --on: #ffffff;
     --danger: #c4372c;
 
     /* Legacy HSL tokens for compatibility */
-    --background: 220 14% 96%;
-    --foreground: 0 0% 11%;
+    --background: 140 14% 96%;
+    --foreground: 150 22% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 11%;
+    --card-foreground: 150 22% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 11%;
-    --primary: 211 100% 40%;
+    --popover-foreground: 150 22% 11%;
+    --primary: 152 61% 21%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 0 0% 11%;
-    --muted: 240 5% 96%;
-    --muted-foreground: 0 0% 48%;
-    --accent: 211 100% 95%;
-    --accent-foreground: 211 100% 40%;
+    --secondary: 150 20% 96%;
+    --secondary-foreground: 152 61% 15%;
+    --muted: 150 16% 95%;
+    --muted-foreground: 147 6% 39%;
+    --accent: 150 30% 92%;
+    --accent-foreground: 152 61% 21%;
     --destructive: 4 72% 48%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 88%;
-    --input: 0 0% 86%;
-    --ring: 211 100% 40%;
+    --border: 140 14% 86%;
+    --input: 140 12% 84%;
+    --ring: 152 61% 21%;
     --radius: 1.125rem;
   }
 
@@ -309,67 +309,67 @@
    (forest/lime) e ridefinisce solo sfondi, testi e bordi "chiari". */
 .dark {
   color-scheme: dark;
-  /* Apple-inspired dark palette */
-  --bg: #000000;
-  --sf: #1d1d1f;
-  --sf2: #2a2a2c;
-  --ink: #ffffff;
-  --mut: #cccccc;
-  --line: #3a3a3c;
-  --moss: #2997ff;
-  --moss-hover: #0a84ff;
-  --mint: #10263d;
+  /* Dark-green palette: near-black forest surfaces, light mint accents. */
+  --bg: #07120d;
+  --sf: #102019;
+  --sf2: #152a21;
+  --ink: #f2f7f3;
+  --mut: #b9c9bf;
+  --line: #253a2f;
+  --moss: #1b6e45;
+  --moss-hover: #2f9e68;
+  --mint: #10291c;
   --amb: #e0a944;
   --on: #ffffff;
   --danger: #ff453a;
 }
 
 .dark body {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: #07120d;
+  color: #f2f7f3;
 }
 
 .dark [class~="bg-paper"],
 .dark .kbd {
-  background-color: #000000;
+  background-color: #07120d;
 }
 
 .dark .kbd {
-  color: #cccccc;
+  color: #b9c9bf;
 }
 
 .dark [class~="bg-white"],
 .dark .panel {
-  background-color: #1d1d1f;
+  background-color: #102019;
 }
 
 .dark [class~="bg-sand"],
 .dark [class~="bg-mist"],
 .dark .skeleton {
-  background-color: #2a2a2c;
+  background-color: #152a21;
 }
 
 .dark [class~="bg-line"] {
-  background-color: #3a3a3c;
+  background-color: #253a2f;
 }
 
 .dark [class~="border-line"],
 .dark [class~="divide-line"],
 .dark .panel {
-  border-color: #3a3a3c;
+  border-color: #253a2f;
 }
 
 .dark [class~="border-sage"] {
-  border-color: #1a3550;
+  border-color: #1d4a33;
 }
 
 .dark [class~="border-forest"] {
-  border-color: #12406b;
+  border-color: #1b6e45;
 }
 
 .dark [class~="text-ink"],
 .dark .field-label {
-  color: #ffffff;
+  color: #f2f7f3;
 }
 
 .dark [class~="text-muted"],
@@ -377,19 +377,19 @@
 .dark .eyebrow,
 .dark .micro-label,
 .dark [class~="text-[#4A5148]"] {
-  color: #cccccc;
+  color: #b9c9bf;
 }
 
 .dark [class~="text-moss"] {
-  color: #2997ff;
+  color: #6ee7a8;
 }
 
 .dark [class~="text-sage"] {
-  color: #2997ff;
+  color: #6ee7a8;
 }
 
 .dark [class~="text-forest"] {
-  color: #409cff;
+  color: #86efac;
 }
 
 /* On dark chips, keep label text legible. */
@@ -399,7 +399,7 @@
 }
 
 .dark [class~="text-sky"] {
-  color: #70b7ff;
+  color: #7fd8ad;
 }
 
 .dark [class~="text-amber"] {
@@ -412,15 +412,15 @@
 }
 
 .dark [class~="bg-forest"] {
-  background-color: #0066cc;
+  background-color: #1b6e45;
 }
 
 .dark [class~="bg-moss"] {
-  background-color: #0a84ff;
+  background-color: #1b6e45;
 }
 
 .dark [class~="bg-lime"] {
-  background-color: #2a2a2c;
+  background-color: #152a21;
 }
 
 .dark [class~="bg-lime"] [class~="text-ink"],
@@ -429,7 +429,7 @@
 }
 
 .dark [class~="bg-sage"] {
-  background-color: #10263d;
+  background-color: #10291c;
 }
 
 .dark [class~="bg-danger"] {
@@ -445,20 +445,20 @@
 }
 
 .dark [class~="bg-sky"] {
-  background-color: #10263d;
+  background-color: #10291c;
 }
 
 .dark .marketing-header {
-  background: rgba(0, 0, 0, 0.88);
-  border-bottom-color: #3a3a3c;
+  background: rgba(7, 18, 13, 0.88);
+  border-bottom-color: #253a2f;
 }
 
 .dark .table-row-hover:hover {
-  background-color: #1d1d1f;
+  background-color: #102019;
 }
 
 .dark .link-underline {
-  text-decoration-color: #3a3a3c;
+  text-decoration-color: #253a2f;
 }
 
 .dark .dot-grid {
@@ -474,21 +474,21 @@
 }
 
 .dark :where(input, select, textarea):focus-visible {
-  outline-color: rgba(64, 156, 255, 0.35);
+  outline-color: rgba(110, 231, 168, 0.35);
 }
 
 .dark ::selection {
-  background: #1a3f66;
+  background: #123a28;
   color: #ffffff;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #3a3a3c;
-  border-color: #000000;
+  background: #253a2f;
+  border-color: #07120d;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #555557;
+  background: #2f5c43;
 }
 
 /* ========== OFFCUT COMPONENTS ========== */
