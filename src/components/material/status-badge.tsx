@@ -1,3 +1,6 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n";
 import {
   LISTING_STATUS_META,
   ORDER_STATUS_META,
@@ -8,6 +11,7 @@ import type { ListingStatus, OrderStatus, RequestStatus } from "@/types";
 
 export function OrderStatusBadge({ status, className }: { status: OrderStatus; className?: string }) {
   const meta = ORDER_STATUS_META[status];
+  const { t } = useI18n();
   return (
     <span
       className={cn(
@@ -17,7 +21,7 @@ export function OrderStatusBadge({ status, className }: { status: OrderStatus; c
       )}
     >
       <span className="size-1 rounded-full bg-current opacity-70" />
-      {meta.label}
+      {t(meta.label)}
     </span>
   );
 }
@@ -30,6 +34,7 @@ export function ListingStatusBadge({
   className?: string;
 }) {
   const meta = LISTING_STATUS_META[status];
+  const { t } = useI18n();
   return (
     <span
       className={cn(
@@ -38,7 +43,7 @@ export function ListingStatusBadge({
         className,
       )}
     >
-      {meta.label}
+      {t(meta.label)}
     </span>
   );
 }
@@ -51,6 +56,7 @@ export function RequestStatusBadge({
   className?: string;
 }) {
   const meta = REQUEST_STATUS_META[status];
+  const { t } = useI18n();
   return (
     <span
       className={cn(
@@ -59,7 +65,7 @@ export function RequestStatusBadge({
         className,
       )}
     >
-      {meta.label}
+      {t(meta.label)}
     </span>
   );
 }

@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { relativeTime } from "@/lib/format";
+import { useI18n } from "@/lib/i18n";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +22,7 @@ const TONE_DOT: Record<string, string> = {
 };
 
 export function NotificationMenu() {
+  const { t } = useI18n();
   const notifications = useAppStore((s) => s.notifications);
   const markRead = useAppStore((s) => s.markNotificationRead);
   const markAll = useAppStore((s) => s.markAllNotificationsRead);
@@ -29,7 +31,7 @@ export function NotificationMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative" aria-label="Notifiche">
+        <Button variant="ghost" size="icon" className="relative" aria-label={t("Notifiche")}>
           <Bell className="size-[18px]" />
           {unread > 0 ? (
             <span className="absolute right-1.5 top-1.5 flex size-3.5 items-center justify-center rounded-full bg-clay font-mono text-[12px] text-white ring-2 ring-paper">
@@ -41,7 +43,7 @@ export function NotificationMenu() {
       <DropdownMenuContent align="end" className="w-[340px] p-0">
         <div className="flex items-center justify-between px-4 py-3">
           <div>
-            <p className="text-[13px] font-medium">Notifiche</p>
+            <p className="text-[13px] font-medium">{t("Notifiche")}</p>
             <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
               {unread} unread
             </p>
@@ -50,13 +52,13 @@ export function NotificationMenu() {
             onClick={markAll}
             className="flex items-center gap-1 text-[12px] text-muted transition-colors hover:text-forest"
           >
-            <CheckCheck className="size-3.5" /> Segna tutti come letti
+            <CheckCheck className="size-3.5" /> {t("Segna tutti come letti")}
           </button>
         </div>
         <DropdownMenuSeparator className="my-0" />
         <div className="max-h-[380px] overflow-y-auto">
           {notifications.length === 0 ? (
-            <p className="px-4 py-8 text-center text-[12px] text-muted">Sei in pari con tutto.</p>
+            <p className="px-4 py-8 text-center text-[12px] text-muted">{t("Sei in pari con tutto.")}</p>
           ) : (
             notifications.slice(0, 6).map((n) => (
               <Link
@@ -75,12 +77,12 @@ export function NotificationMenu() {
                   )}
                 />
                 <span className="min-w-0">
-                  <span className="block text-[12px] font-medium leading-[1.5] text-ink">{n.title}</span>
+                  <span className="block text-[12px] font-medium leading-[1.5] text-ink">{t(n.title)}</span>
                   <span className="mt-0.5 line-clamp-2 block text-[12px] leading-relaxed text-muted">
-                    {n.body}
+                    {t(n.body)}
                   </span>
                   <span className="mt-1 block font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                    {relativeTime(n.createdAt)}
+                    {t(relativeTime(n.createdAt))}
                   </span>
                 </span>
               </Link>

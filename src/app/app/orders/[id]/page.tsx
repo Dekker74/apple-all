@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -94,11 +96,12 @@ function eventIcon(kind: OrderEvent["kind"]) {
 }
 
 function StepRail({ status }: { status: OrderStatus }) {
+  const { t, lang } = useI18n();
   const current = ORDER_STATUS_META[status].step;
   if (status === "cancelled") {
     return (
       <div className="flex items-center gap-2 rounded-xl border border-danger/20 bg-danger/[0.06] px-4 py-3 text-[11.5px] text-danger">
-        <CircleAlert className="size-4" /> Questo ordine è stato annullato. Il materiale collegato è tornato sul mercato.
+        <CircleAlert className="size-4" /> {t("Questo ordine è stato annullato. Il materiale collegato è tornato sul mercato.")}
       </div>
     );
   }
@@ -129,7 +132,7 @@ function StepRail({ status }: { status: OrderStatus }) {
                     active ? "text-ink" : "text-muted",
                   )}
                 >
-                  {step.label}
+                  {t(step.label)}
                 </span>
               </div>
               <div
@@ -153,6 +156,7 @@ function toLocalInput(iso: string): string {
 }
 
 export default function OrderDetailPage() {
+  const { t, lang } = useI18n();
   const params = useParams<{ id: string }>();
   const orderId = params.id;
   const org = useCurrentOrg();
@@ -206,11 +210,11 @@ export default function OrderDetailPage() {
     return (
       <EmptyState
         icon={Receipt}
-        title="Ordine non trovato"
-        description="Questo ordine potrebbe appartenere a un altro spazio di lavoro o essere stato reimpostato. Apri l'elenco ordini per continuare."
+        title={t("Ordine non trovato")}
+        description={t("Questo ordine potrebbe appartenere a un altro spazio di lavoro o essere stato reimpostato. Apri l'elenco ordini per continuare.")}
         action={
           <Button asChild size="sm">
-            <Link href="/app/orders">Torna agli ordini</Link>
+            <Link href="/app/orders">{t("Torna agli ordini")}</Link>
           </Button>
         }
       />
@@ -235,7 +239,7 @@ export default function OrderDetailPage() {
 
   const breakdown = quote?.breakdown ?? match?.breakdown ?? null;
   const processing = match?.requiredProcessing ?? request?.requiredProcessing ?? [];
-  const processingLabels = processing.map((p) => PROCESSING_MAP[p].label);
+  const processingLabels = processing.map((p) => t(PROCESSING_MAP[p].label));
   const expiry = quote ? daysUntil(quote.validUntil) : null;
 
   const transportPartners = partners.filter((p) => p.kind === "transport");
@@ -248,7 +252,7 @@ export default function OrderDetailPage() {
       action();
       toast.success(success, description ? { description } : undefined);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Operazione non riuscita.");
+      toast.error(error instanceof Error ? error.message : t("Operazione non riuscita."));
     } finally {
       setBusy(false);
     }
@@ -256,37 +260,37 @@ export default function OrderDetailPage() {
 
   function downloadQuote() {
     const lines = [
-      "OFFCUT — PREVENTIVO",
+      t("OFFCUT — PREVENTIVO"),
       "=====================",
-      `Riferimento: ${activeOrder.reference}`,
-      `Ordine: ${activeOrder.id}`,
-      `Materiale: ${listing?.title ?? "—"}`,
-      `Quantità: ${formatKg(activeOrder.quantityKg)}`,
-      `Fornitore: ${supplier?.name ?? "—"}`,
-      `Acquirente: ${buyer?.name ?? "—"}`,
-      `Prezzo materiale: ${breakdown ? formatCurrency(breakdown.materialCost, { cents: true }) : "—"}`,
-      `Commissione Offcut (${breakdown ? Math.round(breakdown.commissionRate * 100) : 6}%): ${breakdown ? formatCurrency(breakdown.commissionAmount, { cents: true }) : "—"}`,
-      `Trasporto: ${breakdown ? formatCurrency(breakdown.transportCost, { cents: true }) : "—"}`,
-      `Lavorazione: ${breakdown ? formatCurrency(breakdown.processingCost, { cents: true }) : "—"}`,
-      `IVA: ${breakdown ? formatCurrency(breakdown.taxAmount, { cents: true }) : "—"}`,
-      `Totale consegnato: ${breakdown ? formatCurrency(breakdown.total, { cents: true }) : "—"}`,
+      t(`Riferimento: ${activeOrder.reference}`),
+      t(`Ordine: ${activeOrder.id}`),
+      t(`Materiale: ${t(listing?.title ?? "—")}`),
+      t(`Quantità: ${formatKg(activeOrder.quantityKg)}`),
+      t(`Fornitore: ${supplier?.name ?? "—"}`),
+      t(`Acquirente: ${buyer?.name ?? "—"}`),
+      t(`Prezzo materiale: ${breakdown ? formatCurrency(breakdown.materialCost, { cents: true }) : "—"}`),
+      t(`Commissione Offcut (${breakdown ? Math.round(breakdown.commissionRate * 100) : 6}%): ${breakdown ? formatCurrency(breakdown.commissionAmount, { cents: true }) : "—"}`),
+      t(`Trasporto: ${breakdown ? formatCurrency(breakdown.transportCost, { cents: true }) : "—"}`),
+      t(`Lavorazione: ${breakdown ? formatCurrency(breakdown.processingCost, { cents: true }) : "—"}`),
+      t(`IVA: ${breakdown ? formatCurrency(breakdown.taxAmount, { cents: true }) : "—"}`),
+      t(`Totale consegnato: ${breakdown ? formatCurrency(breakdown.total, { cents: true }) : "—"}`),
       "",
-      `Modalità: ${transportChoice === "company" ? "Trasporto gestito da Offcut" : "Ritiro presso punto di ritiro Offcut"}`,
-      `Ritiro: ${listingLocation?.city ?? "—"}`,
-      `Consegna / punto di ritiro: ${requestLocation?.city ?? "—"}`,
+      t(`Modalità: ${transportChoice === "company" ? t("Trasporto gestito da Offcut") : t("Ritiro presso punto di ritiro Offcut")}`),
+      t(`Ritiro: ${listingLocation?.city ?? "—"}`),
+      t(`Consegna / punto di ritiro: ${requestLocation?.city ?? "—"}`),
       "",
-      `Generato il ${formatDate(new Date().toISOString())}`,
+      t(`Generato il ${formatDate(new Date().toISOString())}`),
     ];
     const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = `preventivo-${activeOrder.reference}.txt`;
+    anchor.download = t(`preventivo-${activeOrder.reference}.txt`);
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
     URL.revokeObjectURL(url);
-    toast.success("Preventivo scaricato");
+    toast.success(t("Preventivo scaricato"));
   }
 
   function chooseTransport(mode: "company" | "pickup") {
@@ -296,11 +300,11 @@ export default function OrderDetailPage() {
 
   function handleSchedule() {
     if (!windowStart || !windowEnd) {
-      toast.error("Scegli una fascia di ritiro.");
+      toast.error(t("Scegli una fascia di ritiro."));
       return;
     }
     if (new Date(windowEnd) <= new Date(windowStart)) {
-      toast.error("La fine della fascia deve essere successiva all'inizio.");
+      toast.error(t("La fine della fascia deve essere successiva all'inizio."));
       return;
     }
     run(
@@ -313,8 +317,8 @@ export default function OrderDetailPage() {
           qcPartnerId,
           instructions: instructions.trim() || undefined,
         }),
-      "Ritiro programmato",
-      "Trasportatore, lavoratore e partner QC sono prenotati.",
+      t("Ritiro programmato"),
+      t("Trasportatore, lavoratore e partner QC sono prenotati."),
     );
     setScheduleOpen(false);
   }
@@ -322,32 +326,32 @@ export default function OrderDetailPage() {
   const actionCard = (() => {
     if (order.status === "cancelled") {
       return {
-        title: "Ordine annullato",
-        body: "Non sono richieste azioni. L'annuncio è tornato sul mercato.",
+        title: t("Ordine annullato"),
+        body: t("Non sono richieste azioni. L'annuncio è tornato sul mercato."),
         icon: X,
         content: (
           <Button variant="outline" className="w-full" asChild>
-            <Link href="/app/marketplace">Esplora il mercato</Link>
+            <Link href="/app/marketplace">{t("Esplora il mercato")}</Link>
           </Button>
         ),
       };
     }
     if (order.status === "completed") {
       return {
-        title: "Ordine completato",
-        body: "QC superato e fattura saldata. I certificati sono allegati a questo ordine.",
+        title: t("Ordine completato"),
+        body: t("QC superato e fattura saldata. I certificati sono allegati a questo ordine."),
         icon: FileCheck2,
         content: (
           <div className="space-y-2">
             <div className="flex items-center gap-2 rounded-lg border border-sage/40 bg-mist/60 px-3 py-2 text-[12px] text-forest">
-              <ShieldCheck className="size-3.5" /> Certificato QC QC-2026-8891 · superato
+              <ShieldCheck className="size-3.5" /> {t("Certificato QC QC-2026-8891 · superato")}
             </div>
             <Button variant="outline" className="w-full" onClick={() => window.print()}>
-              <Printer className="size-3.5" /> Stampa riepilogo
+              <Printer className="size-3.5" /> {t("Stampa riepilogo")}
             </Button>
             <Button className="w-full" asChild>
               <Link href="/app/marketplace">
-                Cerca altro materiale <ArrowRight className="size-3.5" />
+                {t("Cerca altro materiale")} <ArrowRight className="size-3.5" />
               </Link>
             </Button>
           </div>
@@ -356,10 +360,10 @@ export default function OrderDetailPage() {
     }
     if (order.status === "collection_scheduled") {
       return {
-        title: "Ritiro prenotato",
+        title: t("Ritiro prenotato"),
         body: order.collection
-          ? `${transportPartner?.name ?? "Trasportatore"} arriva ${formatDateTime(order.collection.windowStart)}. Conferma la consegna quando il QC è superato.`
-          : "Ritiro prenotato. Conferma la consegna quando il QC è superato.",
+          ? t(`${transportPartner?.name ?? t("Trasportatore")} arriva ${formatDateTime(order.collection.windowStart)}. Conferma la consegna quando il QC è superato.`)
+          : t("Ritiro prenotato. Conferma la consegna quando il QC è superato."),
         icon: Truck,
         content: (
           <div className="space-y-2">
@@ -369,17 +373,17 @@ export default function OrderDetailPage() {
               onClick={() =>
                 run(
                   () => completeOrder(orderId),
-                  "Ordine completato",
-                  "QC superato, materiale consegnato, fattura saldata.",
+                  t("Ordine completato"),
+                  t("QC superato, materiale consegnato, fattura saldata."),
                 )
               }
             >
               {busy ? <Loader2 className="size-3.5 animate-spin" /> : <ClipboardCheck className="size-3.5" />}
-              Conferma consegna e QC
+              {t("Conferma consegna e QC")}
             </Button>
             <Button variant="ghost" size="sm" className="w-full text-muted" asChild>
               <Link href="/app/orders">
-                <Download className="size-3.5" /> Esporta elenco ordini
+                <Download className="size-3.5" /> {t("Esporta elenco ordini")}
               </Link>
             </Button>
           </div>
@@ -388,28 +392,27 @@ export default function OrderDetailPage() {
     }
     if (order.status === "quote_accepted") {
       return {
-        title: "Preventivo accettato",
-        body: "Ora coordina la logistica. Scegli la fascia di ritiro e i partner per lavorazione e QC.",
+        title: t("Preventivo accettato"),
+        body: t("Ora coordina la logistica. Scegli la fascia di ritiro e i partner per lavorazione e QC."),
         icon: CalendarClock,
         content: (
           <Dialog open={scheduleOpen} onOpenChange={setScheduleOpen}>
             <DialogTrigger asChild>
               <Button className="w-full">
-                <CalendarDays className="size-3.5" /> Programma ritiro
+                <CalendarDays className="size-3.5" /> {t("Programma ritiro")}
               </Button>
             </DialogTrigger>
             <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
               <DialogHeader>
-                <DialogTitle>Programma ritiro</DialogTitle>
+                <DialogTitle>{t("Programma ritiro")}</DialogTitle>
                 <DialogDescription>
-                  {formatKg(order.quantityKg)} da {listingLocation?.city ?? "sede fornitore"} a{" "}
-                  {requestLocation?.city ?? "la tua sede"}. I partner sono coordinati da Offcut.
+                  {t(`${formatKg(order.quantityKg)} da ${listingLocation?.city ?? t("sede fornitore")} a ${requestLocation?.city ?? t("la tua sede")}. I partner sono coordinati da Offcut.`)}
                 </DialogDescription>
               </DialogHeader>
               <div className="grid gap-3.5">
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="field-label">Inizio fascia</label>
+                    <label className="field-label">{t("Inizio fascia")}</label>
                     <Input
                       type="datetime-local"
                       value={windowStart}
@@ -418,7 +421,7 @@ export default function OrderDetailPage() {
                     />
                   </div>
                   <div>
-                    <label className="field-label">Fine fascia</label>
+                    <label className="field-label">{t("Fine fascia")}</label>
                     <Input
                       type="datetime-local"
                       value={windowEnd}
@@ -428,7 +431,7 @@ export default function OrderDetailPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="field-label">Partner di trasporto</label>
+                  <label className="field-label">{t("Partner di trasporto")}</label>
                   <Select
                     value={transportPartnerId}
                     onChange={(e) => setTransportPartnerId(e.target.value)}
@@ -436,14 +439,14 @@ export default function OrderDetailPage() {
                   >
                     {transportPartners.map((p) => (
                       <option key={p.id} value={p.id}>
-                        {p.name} · {p.coverage} · {p.onTimePct}% puntualità
+                        {p.name} · {p.coverage} · {p.onTimePct}% {t("puntualità")}
                       </option>
                     ))}
                   </Select>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="field-label">Partner di lavorazione</label>
+                    <label className="field-label">{t("Partner di lavorazione")}</label>
                     <Select
                       value={processingPartnerId}
                       onChange={(e) => setProcessingPartnerId(e.target.value)}
@@ -457,7 +460,7 @@ export default function OrderDetailPage() {
                     </Select>
                   </div>
                   <div>
-                    <label className="field-label">Partner QC</label>
+                    <label className="field-label">{t("Partner QC")}</label>
                     <Select
                       value={qcPartnerId}
                       onChange={(e) => setQcPartnerId(e.target.value)}
@@ -473,24 +476,24 @@ export default function OrderDetailPage() {
                 </div>
                 <div>
                   <label className="field-label">
-                    Istruzioni per la sede <span className="font-normal text-muted">(optional)</span>
+                    {t("Istruzioni per la sede")} <span className="font-normal text-muted">{t("(facoltativo)")}</span>
                   </label>
                   <Textarea
                     value={instructions}
                     onChange={(e) => setInstructions(e.target.value)}
                     rows={3}
-                    placeholder="Codice cancello, banchina di carico, requisiti di imbragatura, contatto in loco…"
+                    placeholder={t("Codice cancello, banchina di carico, requisiti di imbragatura, contatto in loco…")}
                     className="mt-1.5"
                   />
                 </div>
               </div>
               <DialogFooter>
                 <Button variant="ghost" onClick={() => setScheduleOpen(false)}>
-                  Annulla
+                  {t("Annulla")}
                 </Button>
                 <Button onClick={handleSchedule} disabled={busy}>
                   {busy ? <Loader2 className="size-3.5 animate-spin" /> : <Truck className="size-3.5" />}
-                  Conferma ritiro
+                  {t("Conferma ritiro")}
                 </Button>
               </DialogFooter>
             </DialogContent>
@@ -500,11 +503,11 @@ export default function OrderDetailPage() {
     }
     if (order.status === "quote_issued") {
       return {
-        title: isBuyer ? "Preventivo in attesa di una tua decisione" : "Preventivo inviato all'acquirente",
+        title: isBuyer ? t("Preventivo in attesa di una tua decisione") : t("Preventivo inviato all'acquirente"),
         body:
           expiry !== null && expiry <= 0
-            ? "Questo preventivo è scaduto. Emettine uno aggiornato prima di accettare."
-            : `Valido ${expiry !== null ? `ancora ${expiry} ${expiry === 1 ? "giorno" : "giorni"}` : "14 giorni"} · prezzo consegnato dettagliato, commissione 6% inclusa.`,
+            ? t("Questo preventivo è scaduto. Emettine uno aggiornato prima di accettare.")
+            : t(`Valido ${expiry !== null ? `ancora ${expiry} ${expiry === 1 ? t("giorno") : t("giorni")}` : t("14 giorni")} · prezzo consegnato dettagliato, commissione 6% inclusa.`),
         icon: Clock,
         content: (
           <div className="space-y-2">
@@ -514,13 +517,13 @@ export default function OrderDetailPage() {
               onClick={() =>
                 run(
                   () => acceptQuote(orderId),
-                  "Preventivo accettato",
-                  "Programma ora la fascia di ritiro.",
+                  t("Preventivo accettato"),
+                  t("Programma ora la fascia di ritiro."),
                 )
               }
             >
               {busy ? <Loader2 className="size-3.5 animate-spin" /> : <Check className="size-3.5" />}
-              {isBuyer ? "Accetta preventivo" : "Registra accettazione acquirente"}
+              {isBuyer ? t("Accetta preventivo") : t("Registra accettazione acquirente")}
             </Button>
             <Button
               variant="ghost"
@@ -528,10 +531,10 @@ export default function OrderDetailPage() {
               className="w-full text-muted"
               onClick={() => window.print()}
             >
-              <Printer className="size-3.5" /> Stampa preventivo
+              <Printer className="size-3.5" /> {t("Stampa preventivo")}
             </Button>
             <Button variant="outline" className="w-full" onClick={downloadQuote}>
-              <Download className="size-3.5" /> Scarica preventivo
+              <Download className="size-3.5" /> {t("Scarica preventivo")}
             </Button>
           </div>
         ),
@@ -539,8 +542,8 @@ export default function OrderDetailPage() {
     }
     // matched
     return {
-      title: "Prepara il preventivo consegnato",
-      body: "Conferma quantità e lavorazione, poi emetti un preventivo dettagliato. L'acquirente vede materiale, commissione, lavorazione, trasporto e IVA.",
+      title: t("Prepara il preventivo consegnato"),
+      body: t("Conferma quantità e lavorazione, poi emetti un preventivo dettagliato. L'acquirente vede materiale, commissione, lavorazione, trasporto e IVA."),
       icon: FileText,
       content: (
         <div className="space-y-2">
@@ -550,15 +553,15 @@ export default function OrderDetailPage() {
             onClick={() =>
               run(
                 () => issueQuote(orderId),
-                "Preventivo inviato",
-                "L'acquirente può ora accettare il prezzo consegnato.",
+                t("Preventivo inviato"),
+                t("L'acquirente può ora accettare il prezzo consegnato."),
               )
             }
           >
             {busy ? <Loader2 className="size-3.5 animate-spin" /> : <Receipt className="size-3.5" />}
-            Emetti preventivo
+            {t("Emetti preventivo")}
           </Button>
-          <p className="text-center text-[11.5px] text-muted">Valido 14 giorni dall'emissione.</p>
+          <p className="text-center text-[11.5px] text-muted">{t("Valido 14 giorni dall'emissione.")}</p>
         </div>
       ),
     };
@@ -573,15 +576,15 @@ export default function OrderDetailPage() {
           href="/app/orders"
           className="inline-flex items-center gap-1.5 text-[11.5px] text-muted transition-colors hover:text-ink"
         >
-          <ArrowLeft className="size-3.5" /> Ordini e preventivi
+          <ArrowLeft className="size-3.5" /> {t("Ordini e preventivi")}
         </Link>
         <div className="flex items-center gap-2">
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-            {isBuyer ? "Stai acquistando" : isSupplier ? "Stai vendendo" : "Solo lettura"}
+            {isBuyer ? t("Stai acquistando") : isSupplier ? t("Stai vendendo") : t("Solo lettura")}
           </span>
           <span className="h-3 w-px bg-line" />
           <Button variant="ghost" size="sm" onClick={() => window.print()} className="text-muted">
-            <Printer className="size-3.5" /> Print
+            <Printer className="size-3.5" /> {t("Stampa")}
           </Button>
         </div>
       </div>
@@ -593,49 +596,49 @@ export default function OrderDetailPage() {
             <Badge variant="outline">{order.reference}</Badge>
             {quote ? (
               <span className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                Preventivo {quote.id.replace("quo_", "").toUpperCase()}
+                {t(`Preventivo ${quote.id.replace("quo_", "").toUpperCase()}`)}
               </span>
             ) : null}
           </div>
           <h1 className="mt-2 text-balance text-[32px] leading-[1.05] sm:text-[38px]">
-            {listing?.title ?? "Ordine"}
+            {t(listing?.title ?? "Ordine")}
           </h1>
           <p className="mt-2 text-[12px] text-muted">
-            {isBuyer ? `Fornito da ${supplier?.name ?? "—"}` : `Venduto a ${buyer?.name ?? "—"}`} ·{" "}
-            {formatKg(order.quantityKg)} · creato il {formatDate(order.createdAt)} · aggiornato{" "}
-            {relativeTime(order.updatedAt)}
+            {isBuyer ? t(`Fornito da ${supplier?.name ?? "—"}`) : t(`Venduto a ${buyer?.name ?? "—"}`)} ·{" "}
+            {t(`${formatKg(order.quantityKg)} · creato il ${formatDate(order.createdAt)} · aggiornato`)}{" "}
+            {t(relativeTime(order.updatedAt))}
           </p>
         </div>
         <div className="shrink-0 rounded-xl border border-line bg-white px-4 py-3 text-right">
           <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-            {quote ? "Totale consegnato" : "Totale indicativo"}
+            {quote ? t("Totale consegnato") : t("Totale indicativo")}
           </p>
           <p className="mt-1 font-display text-[28px] leading-none">
             {breakdown ? formatCurrency(breakdown.total, { cents: true }) : "—"}
           </p>
           <p className="mt-1 font-mono text-[11.5px] text-muted">
-            {breakdown ? formatPerKg(breakdown.deliveredPerKg) : ""} · IVA inclusa
+            {breakdown ? formatPerKg(breakdown.deliveredPerKg) : ""} {t("· IVA inclusa")}
           </p>
         </div>
       </div>
 
       <StepRail status={order.status} />
 
-      <section className="offcut-transport-card" aria-label="Modalità di trasporto">
+      <section className="offcut-transport-card" aria-label={t("Modalità di trasporto")}>
         <div className="offcut-transport-icon">
           <Truck className="size-5" />
         </div>
         <div className="offcut-transport-body">
-          <p className="eyebrow">Logistica</p>
-          <h2>Modalità di trasporto</h2>
-          <div className="offcut-transport-toggle" role="group" aria-label="Scegli la modalità">
+          <p className="eyebrow">{t("Logistica")}</p>
+          <h2>{t("Modalità di trasporto")}</h2>
+          <div className="offcut-transport-toggle" role="group" aria-label={t("Scegli la modalità")}>
             <button
               type="button"
               className={transportChoice === "company" ? "on" : ""}
               onClick={() => chooseTransport("company")}
               aria-pressed={transportChoice === "company"}
             >
-              Trasportato da Offcut
+              {t("Trasportato da Offcut")}
             </button>
             <button
               type="button"
@@ -643,13 +646,13 @@ export default function OrderDetailPage() {
               onClick={() => chooseTransport("pickup")}
               aria-pressed={transportChoice === "pickup"}
             >
-              Ritiro presso punto di ritiro
+              {t("Ritiro presso punto di ritiro")}
             </button>
           </div>
           <p className="mut">
             {transportChoice === "company"
-              ? `Ritiro presso ${listingLocation?.city ?? "il fornitore"} e consegna a ${requestLocation?.city ?? "destinazione"}. Offcut coordina partner, working e controllo qualità.`
-              : `L'acquirente ritira il materiale presso il punto di ritiro Offcut di ${requestLocation?.city ?? "Emilia-Romagna"}. Il ritiro è a carico dell'azienda acquirente.`}
+              ? t(`Ritiro presso ${listingLocation?.city ?? t("il fornitore")} e consegna a ${requestLocation?.city ?? t("destinazione")}. Offcut coordina partner, lavorazione e controllo qualità.`)
+              : t(`L'acquirente ritira il materiale presso il punto di ritiro Offcut di ${requestLocation?.city ?? "Emilia-Romagna"}. Il ritiro è a carico dell'azienda acquirente.`)}
           </p>
         </div>
       </section>
@@ -669,19 +672,19 @@ export default function OrderDetailPage() {
                   />
                 ) : null}
                 <div className="min-w-0">
-                  <p className="eyebrow">Materiale</p>
+                  <p className="eyebrow">{t("Materiale")}</p>
                   <Link
                     href={listing ? `/app/marketplace/${listing.id}` : "/app/marketplace"}
                     className="mt-1 block text-[15px] font-medium leading-[1.5] hover:underline"
                   >
-                    {listing?.title ?? "Materiale non disponibile"}
+                    {t(listing?.title ?? "Materiale non disponibile")}
                   </Link>
                   <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-muted">
                     {listing ? (
                       <>
                         <span className="flex items-center gap-1">
                           <CategoryIcon category={listing.category} size="sm" />
-                          {CATEGORY_MAP[listing.category].label}
+                          {t(CATEGORY_MAP[listing.category].label)}
                         </span>
                         <span className="flex items-center gap-1">
                           <MapPin className="size-3" /> {listingLocation?.city ?? "—"}
@@ -693,23 +696,23 @@ export default function OrderDetailPage() {
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {listing ? (
                       <>
-                        <Badge variant="success">{CONDITION_MAP[listing.condition].label}</Badge>
+                        <Badge variant="success">{t(CONDITION_MAP[listing.condition].label)}</Badge>
                         <Badge variant="outline">
-                          {CONDITIONS.find((c) => c.value === listing.condition)?.label ??
-                            CONDITION_MAP[listing.condition].label}
+                          {t(CONDITIONS.find((c) => c.value === listing.condition)?.label ??
+                            CONDITION_MAP[listing.condition].label)}
                         </Badge>
-                        <Badge variant="muted">{listing.packaging}</Badge>
+                        <Badge variant="muted">{t(listing.packaging)}</Badge>
                       </>
                     ) : null}
                   </div>
                 </div>
               </div>
               <div className="shrink-0 rounded-lg bg-paper/70 px-3 py-2 text-right">
-                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Quantità</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Quantità")}</p>
                 <p className="mt-0.5 font-mono text-[13px]">{formatKg(order.quantityKg)}</p>
                 {listing ? (
                   <p className="mt-0.5 font-mono text-[11.5px] text-muted">
-                    {formatPerKg(listing.pricePerKg)} material
+                    {formatPerKg(listing.pricePerKg)} {t("materiale")}
                   </p>
                 ) : null}
               </div>
@@ -718,7 +721,7 @@ export default function OrderDetailPage() {
             {listing && listing.composition.length > 0 ? (
               <div className="mt-4 border-t border-line pt-3.5">
                 <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-                  Composizione dichiarata
+                  {t("Composizione dichiarata")}
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {listing.composition.map((part) => (
@@ -726,7 +729,7 @@ export default function OrderDetailPage() {
                       key={part.material}
                       className="rounded border border-line bg-paper/60 px-2 py-0.5 text-[11.5px]"
                     >
-                      {part.material} {part.percent}%
+                      {t(part.material)} {part.percent}%
                     </span>
                   ))}
                 </div>
@@ -738,11 +741,11 @@ export default function OrderDetailPage() {
             <section className="space-y-3">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="eyebrow">Dettaglio preventivo</p>
+                  <p className="eyebrow">{t("Dettaglio preventivo")}</p>
                   <p className="mt-1 text-[12px] text-muted">
                     {quote
-                      ? `Emesso il ${formatDate(quote.issuedAt)} · valido fino al ${formatDate(quote.validUntil)}`
-                      : "Stima provvisoria dalle specifiche abbinate. Emetti per bloccarla."}
+                      ? t(`Emesso il ${formatDate(quote.issuedAt)} · valido fino al ${formatDate(quote.validUntil)}`)
+                      : t("Stima provvisoria dalle specifiche abbinate. Emetti per bloccarla.")}
                   </p>
                 </div>
                 {quote ? (
@@ -755,10 +758,10 @@ export default function OrderDetailPage() {
                           : "lime"
                     }
                   >
-                    {QUOTE_STATUS_LABELS[quote.status] ?? quote.status}
+                    {t(QUOTE_STATUS_LABELS[quote.status] ?? quote.status)}
                   </Badge>
                 ) : (
-                  <Badge variant="muted">Stima</Badge>
+                  <Badge variant="muted">{t("Stima")}</Badge>
                 )}
               </div>
               {breakdown ? (
@@ -771,9 +774,7 @@ export default function OrderDetailPage() {
               <div className="flex items-start gap-2 rounded-xl border border-line bg-white p-3.5">
                 <Info className="mt-0.5 size-3.5 shrink-0 text-muted" />
                 <p className="text-[11.5px] leading-relaxed text-muted">
-                  Materiale e commissione sono fissati all'emissione. Lavorazione e trasporto sono
-                  linee consolidate; se la fascia di ritiro cambia, Offcut riemette le voci
-                  logistiche prima di qualsiasi addebito.
+                  {t("Materiale e commissione sono fissati all'emissione. Lavorazione e trasporto sono linee consolidate; se la fascia di ritiro cambia, Offcut riemette le voci logistiche prima di qualsiasi addebito.")}
                 </p>
               </div>
             </section>
@@ -783,7 +784,7 @@ export default function OrderDetailPage() {
             <section className="rounded-2xl border border-line bg-white p-5">
               <div className="flex items-center justify-between">
                 <p className="eyebrow flex items-center gap-1.5">
-                  <Truck className="size-3 text-muted" /> Ritiro e lavorazione
+                  <Truck className="size-3 text-muted" /> {t("Ritiro e lavorazione")}
                 </p>
                 <Badge
                   variant={
@@ -795,41 +796,41 @@ export default function OrderDetailPage() {
                   }
                   className="capitalize"
                 >
-                  QC {QUALITY_LABELS[order.collection.qcStatus] ?? order.collection.qcStatus}
+                  QC {t(QUALITY_LABELS[order.collection.qcStatus] ?? order.collection.qcStatus)}
                 </Badge>
               </div>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-xl bg-paper/60 p-3.5">
-                  <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Fascia</p>
+                  <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Fascia")}</p>
                   <p className="mt-1 text-[12px] font-medium">
                     {formatDate(order.collection.windowStart)} ·{" "}
-                    {new Date(order.collection.windowStart).toLocaleTimeString("it-IT", {
+                    {new Date(order.collection.windowStart).toLocaleTimeString(lang === "it" ? "it-IT" : "en-GB", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                     –{" "}
-                    {new Date(order.collection.windowEnd).toLocaleTimeString("it-IT", {
+                    {new Date(order.collection.windowEnd).toLocaleTimeString(lang === "it" ? "it-IT" : "en-GB", {
                       hour: "2-digit",
                       minute: "2-digit",
                     })}
                   </p>
                   <p className="mt-1 text-[11.5px] text-muted">
-                    {listingLocation?.addressLine ?? "Sede fornitore"}
+                    {listingLocation?.addressLine ?? t("Sede fornitore")}
                     {listingLocation ? `, ${listingLocation.city}` : ""}
                   </p>
                 </div>
                 <div className="rounded-xl bg-paper/60 p-3.5">
-                  <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Trasportatore</p>
+                  <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Trasportatore")}</p>
                   <p className="mt-1 text-[12px] font-medium">{transportPartner?.name ?? "—"}</p>
                   <p className="mt-1 text-[11.5px] text-muted">
                     {transportPartner
-                      ? `${transportPartner.coverage} · ${transportPartner.onTimePct}% puntualità`
-                      : "In attesa di assegnazione"}
+                      ? t(`${transportPartner.coverage} · ${transportPartner.onTimePct}% puntualità`)
+                      : t("In attesa di assegnazione")}
                   </p>
                 </div>
                 <div className="rounded-xl bg-paper/60 p-3.5">
                   <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                    Lavorazione
+                    {t("Lavorazione")}
                   </p>
                   <p className="mt-1 text-[12px] font-medium">{processingPartner?.name ?? "—"}</p>
                   <p className="mt-1 text-[11.5px] text-muted">
@@ -844,7 +845,7 @@ export default function OrderDetailPage() {
               </div>
               {order.collection.instructions ? (
                 <p className="mt-3 rounded-lg border border-line/70 bg-white px-3 py-2 text-[12px] leading-relaxed text-muted">
-                  <span className="font-medium text-ink">Istruzioni per la sede: </span>
+                  <span className="font-medium text-ink">{t("Istruzioni per la sede: ")}</span>
                   {order.collection.instructions}
                 </p>
               ) : null}
@@ -853,7 +854,7 @@ export default function OrderDetailPage() {
 
           <section className="rounded-2xl border border-line bg-white p-5">
             <p className="eyebrow flex items-center gap-1.5">
-              <Clock className="size-3 text-muted" /> Cronologia
+              <Clock className="size-3 text-muted" /> {t("Cronologia")}
             </p>
             <ol className="mt-4 space-y-0">
               {[...order.timeline].reverse().map((event, index, list) => {
@@ -879,11 +880,11 @@ export default function OrderDetailPage() {
                     </span>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
-                        <p className="text-[11.5px] font-medium">{event.label}</p>
-                        <p className="font-mono text-[12px] text-muted">{formatDateTime(event.at)}</p>
+                        <p className="text-[11.5px] font-medium">{t(event.label)}</p>
+                        <p className="font-mono text-[12px] text-muted">{t(formatDateTime(event.at))}</p>
                       </div>
                       {event.note ? (
-                        <p className="mt-0.5 text-[12px] leading-relaxed text-muted">{event.note}</p>
+                        <p className="mt-0.5 text-[12px] leading-relaxed text-muted">{t(event.note)}</p>
                       ) : null}
                       <p className="mt-0.5 font-mono text-[12px] uppercase tracking-[0.08em] text-muted/70">
                         {event.actor}
@@ -897,33 +898,33 @@ export default function OrderDetailPage() {
 
           <section className="rounded-2xl border border-line bg-white p-5">
             <p className="eyebrow flex items-center gap-1.5">
-              <FileText className="size-3 text-muted" /> Documenti
+              <FileText className="size-3 text-muted" /> {t("Documenti")}
             </p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               {[
                 {
-                  title: quote ? `Preventivo ${order.reference}` : "Preventivo in attesa",
-                  meta: quote ? `${formatCurrency(quote.breakdown.total, { cents: true })} · ${QUOTE_STATUS_LABELS[quote.status] ?? quote.status}` : "Emetti per generare",
+                  title: quote ? t(`Preventivo ${order.reference}`) : t("Preventivo in attesa"),
+                  meta: quote ? t(`${formatCurrency(quote.breakdown.total, { cents: true })} · ${t(QUOTE_STATUS_LABELS[quote.status] ?? quote.status)}`) : t("Emetti per generare"),
                   ready: Boolean(quote),
                   icon: Receipt,
                 },
                 {
-                  title: "Certificato QC",
+                  title: t("Certificato QC"),
                   meta:
                     order.collection?.qcStatus === "passed"
-                      ? "QC-2026-8891 · superato"
-                      : "Emesso dopo il campionamento",
+                      ? t("QC-2026-8891 · superato")
+                      : t("Emesso dopo il campionamento"),
                   ready: order.collection?.qcStatus === "passed",
                   icon: ShieldCheck,
                 },
                 {
-                  title: "Nota di consegna",
-                  meta: order.status === "completed" ? "Firmata alla consegna" : "Generato al ritiro",
+                  title: t("Nota di consegna"),
+                  meta: order.status === "completed" ? t("Firmata alla consegna") : t("Generato al ritiro"),
                   ready: order.status === "completed",
                   icon: ClipboardCheck,
                 },
                 {
-                  title: "Fattura commissione",
+                  title: t("Fattura commissione"),
                   meta: quote ? formatCurrency(quote.breakdown.commissionAmount, { cents: true }) : "—",
                   ready: order.status === "completed",
                   icon: FileCheck2,
@@ -961,7 +962,7 @@ export default function OrderDetailPage() {
                 <ActionIcon className="size-4" />
               </span>
               <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-paper/55">
-                Prossima azione
+                {t("Prossima azione")}
               </p>
             </div>
             <p className="mt-3 text-[17px] leading-tight text-paper">{actionCard.title}</p>
@@ -970,17 +971,17 @@ export default function OrderDetailPage() {
           </div>
 
           <div className="rounded-2xl border border-line bg-white p-4">
-            <p className="eyebrow">Parti</p>
+            <p className="eyebrow">{t("Parti")}</p>
             <div className="mt-3 space-y-3">
               {[
                 {
-                  label: "Acquirente",
+                  label: t("Acquirente"),
                   org: buyer,
                   city: requestLocation?.city,
                   icon: Building2,
                 },
                 {
-                  label: "Fornitore",
+                  label: t("Fornitore"),
                   org: supplier,
                   city: listingLocation?.city,
                   icon: Warehouse,
@@ -988,13 +989,13 @@ export default function OrderDetailPage() {
               ].map((party) => {
                 const Icon = party.icon;
                 return (
-                  <div key={party.label} className="flex items-start gap-2.5">
+                  <div key={t(party.label)} className="flex items-start gap-2.5">
                     <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg bg-paper text-muted">
                       <Icon className="size-3.5" />
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                        {party.label}
+                        {t(party.label)}
                       </p>
                       <p className="mt-0.5 flex items-center gap-1 truncate text-[11.5px] font-medium">
                         {party.org?.name ?? "—"}
@@ -1011,15 +1012,15 @@ export default function OrderDetailPage() {
             </div>
             <div className="mt-3 space-y-1.5 border-t border-line pt-3 text-[11.5px] text-muted">
               <div className="flex justify-between">
-                <span>Creato da</span>
-                <span className="text-ink">{creator?.fullName ?? user?.fullName ?? "Offcut"}</span>
+                <span>{t("Creato da")}</span>
+                <span className="text-ink">{creator?.fullName ?? user?.fullName ?? t("Offcut")}</span>
               </div>
               <div className="flex justify-between">
-                <span>Data ordine</span>
-                <span className="text-ink">{formatDate(order.createdAt)}</span>
+                <span>{t("Data ordine")}</span>
+                <span className="text-ink">{t(formatDate(order.createdAt))}</span>
               </div>
               <div className="flex justify-between">
-                <span>Punteggio abbinamento</span>
+                <span>{t("Punteggio abbinamento")}</span>
                 <span className="text-ink">{match ? `${match.score}/100` : "—"}</span>
               </div>
             </div>
@@ -1028,13 +1029,13 @@ export default function OrderDetailPage() {
           {processing.length > 0 ? (
             <div className="rounded-2xl border border-line bg-white p-4">
               <p className="eyebrow flex items-center gap-1.5">
-                <Package className="size-3 text-muted" /> Lavorazione richiesta
+                <Package className="size-3 text-muted" /> {t("Lavorazione richiesta")}
               </p>
               <div className="mt-2.5">
                 <ProcessingChips processing={processing} />
               </div>
               <p className="mt-2 text-[11.5px] leading-relaxed text-muted">
-                Incluso nella voce lavorazione del preventivo consegnato.
+                {t("Incluso nella voce lavorazione del preventivo consegnato.")}
               </p>
             </div>
           ) : null}
@@ -1043,28 +1044,28 @@ export default function OrderDetailPage() {
             <Dialog open={cancelOpen} onOpenChange={setCancelOpen}>
               <DialogTrigger asChild>
                 <Button variant="ghost" size="sm" className="w-full text-muted">
-                  Annulla questo ordine
+                  {t("Annulla questo ordine")}
                 </Button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Annullare {order.reference}?</DialogTitle>
+                  <DialogTitle>{t(`Annullare ${order.reference}?`)}</DialogTitle>
                   <DialogDescription>
-                    Il materiale torna sul mercato e il preventivo viene annullato. Questa operazione non può essere annullata nello spazio demo.
+                    {t("Il materiale torna sul mercato e il preventivo viene annullato. Questa operazione non può essere annullata nello spazio demo.")}
                   </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                   <Button variant="ghost" onClick={() => setCancelOpen(false)}>
-                    Mantieni ordine
+                    {t("Mantieni ordine")}
                   </Button>
                   <Button
                     variant="destructive"
                     onClick={() => {
-                      run(() => cancelOrder(orderId), "Ordine annullato");
+                      run(() => cancelOrder(orderId), t("Ordine annullato"));
                       setCancelOpen(false);
                     }}
                   >
-                    Annulla ordine
+                    {t("Annulla ordine")}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -1073,13 +1074,13 @@ export default function OrderDetailPage() {
 
           <div className="rounded-2xl border border-line bg-white/60 p-4">
             <p className="flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-              <Info className="size-3" /> Devi modificare qualcosa?
+              <Info className="size-3" /> {t("Devi modificare qualcosa?")}
             </p>
             <p className="mt-2 text-[11.5px] leading-relaxed text-muted">
-              Le modifiche a quantità, fascia e partner sono gestite dalle operazioni Offcut prima del ritiro. Nessun importo viene riaddebitato senza un preventivo riemesso.
+              {t("Le modifiche a quantità, fascia e partner sono gestite dalle operazioni Offcut prima del ritiro. Nessun importo viene riaddebitato senza un preventivo riemesso.")}
             </p>
             <Button variant="outline" size="sm" className="mt-3 w-full" asChild>
-              <Link href="/app/settings">Impostazioni spazio di lavoro</Link>
+              <Link href="/app/settings">{t("Impostazioni spazio di lavoro")}</Link>
             </Button>
           </div>
         </aside>

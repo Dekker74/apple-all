@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Building2, ChevronDown, LogOut, Settings, ShieldCheck, UserRound } from "lucide-react";
@@ -18,6 +20,7 @@ import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export function UserMenu({ compact = false }: { compact?: boolean }) {
+  const { t } = useI18n();
   const user = useCurrentUser();
   const org = useCurrentOrg();
   const signOut = useAppStore((s) => s.signOut);
@@ -55,22 +58,22 @@ export function UserMenu({ compact = false }: { compact?: boolean }) {
           ) : null}
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuLabel>Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("Account")}</DropdownMenuLabel>
         <DropdownMenuItem asChild>
           <Link href="/app/settings">
-            <UserRound /> Profilo e azienda
+            <UserRound /> {t("Profilo e azienda")}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/app/settings">
-            <Settings /> Impostazioni spazio di lavoro
+            <Settings /> {t("Impostazioni spazio di lavoro")}
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <div className="px-2.5 py-1.5">
           <p className="flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
             <ShieldCheck className="size-3 text-moss" />
-            {isSupabaseConfigured ? "Autenticazione Supabase" : "Spazio di lavoro demo locale"}
+            {isSupabaseConfigured ? t("Autenticazione Supabase") : t("Spazio di lavoro demo locale")}
           </p>
         </div>
         <DropdownMenuSeparator />
@@ -81,7 +84,7 @@ export function UserMenu({ compact = false }: { compact?: boolean }) {
             router.replace("/login");
           }}
         >
-          <LogOut /> Esci
+          <LogOut /> {t("Esci")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

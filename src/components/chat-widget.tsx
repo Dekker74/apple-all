@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "@/lib/i18n";
 
 interface Message {
   role: "user" | "bot";
@@ -31,6 +32,7 @@ const HISTORY_KEY = "circularlink-chat-history";
 const INTRO_KEY = "circularlink-chat-intro-shown";
 
 export function ChatWidget() {
+  const { t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([GREETING]);
   const [input, setInput] = useState("");
@@ -120,7 +122,7 @@ export function ChatWidget() {
       console.error("Chat error:", error);
       const errorMessage: Message = {
         role: "bot",
-        content: `Scusa, si è verificato un errore: ${error.message}. Riprova tra poco.`,
+        content: t(`Scusa, si è verificato un errore: ${error.message}. Riprova tra poco.`),
       };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -146,7 +148,7 @@ export function ChatWidget() {
 
   const handleVoiceInput = () => {
     if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
-      alert("Il riconoscimento vocale non è supportato dal tuo browser.");
+      alert(t("Il riconoscimento vocale non è supportato dal tuo browser."));
       return;
     }
 
@@ -169,7 +171,7 @@ export function ChatWidget() {
 
   const handleVoiceOutput = () => {
     if (!("speechSynthesis" in window)) {
-      alert("La sintesi vocale non è supportata dal tuo browser.");
+      alert(t("La sintesi vocale non è supportata dal tuo browser."));
       return;
     }
 
@@ -202,7 +204,7 @@ export function ChatWidget() {
               <i></i>Online
             </span>
           </h3>
-          <button id="chat-close" onClick={() => setIsOpen(false)} aria-label="Chiudi chat">
+          <button id="chat-close" onClick={() => setIsOpen(false)} aria-label={t("Chiudi chat")}>
             &times;
           </button>
         </div>
@@ -210,14 +212,14 @@ export function ChatWidget() {
         <div id="chat-messages">
           {messages.map((msg, idx) => (
             <div key={idx} className={`chat-message ${msg.role}`}>
-              <b>{msg.role === "bot" ? "Offcut Bot" : "Tu"}</b>
-              <p>{msg.content}</p>
+              <b>{msg.role === "bot" ? "Offcut Bot" : t("Tu")}</b>
+              <p>{t(msg.content)}</p>
             </div>
           ))}
           {isLoading && (
             <div className="chat-message bot">
               <b>Offcut Bot</b>
-              <p>Sto scrivendo...</p>
+              <p>{t("Sto scrivendo...")}</p>
             </div>
           )}
           <div ref={messagesEndRef} />
@@ -227,7 +229,7 @@ export function ChatWidget() {
           <div className="chat-chips">
             {SUGGESTED_CHIPS.map((chip) => (
               <button key={chip} onClick={() => handleChipClick(chip)}>
-                {chip}
+                {t(chip)}
               </button>
             ))}
           </div>
@@ -240,7 +242,7 @@ export function ChatWidget() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Scrivi la tua domanda..."
+              placeholder={t("Scrivi la tua domanda...")}
               maxLength={2000}
               disabled={isLoading}
             />
@@ -251,7 +253,7 @@ export function ChatWidget() {
                   className="btn-offcut ghost sm"
                   onClick={handleVoiceInput}
                   disabled={isLoading}
-                  title="Input vocale"
+                  title={t("Input vocale")}
                 >
                   🎤
                 </button>
@@ -260,13 +262,13 @@ export function ChatWidget() {
                   className="btn-offcut ghost sm"
                   onClick={handleVoiceOutput}
                   disabled={isLoading || messages.filter((m) => m.role === "bot").length === 0}
-                  title="Leggi risposta"
+                  title={t("Leggi risposta")}
                 >
                   🔊
                 </button>
               </div>
               <button type="submit" className="btn-offcut sm" disabled={isLoading || !input.trim()}>
-                Invia
+                {t("Invia")}
               </button>
             </div>
           </form>
@@ -275,12 +277,12 @@ export function ChatWidget() {
 
       <div className="chat-launcher">
         <span className="chat-launcher-label" aria-hidden="true">
-          Chiedi al bot
+          {t("Chiedi al bot")}
         </span>
         <button
           id="chat-toggle"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Chiudi chat" : "Apri chat con Offcut Bot"}
+          aria-label={isOpen ? t("Chiudi chat") : t("Apri chat con Offcut Bot")}
           title="Offcut Bot"
         >
           {isOpen ? "✕" : "💬"}

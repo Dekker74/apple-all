@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -71,6 +73,7 @@ async function compressImage(file: File): Promise<string> {
 }
 
 export default function NewListingPage() {
+  const { t } = useI18n();
   const router = useRouter();
   const org = useCurrentOrg();
   const locations = useOrgLocations();
@@ -130,31 +133,31 @@ export default function NewListingPage() {
   function validate(currentStep: number): boolean {
     setError(null);
     if (currentStep === 0) {
-      if (title.trim().length < 6) return fail("Dai al materiale un titolo chiaro e descrittivo.");
-      if (!category) return fail("Seleziona una delle tre categorie MVP.");
+      if (title.trim().length < 6) return fail(t("Dai al materiale un titolo chiaro e descrittivo."));
+      if (!category) return fail(t("Seleziona una delle tre categorie MVP."));
       if (description.trim().length === 0)
-        return fail("Descrivi il materiale in linguaggio semplice.");
+        return fail(t("Descrivi il materiale in linguaggio semplice."));
       if (conditionFlags.length === 0)
-        return fail("Seleziona almeno una condizione del materiale.");
+        return fail(t("Seleziona almeno una condizione del materiale."));
       return true;
     }
     if (currentStep === 1) {
       if (composition.some((c) => c.material.trim().length < 2))
-        return fail("Assegna un nome a ogni componente della composizione.");
+        return fail(t("Assegna un nome a ogni componente della composizione."));
       if (Math.abs(compositionTotal - 100) > 5)
-        return fail("Le percentuali di composizione devono sommare 100% (±5%).");
-      if (quantity <= 0) return fail("Inserisci la quantità disponibile in chilogrammi.");
-      if (Number(minOrderKg) <= 0) return fail("Imposta una quantità minima d'ordine.");
-      if (Number(minOrderKg) > quantity) return fail("L'ordine minimo non può superare la quantità disponibile.");
-      if (price <= 0) return fail("Imposta un prezzo del materiale al kg.");
+        return fail(t("Le percentuali di composizione devono sommare 100% (±5%)."));
+      if (quantity <= 0) return fail(t("Inserisci la quantità disponibile in chilogrammi."));
+      if (Number(minOrderKg) <= 0) return fail(t("Imposta una quantità minima d'ordine."));
+      if (Number(minOrderKg) > quantity) return fail(t("L'ordine minimo non può superare la quantità disponibile."));
+      if (price <= 0) return fail(t("Imposta un prezzo del materiale al kg."));
       if (new Date(availableUntil) < new Date(availableFrom))
-        return fail("La data di fine disponibilità deve essere successiva a quella di inizio.");
+        return fail(t("La data di fine disponibilità deve essere successiva a quella di inizio."));
       return true;
     }
     if (currentStep === 2) {
-      if (!locationId) return fail("Seleziona la sede di ritiro.");
-      if (packaging.trim().length < 2) return fail("Descrivi il confezionamento (es. balle, octabin).");
-      if (handling.length === 0) return fail("Seleziona almeno un vincolo di movimentazione.");
+      if (!locationId) return fail(t("Seleziona la sede di ritiro."));
+      if (packaging.trim().length < 2) return fail(t("Descrivi il confezionamento (es. balle, octabin)."));
+      if (handling.length === 0) return fail(t("Seleziona almeno un vincolo di movimentazione."));
       return true;
     }
     return true;
@@ -171,7 +174,7 @@ export default function NewListingPage() {
 
   function publish(status: "active" | "draft") {
     if (!validate(0) || !validate(1) || !validate(2)) {
-      setError("Completa i passaggi precedenti prima di pubblicare.");
+      setError(t("Completa i passaggi precedenti prima di pubblicare."));
       return;
     }
     if (!category || !locationId) return;
@@ -200,15 +203,15 @@ export default function NewListingPage() {
         status,
       });
       const matchCount = useAppStore.getState().matches.filter((m) => m.listingId === id).length;
-      toast.success(status === "active" ? "Annuncio pubblicato" : "Bozza salvata", {
+      toast.success(status === "active" ? t("Annuncio pubblicato") : t("Bozza salvata"), {
         description:
           status === "active"
-            ? `${matchCount} ${matchCount === 1 ? "azienda interessata" : "aziende interessate"} a questo materiale. Puoi contattarle subito.`
-            : "Puoi pubblicarlo da I miei annunci.",
+            ? t(`${matchCount} ${matchCount === 1 ? t("azienda interessata") : t("aziende interessate")} a questo materiale. Puoi contattarle subito.`)
+            : t("Puoi pubblicarlo da I miei annunci."),
       });
       router.push(status === "active" ? `/app/matches?listing=${id}` : "/app/listings");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Impossibile creare l'annuncio.");
+      setError(err instanceof Error ? err.message : t("Impossibile creare l'annuncio."));
       setSaving(false);
     }
   }
@@ -216,25 +219,25 @@ export default function NewListingPage() {
   async function handleFiles(files: FileList | null) {
     if (!files || files.length === 0) return;
     if (photos.length >= 3) {
-      toast.error("Puoi caricare al massimo 3 foto.");
+      toast.error(t("Puoi caricare al massimo 3 foto."));
       return;
     }
     const candidates = Array.from(files).slice(0, 3 - photos.length);
     const valid = candidates.filter((file) => file.type.startsWith("image/") && file.size <= 8_000_000);
     if (valid.length === 0) {
-      toast.error("Scegli un'immagine JPEG, PNG o WebP di massimo 8 MB.");
+      toast.error(t("Scegli un'immagine JPEG, PNG o WebP di massimo 8 MB."));
       return;
     }
     if (valid.length < candidates.length) {
-      toast.error("Alcuni file non sono immagini valide e sono stati ignorati.");
+      toast.error(t("Alcuni file non sono immagini valide e sono stati ignorati."));
     }
     setUploading(true);
     try {
       const compressed = await Promise.all(valid.map((file) => compressImage(file)));
       setPhotos((prev) => [...prev, ...compressed].slice(0, 3));
-      toast.success(compressed.length === 1 ? "Foto aggiunta all'annuncio." : "Foto aggiunte all'annuncio.");
+      toast.success(compressed.length === 1 ? t("Foto aggiunta all'annuncio.") : t("Foto aggiunte all'annuncio."));
     } catch {
-      toast.error("Impossibile leggere quell'immagine. Prova con un altro file.");
+      toast.error(t("Impossibile leggere quell'immagine. Prova con un altro file."));
     } finally {
       setUploading(false);
     }
@@ -247,22 +250,21 @@ export default function NewListingPage() {
           href="/app/listings"
           className="inline-flex items-center gap-1.5 text-[11.5px] text-muted hover:text-ink"
         >
-          <ArrowLeft className="size-3.5" /> My listings
+          <ArrowLeft className="size-3.5" /> {t("I miei annunci")}
         </Link>
-        <Badge variant="muted">Flusso fornitore · {org?.name}</Badge>
+        <Badge variant="muted">{t("Flusso fornitore")} · {org?.name}</Badge>
       </div>
 
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
-          <p className="eyebrow">Ho materiale</p>
-          <h1 className="mt-2 text-[34px] leading-none sm:text-[38px]">Pubblica materiale in eccedenza</h1>
+          <p className="eyebrow">{t("Ho materiale")}</p>
+          <h1 className="mt-2 text-[34px] leading-none sm:text-[38px]">{t("Pubblica materiale in eccedenza")}</h1>
           <p className="mt-2 max-w-[560px] text-[12px] leading-relaxed text-muted">
-            Quattro passaggi. In questa versione MVP si può commerciare solo carta e cartone, legno e
-            plastica. Il motore abbina subito alla pubblicazione.
+            {t("Quattro passaggi. In questa versione MVP si può commerciare solo carta e cartone, legno e plastica. Il motore abbina subito alla pubblicazione.")}
           </p>
         </div>
         <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-          Passo {step + 1} / {STEPS.length}
+          {t(`Passo ${step + 1}`)} / {STEPS.length}
         </p>
       </div>
 
@@ -297,7 +299,7 @@ export default function NewListingPage() {
                 {done ? <Check className="size-3" strokeWidth={3} /> : index + 1}
               </span>
               <span className={cn("text-[12px]", active ? "font-medium text-ink" : "text-muted")}>
-                {label}
+                {t(label)}
               </span>
             </button>
           );
@@ -309,28 +311,28 @@ export default function NewListingPage() {
           {step === 0 ? (
             <div className="space-y-5">
               <div>
-                <p className="eyebrow">Passo 1</p>
-                <h2 className="mt-1.5 text-[24px]">Di che materiale si tratta?</h2>
+                <p className="eyebrow">{t("Passo 1")}</p>
+                <h2 className="mt-1.5 text-[24px]">{t("Di che materiale si tratta?")}</h2>
               </div>
 
               <Field
-                label="Titolo annuncio"
+                label={t("Titolo annuncio")}
                 required
-                hint="Linguaggio semplice, come farebbe una ricerca l'acquirente. Includi qualità o forma."
+                hint={t("Linguaggio semplice, come farebbe una ricerca l'acquirente. Includi qualità o forma.")}
               >
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="es. Ritagli OCC kraft 90/10, in balle"
+                  placeholder={t("es. Ritagli OCC kraft 90/10, in balle")}
                 />
               </Field>
 
               <div>
                 <p className="field-label">
-                  Categoria materiale <span className="text-clay">*</span>
+                  {t("Categoria materiale")} <span className="text-clay">*</span>
                 </p>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Limitato al lancio. Le altre categorie sono disabilitate per policy.
+                  {t("Limitato al lancio. Le altre categorie sono disabilitate per policy.")}
                 </p>
                 <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
                   {CATEGORIES.map((cat) => {
@@ -352,7 +354,7 @@ export default function NewListingPage() {
                           {selected ? <Check className="size-3.5 text-forest" strokeWidth={3} /> : null}
                         </div>
                         <p className="mt-2 text-[11.5px] font-medium">{cat.short}</p>
-                        <p className="mt-0.5 text-[12px] leading-[1.5] text-muted">{cat.blurb}</p>
+                        <p className="mt-0.5 text-[12px] leading-[1.5] text-muted">{t(cat.blurb)}</p>
                       </button>
                     );
                   })}
@@ -360,24 +362,24 @@ export default function NewListingPage() {
               </div>
 
               <Field
-                label="Descrizione in linguaggio semplice"
+                label={t("Descrizione in linguaggio semplice")}
                 required
-                hint="Origine, qualità e impieghi. Evita descrizioni fatte solo di gergo."
+                hint={t("Origine, qualità e impieghi. Evita descrizioni fatte solo di gergo.")}
               >
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={5}
-                  placeholder="Ritagli puliti di cartone ondulato kraft da cartotecnica, asciutti, senza cera o laminati. Adatti per cartone riciclato…"
+                  placeholder={t("Ritagli puliti di cartone ondulato kraft da cartotecnica, asciutti, senza cera o laminati. Adatti per cartone riciclato…")}
                 />
               </Field>
 
               <div>
                 <p className="field-label">
-                  Condizioni del prodotto <span className="text-clay">*</span>
+                  {t("Condizioni del prodotto")} <span className="text-clay">*</span>
                 </p>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Seleziona tutto quello che descrive il materiale. Puoi scegliere più di una condizione.
+                  {t("Seleziona tutto quello che descrive il materiale. Puoi scegliere più di una condizione.")}
                 </p>
                 <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
                   {CONDITIONS.map((option) => {
@@ -404,9 +406,9 @@ export default function NewListingPage() {
                           {checked ? <Check className="size-3" strokeWidth={3} /> : null}
                         </span>
                         <span>
-                          <span className="block text-[12px] font-medium">{option.label}</span>
+                          <span className="block text-[12px] font-medium">{t(option.label)}</span>
                           <span className="mt-0.5 block text-[11.5px] leading-[1.45] text-muted">
-                            {option.hint}
+                            {t(option.hint)}
                           </span>
                         </span>
                       </button>
@@ -420,13 +422,13 @@ export default function NewListingPage() {
           {step === 1 ? (
             <div className="space-y-5">
               <div>
-                <p className="eyebrow">Passo 2</p>
-                <h2 className="mt-1.5 text-[24px]">Specifiche e disponibilità</h2>
+                <p className="eyebrow">{t("Passo 2")}</p>
+                <h2 className="mt-1.5 text-[24px]">{t("Specifiche e disponibilità")}</h2>
               </div>
 
               <div>
                 <div className="flex items-center justify-between">
-                  <p className="field-label">Composizione</p>
+                  <p className="field-label">{t("Composizione")}</p>
                   <span
                     className={cn(
                       "font-mono text-[11.5px]",
@@ -446,7 +448,7 @@ export default function NewListingPage() {
                             prev.map((p, i) => (i === index ? { ...p, material: e.target.value } : p)),
                           )
                         }
-                        placeholder="Materiale, es. OCC"
+                        placeholder={t("Materiale, es. OCC")}
                         className="flex-1"
                       />
                       <div className="relative w-[96px]">
@@ -454,7 +456,7 @@ export default function NewListingPage() {
                           type="number"
                           min={0}
                           max={100}
-                          aria-label="Percentuale del componente"
+                          aria-label={t("Percentuale del componente")}
                           value={part.percent}
                           onChange={(e) =>
                             setComposition((prev) =>
@@ -475,7 +477,7 @@ export default function NewListingPage() {
                         size="icon"
                         onClick={() => setComposition((prev) => prev.filter((_, i) => i !== index))}
                         disabled={composition.length === 1}
-                        aria-label="Rimuovi componente"
+                        aria-label={t("Rimuovi componente")}
                       >
                         <Trash2 className="size-3.5" />
                       </Button>
@@ -488,43 +490,43 @@ export default function NewListingPage() {
                     onClick={() => setComposition((prev) => [...prev, { material: "", percent: 0 }])}
                     className="mt-2 flex items-center gap-1 text-[12px] text-moss hover:underline"
                   >
-                    <Plus className="size-3" /> Aggiungi componente
+                    <Plus className="size-3" /> {t("Aggiungi componente")}
                   </button>
                 ) : null}
               </div>
 
               <div className="grid gap-4 sm:grid-cols-3">
-                <Field label="Quantità disponibile (kg)" required>
+                <Field label={t("Quantità disponibile (kg)")} required>
                   <Input
                     type="number"
                     min={1}
                     max={1000000}
-                    aria-label="Quantità disponibile in kg"
+                    aria-label={t("Quantità disponibile in kg")}
                     value={quantityKg}
                     onChange={(e) => setQuantityKg(e.target.value)}
                     placeholder="18500"
                     className="font-mono"
                   />
                 </Field>
-                <Field label="Ordine minimo (kg)" required>
+                <Field label={t("Ordine minimo (kg)")} required>
                   <Input
                     type="number"
                     min={1}
                     max={1000000}
-                    aria-label="Ordine minimo in kg"
+                    aria-label={t("Ordine minimo in kg")}
                     value={minOrderKg}
                     onChange={(e) => setMinOrderKg(e.target.value)}
                     placeholder="5000"
                     className="font-mono"
                   />
                 </Field>
-                <Field label="Prezzo materiale (€/kg)" required>
+                <Field label={t("Prezzo materiale (€/kg)")} required>
                   <Input
                     type="number"
                     min={0}
                     max={10000}
                     step="0.01"
-                    aria-label="Prezzo del materiale per kg in euro"
+                    aria-label={t("Prezzo del materiale per kg in euro")}
                     value={pricePerKg}
                     onChange={(e) => setPricePerKg(e.target.value)}
                     placeholder="0.11"
@@ -534,7 +536,7 @@ export default function NewListingPage() {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Disponibile dal" required>
+                <Field label={t("Disponibile dal")} required>
                   <Input
                     type="date"
                     min={todayInput()}
@@ -542,7 +544,7 @@ export default function NewListingPage() {
                     onChange={(e) => setAvailableFrom(e.target.value)}
                   />
                 </Field>
-                <Field label="Disponibile fino al" required>
+                <Field label={t("Disponibile fino al")} required>
                   <Input
                     type="date"
                     min={availableFrom}
@@ -554,13 +556,13 @@ export default function NewListingPage() {
 
               <div className="rounded-xl border border-line bg-paper/60 p-3.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[12px] text-muted">Valore materiale a pieno volume</span>
+                  <span className="text-[12px] text-muted">{t("Valore materiale a pieno volume")}</span>
                   <span className="font-mono text-[13px]">
                     {formatCurrency(quantity * price, { cents: true })}
                   </span>
                 </div>
                 <p className="mt-1 text-[11.5px] text-muted">
-                  Esclude lavorazione, trasporto e IVA — gli acquirenti vedono una stima consegnata completa.
+                  {t("Esclude lavorazione, trasporto e IVA — gli acquirenti vedono una stima consegnata completa.")}
                 </p>
               </div>
             </div>
@@ -569,21 +571,21 @@ export default function NewListingPage() {
           {step === 2 ? (
             <div className="space-y-5">
               <div>
-                <p className="eyebrow">Passo 3</p>
-                <h2 className="mt-1.5 text-[24px]">Logistica e evidenze</h2>
+                <p className="eyebrow">{t("Passo 3")}</p>
+                <h2 className="mt-1.5 text-[24px]">{t("Logistica e evidenze")}</h2>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Sede di ritiro" required>
+                <Field label={t("Sede di ritiro")} required>
                   <Select value={locationId} onChange={(e) => setLocationId(e.target.value)}>
                     {locations.map((loc) => (
                       <option key={loc.id} value={loc.id}>
-                        {loc.name} — {loc.city}
+                        {t(loc.name)} — {loc.city}
                       </option>
                     ))}
                   </Select>
                 </Field>
-                <Field label="Confezionamento" required hint="es. balle ~650 kg, octabin, alla rinfusa.">
+                <Field label={t("Confezionamento")} required hint={t("es. balle ~650 kg, octabin, alla rinfusa.")}>
                   <Input
                     value={packaging}
                     onChange={(e) => setPackaging(e.target.value)}
@@ -593,9 +595,9 @@ export default function NewListingPage() {
               </div>
 
               <div>
-                <p className="field-label">Vincoli di movimentazione</p>
+                <p className="field-label">{t("Vincoli di movimentazione")}</p>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Seleziona tutto ciò che trasportatore o lavoratore devono sapere.
+                  {t("Seleziona tutto ciò che trasportatore o lavoratore devono sapere.")}
                 </p>
                 <div className="mt-2.5 grid gap-1.5 sm:grid-cols-2">
                   {HANDLING_OPTIONS.map((option) => (
@@ -611,9 +613,9 @@ export default function NewListingPage() {
                       <Checkbox
                         checked={handling.includes(option)}
                         onCheckedChange={() => toggleHandling(option)}
-                        aria-label={option}
+                        aria-label={t(option)}
                       />
-                      {option}
+                      {t(option)}
                     </label>
                   ))}
                 </div>
@@ -621,7 +623,7 @@ export default function NewListingPage() {
 
               <div>
                 <div className="flex items-center justify-between">
-                  <p className="field-label">Foto del prodotto</p>
+                  <p className="field-label">{t("Foto del prodotto")}</p>
                   <span className="font-mono text-[12px] text-muted">{photos.length}/3</span>
                 </div>
                 <div className="mt-2 grid grid-cols-3 gap-2">
@@ -633,7 +635,7 @@ export default function NewListingPage() {
                         type="button"
                         onClick={() => setPhotos((prev) => prev.filter((_, i) => i !== index))}
                         className="absolute right-1.5 top-1.5 rounded-full bg-ink/70 p-1 text-paper opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
-                        aria-label="Rimuovi foto"
+                        aria-label={t("Rimuovi foto")}
                       >
                         <X className="size-3" />
                       </button>
@@ -646,7 +648,7 @@ export default function NewListingPage() {
                       ) : (
                         <ImagePlus className="size-4" />
                       )}
-                      <span className="text-[11.5px]">{uploading ? "Elaborazione…" : "Aggiungi foto"}</span>
+                      <span className="text-[11.5px]">{uploading ? t("Elaborazione…") : t("Aggiungi foto")}</span>
                       <input
                         type="file"
                         accept="image/png,image/jpeg,image/webp"
@@ -663,8 +665,7 @@ export default function NewListingPage() {
                 </div>
                 <p className="mt-2 flex items-start gap-1.5 text-[11.5px] leading-relaxed text-muted">
                   <Info className="mt-0.5 size-3 shrink-0" />
-                  Mostra il materiale reale: foto chiare aumentano la fiducia degli acquirenti. Le immagini
-                  vengono compresse prima di essere allegate all'annuncio.
+                  {t("Mostra il materiale reale: foto chiare aumentano la fiducia degli acquirenti. Le immagini vengono compresse prima di essere allegate all'annuncio.")}
                 </p>
               </div>
 
@@ -672,12 +673,12 @@ export default function NewListingPage() {
                 <MapPin className="mt-0.5 size-4 shrink-0 text-moss" />
                 <div>
                   <p className="text-[12px] font-medium">
-                    {selectedLocation?.name ?? "Seleziona una sede"}
+                    {selectedLocation?.name ?? t("Seleziona una sede")}
                   </p>
                   <p className="mt-0.5 text-[11.5px] text-muted">
                     {selectedLocation
                       ? `${selectedLocation.addressLine}, ${selectedLocation.postalCode} ${selectedLocation.city}, ${selectedLocation.country}`
-                      : "Aggiungi prima una sede nelle Impostazioni."}
+                      : t("Aggiungi prima una sede nelle Impostazioni.")}
                   </p>
                 </div>
               </div>
@@ -687,35 +688,35 @@ export default function NewListingPage() {
           {step === 3 ? (
             <div className="space-y-5">
               <div>
-                <p className="eyebrow">Passo 4</p>
-                <h2 className="mt-1.5 text-[24px]">Revisiona e pubblica</h2>
+                <p className="eyebrow">{t("Passo 4")}</p>
+                <h2 className="mt-1.5 text-[24px]">{t("Revisiona e pubblica")}</h2>
                 <p className="mt-1 text-[12px] text-muted">
-                  Controlla le specifiche. Puoi mettere in pausa o archiviare l'annuncio in qualsiasi momento.
+                  {t("Controlla le specifiche. Puoi mettere in pausa o archiviare l'annuncio in qualsiasi momento.")}
                 </p>
               </div>
 
               <div className="flex gap-4 rounded-xl border border-line p-3.5">
                 <MaterialThumb
                   category={category ?? "paper_cardboard"}
-                  reference="NUOVO"
+                  reference={t("NUOVO")}
                   photos={photos}
                   className="h-20 w-28 shrink-0 rounded-lg"
                   compact
                 />
                 <div className="min-w-0">
-                  <p className="text-[13px] font-medium leading-[1.5]">{title || "Annuncio senza titolo"}</p>
+                  <p className="text-[13px] font-medium leading-[1.5]">{title || t("Annuncio senza titolo")}</p>
                   <p className="mt-1 text-[12px] text-muted">
-                    {category ? CATEGORY_MAP[category].label : "Nessuna categoria"} ·{" "}
+                    {category ? t(CATEGORY_MAP[category].label) : t("Nessuna categoria")} ·{" "}
                     {conditionFlags.length > 0
-                      ? conditionFlags.map((c) => CONDITIONS.find((o) => o.value === c)?.label).join(" + ")
-                      : "Condizioni non selezionate"}
+                      ? conditionFlags.map((c) => t(CONDITIONS.find((o) => o.value === c)?.label ?? "")).join(" + ")
+                      : t("Condizioni non selezionate")}
                   </p>
                   <p className="mt-1 line-clamp-2 text-[12px] leading-relaxed text-muted">
-                    {description || "Nessuna descrizione"}
+                    {description || t("Nessuna descrizione")}
                   </p>
                   <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
                     {photos.length === 0
-                      ? "Nessuna foto allegata"
+                      ? t("Nessuna foto allegata")
                       : `${photos.length} ${photos.length === 1 ? "foto allegata" : "foto allegate"}`}
                   </p>
                 </div>
@@ -723,12 +724,12 @@ export default function NewListingPage() {
 
               <div className="grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-3">
                 {[
-                  { label: "Quantità", value: quantity > 0 ? formatKg(quantity) : "—" },
-                  { label: "Ordine min", value: Number(minOrderKg) > 0 ? formatKg(Number(minOrderKg)) : "—" },
-                  { label: "Prezzo", value: price > 0 ? formatPerKg(price) : "—" },
-                  { label: "Valore materiale", value: formatCurrency(quantity * price) },
-                  { label: "Disponibile", value: `${formatDate(availableFrom, { withYear: false })} – ${formatDate(availableUntil)}` },
-                  { label: "Ritiro", value: selectedLocation?.city ?? "—" },
+                  { label: t("Quantità"), value: quantity > 0 ? formatKg(quantity) : "—" },
+                  { label: t("Ordine min"), value: Number(minOrderKg) > 0 ? formatKg(Number(minOrderKg)) : "—" },
+                  { label: t("Prezzo"), value: price > 0 ? formatPerKg(price) : "—" },
+                  { label: t("Valore materiale"), value: formatCurrency(quantity * price) },
+                  { label: t("Disponibile"), value: t(`${formatDate(availableFrom, { withYear: false })} – ${formatDate(availableUntil)}`) },
+                  { label: t("Ritiro"), value: selectedLocation?.city ?? "—" },
                 ].map((item) => (
                   <div key={item.label} className="bg-white px-3.5 py-2.5">
                     <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{item.label}</p>
@@ -738,7 +739,7 @@ export default function NewListingPage() {
               </div>
 
               <div className="rounded-xl bg-paper/70 p-3.5">
-                <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">Composizione</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{t("Composizione")}</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {composition.map((part) => (
                     <span key={part.material} className="rounded border border-line bg-white px-2 py-0.5 text-[11.5px]">
@@ -746,7 +747,7 @@ export default function NewListingPage() {
                     </span>
                   ))}
                 </div>
-                <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted">Movimentazione</p>
+                <p className="mt-2 font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{t("Movimentazione")}</p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {handling.map((h) => (
                     <span key={h} className="rounded-full border border-line bg-white px-2 py-0.5 text-[11.5px] text-moss">
@@ -759,8 +760,7 @@ export default function NewListingPage() {
               <div className="flex items-start gap-2 rounded-xl border border-lime/50 bg-lime/10 p-3.5">
                 <Sparkles className="mt-0.5 size-4 shrink-0 text-moss" />
                 <p className="text-[12px] leading-relaxed text-ink/80">
-                  Alla pubblicazione il motore valuta l'annuncio rispetto a ogni richiesta aperta sul mercato e
-                  mostra i candidati più solidi a entrambe le parti.
+                  {t("Alla pubblicazione il motore valuta l'annuncio rispetto a ogni richiesta aperta sul mercato e mostra i candidati più solidi a entrambe le parti.")}
                 </p>
               </div>
             </div>
@@ -783,22 +783,22 @@ export default function NewListingPage() {
               disabled={step === 0}
               className="-ml-2"
             >
-              <ArrowLeft className="size-3.5" /> Indietro
+              <ArrowLeft className="size-3.5" /> {t("Indietro")}
             </Button>
             <div className="flex items-center gap-2">
               {step === 3 ? (
                 <>
                   <Button variant="outline" onClick={() => publish("draft")} disabled={saving}>
-                    Salva bozza
+                    {t("Salva bozza")}
                   </Button>
                   <Button onClick={() => publish("active")} disabled={saving}>
                     {saving ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-3.5" />}
-                    Pubblica annuncio
+                    {t("Pubblica annuncio")}
                   </Button>
                 </>
               ) : (
                 <Button onClick={next}>
-                  Continue <ArrowRight className="size-3.5" />
+                  {t("Continua")} <ArrowRight className="size-3.5" />
                 </Button>
               )}
             </div>
@@ -807,7 +807,7 @@ export default function NewListingPage() {
 
         <aside className="space-y-3 lg:sticky lg:top-app-sticky">
           <div className="rounded-2xl border border-line bg-white p-4">
-            <p className="eyebrow">Anteprima annuncio</p>
+            <p className="eyebrow">{t("Anteprima annuncio")}</p>
             <MaterialThumb
               category={category ?? "paper_cardboard"}
               reference="PREVIEW"
@@ -816,26 +816,26 @@ export default function NewListingPage() {
               compact
             />
             <p className="mt-3 line-clamp-2 text-[12.5px] font-medium">
-              {title || "Titolo del tuo materiale"}
+              {title || t("Titolo del tuo materiale")}
             </p>
             <p className="mt-1 text-[11.5px] text-muted">
-              {category ? CATEGORY_MAP[category].label : "Categoria non selezionata"} ·{" "}
-              {selectedLocation?.city ?? "Sede"}
+              {category ? t(CATEGORY_MAP[category].label) : t("Categoria non selezionata")} ·{" "}
+              {selectedLocation?.city ?? t("Sede")}
             </p>
             <p className="mt-1 text-[11.5px] text-muted">
               {conditionFlags.length > 0
                 ? conditionFlags
-                    .map((c) => CONDITIONS.find((o) => o.value === c)?.label)
+                    .map((c) => t(CONDITIONS.find((o) => o.value === c)?.label ?? ""))
                     .join(" + ")
-                : "Condizioni da selezionare"}
+                : t("Condizioni da selezionare")}
             </p>
             <div className="mt-3 grid grid-cols-2 gap-2 border-t border-line pt-3 text-[12px]">
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Volume</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Volume")}</p>
                 <p className="mt-0.5 font-mono">{quantity > 0 ? formatKg(quantity) : "—"}</p>
               </div>
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Prezzo</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Prezzo")}</p>
                 <p className="mt-0.5 font-mono">{price > 0 ? formatPerKg(price) : "—"}</p>
               </div>
             </div>

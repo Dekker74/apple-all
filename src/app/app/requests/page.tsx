@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -30,11 +32,12 @@ const TABS: { value: "all" | RequestStatus; label: string }[] = [
   { value: "all", label: "Tutti" },
   { value: "open", label: "Apri" },
   { value: "matched", label: "Abbinato" },
-  { value: "fulfilled", label: "Fulfilled" },
+  { value: "fulfilled", label: "Evaso" },
   { value: "closed", label: "Chiuso" },
 ];
 
 export default function RequestsPage() {
+  const { t } = useI18n();
   const org = useCurrentOrg();
   const requests = useOrgRequests();
   const matches = useAppStore((s) => s.matches);
@@ -61,13 +64,13 @@ export default function RequestsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Domanda · i miei requisiti"
-        title="Le mie richieste"
-        description={`${org?.name ?? "La tua organizzazione"} · specifica una volta, riutilizza ogni mese. Le richieste restano aperte mentre il motore cerca nuova offerta secondo le condizioni accettate.`}
+        eyebrow={t("Domanda · i miei requisiti")}
+        title={t("Le mie richieste")}
+        description={t(`${org?.name ?? t("La tua organizzazione")} · specifica una volta, riutilizza ogni mese. Le richieste restano aperte mentre il motore cerca nuova offerta secondo le condizioni accettate.`)}
         actions={
           <Button size="sm" asChild>
             <Link href="/app/requests/new">
-              <Plus className="size-3.5" /> Nuova richiesta
+              <Plus className="size-3.5" /> {t("Nuova richiesta")}
             </Link>
           </Button>
         }
@@ -75,10 +78,10 @@ export default function RequestsPage() {
 
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4">
         {[
-          { label: "Richieste aperte", value: String(open.length) },
-          { label: "Volume richiesto", value: formatKg(volume) },
-          { label: "Abbinamenti AI", value: String(matchCount) },
-          { label: "Candidati solidi", value: String(strongCount) },
+          { label: t("Richieste aperte"), value: String(open.length) },
+          { label: t("Volume richiesto"), value: formatKg(volume) },
+          { label: t("Abbinamenti AI"), value: String(matchCount) },
+          { label: t("Candidati solidi"), value: String(strongCount) },
         ].map((stat) => (
           <div key={stat.label} className="bg-white px-4 py-3.5">
             <p className="font-mono text-[12px] uppercase tracking-[0.13em] text-muted">{stat.label}</p>
@@ -88,21 +91,21 @@ export default function RequestsPage() {
       </div>
 
       <div className="flex flex-wrap gap-1">
-        {TABS.map((t) => {
-          const count = t.value === "all" ? requests.length : requests.filter((r) => r.status === t.value).length;
+        {TABS.map((tabItem) => {
+          const count = tabItem.value === "all" ? requests.length : requests.filter((r) => r.status === tabItem.value).length;
           return (
             <button
-              key={t.value}
-              onClick={() => setTab(t.value)}
+              key={tabItem.value}
+              onClick={() => setTab(tabItem.value)}
               className={cn(
                 "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] transition-colors",
-                tab === t.value
+                tab === tabItem.value
                   ? "border-forest bg-forest text-paper"
                   : "border-line bg-white/60 text-muted hover:border-sage hover:text-ink",
               )}
             >
-              {t.label}
-              <span className={cn("font-mono text-[12px]", tab === t.value ? "text-lime" : "text-muted")}>
+              {t(tabItem.label)}
+              <span className={cn("font-mono text-[12px]", tab === tabItem.value ? "text-lime" : "text-muted")}>
                 {count}
               </span>
             </button>
@@ -135,24 +138,24 @@ export default function RequestsPage() {
                         </span>
                         {best ? (
                           <Badge variant={best.confidence === "strong" ? "strong" : "review"}>
-                            <Sparkles className="size-3" /> Migliore affinità {best.score}
+                            <Sparkles className="size-3" /> {t(`Migliore affinità ${best.score}`)}
                           </Badge>
                         ) : null}
                       </div>
-                      <h2 className="mt-2 text-[17px] leading-tight">{request.title}</h2>
+                      <h2 className="mt-2 text-[17px] leading-tight">{t(request.title)}</h2>
                       <p className="mt-1 max-w-[560px] line-clamp-2 text-[11.5px] leading-relaxed text-muted">
-                        {request.description}
+                        {t(request.description)}
                       </p>
                       <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[12px] text-muted">
                         <span className="flex items-center gap-1">
-                          <MapPin className="size-3" /> {location?.city} · {request.radiusKm} km di raggio
+                          <MapPin className="size-3" /> {location?.city} {t(`· ${request.radiusKm} km di raggio`)}
                         </span>
                         <span className="flex items-center gap-1">
-                          <CalendarDays className="size-3" /> Consegna{" "}
-                          {formatDate(request.neededBy, { withYear: false })}
+                          <CalendarDays className="size-3" />{" "}
+                          {t(`Consegna ${formatDate(request.neededBy, { withYear: false })}`)}
                         </span>
-                        <span className="capitalize">{request.frequency === "weekly" ? "Settimanale" : request.frequency === "monthly" ? "Mensile" : request.frequency === "quarterly" ? "Trimestrale" : "Una tantum"}</span>
-                        <span>{CATEGORY_MAP[request.category].label}</span>
+                        <span className="capitalize">{request.frequency === "weekly" ? t("Settimanale") : request.frequency === "monthly" ? t("Mensile") : request.frequency === "quarterly" ? t("Trimestrale") : t("Una tantum")}</span>
+                        <span>{t(CATEGORY_MAP[request.category].label)}</span>
                       </div>
                       <div className="mt-2.5 flex flex-wrap gap-1.5">
                         {request.acceptableComposition.map((c) => (
@@ -160,7 +163,7 @@ export default function RequestsPage() {
                             key={c}
                             className="rounded border border-line bg-paper/60 px-1.5 py-0.5 text-[11.5px] text-muted"
                           >
-                            {c}
+                            {t(c)}
                           </span>
                         ))}
                         {request.requiredProcessing.map((p) => (
@@ -168,7 +171,7 @@ export default function RequestsPage() {
                             key={p}
                             className="rounded-full border border-line bg-white px-1.5 py-0.5 text-[11.5px] text-moss"
                           >
-                            {PROCESSING_MAP[p].label}
+                            {t(PROCESSING_MAP[p].label)}
                           </span>
                         ))}
                       </div>
@@ -177,15 +180,15 @@ export default function RequestsPage() {
 
                   <div className="grid shrink-0 grid-cols-3 gap-4 rounded-xl bg-paper/60 px-4 py-3 lg:grid-cols-1 lg:gap-2.5 lg:px-4 lg:py-3">
                     <div>
-                      <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Volume</p>
+                      <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Volume")}</p>
                       <p className="mt-0.5 font-mono text-[12px]">{formatKg(request.quantityKg)}</p>
                     </div>
                     <div>
-                      <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Budget massimo</p>
+                      <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Budget massimo")}</p>
                       <p className="mt-0.5 font-mono text-[12px]">{formatCurrency(request.maxBudget)}</p>
                     </div>
                     <div>
-                      <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Budget / kg</p>
+                      <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Budget / kg")}</p>
                       <p className="mt-0.5 font-mono text-[12px]">{formatPerKg(budgetPerKg)}</p>
                     </div>
                   </div>
@@ -193,20 +196,20 @@ export default function RequestsPage() {
 
                 <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-line/70 pt-3">
                   <p className="text-[12px] text-muted">
-                    {requestMatches.length} {requestMatches.length === 1 ? "abbinamento attivo" : "abbinamenti attivi"}
+                    {requestMatches.length} {requestMatches.length === 1 ? t("abbinamento attivo") : t("abbinamenti attivi")}
                     {requestMatches.length > 0
-                      ? ` · ${requestMatches.filter((m) => m.confidence === "strong").length} solidi`
-                      : " · motore ancora in analisi"}
+                      ? t(` · ${requestMatches.filter((m) => m.confidence === "strong").length} solidi`)
+                      : t(" · motore ancora in analisi")}
                   </p>
                   <div className="flex flex-wrap items-center gap-2">
                     <Button variant="ghost" size="sm" asChild>
                       <Link href="/app/matches">
-                        <Target className="size-3.5" /> Vedi abbinamenti
+                        <Target className="size-3.5" /> {t("Vedi abbinamenti")}
                       </Link>
                     </Button>
                     <Button variant="outline" size="sm" asChild>
                       <Link href="/app/requests/new">
-                        <Plus className="size-3.5" /> Nuova richiesta
+                        <Plus className="size-3.5" /> {t("Nuova richiesta")}
                       </Link>
                     </Button>
                   </div>
@@ -218,16 +221,16 @@ export default function RequestsPage() {
       ) : (
         <EmptyState
           icon={ClipboardList}
-          title={requests.length === 0 ? "Nessuna richiesta" : "Nessuna richiesta in questo stato"}
+          title={requests.length === 0 ? t("Nessuna richiesta") : t("Nessuna richiesta in questo stato")}
           description={
             requests.length === 0
-              ? "Definisci il materiale necessario, le condizioni accettate e il budget consegnato. Il motore valuterà ogni annuncio."
-              : "Prova un altro filtro di stato o pubblica una nuova richiesta."
+              ? t("Definisci il materiale necessario, le condizioni accettate e il budget consegnato. Il motore valuterà ogni annuncio.")
+              : t("Prova un altro filtro di stato o pubblica una nuova richiesta.")
           }
           action={
             <Button size="sm" asChild>
               <Link href="/app/requests/new">
-                <Plus className="size-3.5" /> Pubblica una richiesta
+                <Plus className="size-3.5" /> {t("Pubblica una richiesta")}
               </Link>
             </Button>
           }
@@ -236,14 +239,14 @@ export default function RequestsPage() {
 
       <div className="flex flex-col gap-3 rounded-2xl border border-line bg-white/60 p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-[12px] font-medium">Cerchi una qualità che non trovi?</p>
+          <p className="text-[12px] font-medium">{t("Cerchi una qualità che non trovi?")}</p>
           <p className="mt-0.5 text-[12px] text-muted">
-            Aggiungi alternative accettabili alla composizione: aumenta in modo significativo gli abbinamenti qualificati.
+            {t("Aggiungi alternative accettabili alla composizione: aumenta in modo significativo gli abbinamenti qualificati.")}
           </p>
         </div>
         <Button variant="outline" size="sm" asChild>
           <Link href="/app/matches">
-            Apri feed abbinamenti <ArrowUpRight className="size-3.5" />
+            {t("Apri feed abbinamenti")} <ArrowUpRight className="size-3.5" />
           </Link>
         </Button>
       </div>

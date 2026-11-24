@@ -1,3 +1,6 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n";
 import { CATEGORY_MAP } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import type { MaterialCategory } from "@/types";
@@ -23,6 +26,7 @@ export function MaterialThumb({
   compact?: boolean;
 }) {
   const meta = CATEGORY_MAP[category];
+  const { t } = useI18n();
   if (photos && photos.length > 0) {
     return (
       <div className={cn("relative overflow-hidden bg-sand", className)}>
@@ -30,7 +34,7 @@ export function MaterialThumb({
         <img src={photos[0]} alt="" className="size-full object-cover" />
         <div className="absolute inset-0 bg-black/24" />
         <span className="absolute bottom-2 left-2 rounded-full bg-ink/60 px-2 py-0.5 font-mono text-[12px] uppercase tracking-[0.14em] text-paper backdrop-blur">
-          {meta.short}
+          {t(meta.short)}
         </span>
       </div>
     );

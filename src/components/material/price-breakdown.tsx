@@ -1,3 +1,6 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n";
 import { PROCESSING_MAP } from "@/lib/constants";
 import { formatCurrency, formatKg, formatPerKg } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
@@ -45,20 +48,21 @@ export function PriceBreakdownPanel({
   className?: string;
   compact?: boolean;
 }) {
+  const { t } = useI18n();
   return (
     <div className={cn("rounded-xl border border-line bg-paper/60", compact ? "p-4" : "p-5", className)}>
       <div className="flex items-start justify-between">
         <div>
-          <p className="eyebrow">Prezzo consegnato stimato</p>
+          <p className="eyebrow">{t("Prezzo consegnato stimato")}</p>
           <p className="mt-1 font-display text-[30px] leading-none tracking-tight">
             {formatCurrency(breakdown.total, { cents: true })}
           </p>
           <p className="mt-1.5 text-[12px] text-muted">
-            {formatPerKg(breakdown.deliveredPerKg)} delivered · {formatKg(breakdown.quantityKg)}
+            {formatPerKg(breakdown.deliveredPerKg)} {t("consegnato")} · {formatKg(breakdown.quantityKg)}
           </p>
         </div>
         <div className="text-right">
-          <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted">IVA inclusa</p>
+          <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{t("IVA inclusa")}</p>
           <p className="mt-1 font-mono text-[12px] text-muted">
             {Math.round(breakdown.taxRate * 100)}% · {formatCurrency(breakdown.taxAmount)}
           </p>
@@ -67,42 +71,42 @@ export function PriceBreakdownPanel({
 
       <div className="mt-4 divide-y divide-line/70 border-t border-line/70">
         <Line
-          label="Materiale"
+          label={t("Materiale")}
           sub={`${formatKg(breakdown.quantityKg)} × ${formatPerKg(breakdown.materialPerKg)}`}
           value={formatCurrency(breakdown.materialCost, { cents: true })}
         />
         <Line
-          label={`Commissione Offcut (${Math.round(breakdown.commissionRate * 100)}%)`}
-          sub="Abbinamento, contratti, coordinamento"
+          label={t(`Commissione Offcut (${Math.round(breakdown.commissionRate * 100)}%)`)}
+          sub={t("Abbinamento, contratti, coordinamento")}
           value={formatCurrency(breakdown.commissionAmount, { cents: true })}
           muted
         />
         <Line
-          label="Lavorazione"
+          label={t("Lavorazione")}
           sub={
             processingLabels && processingLabels.length > 0
               ? processingLabels.join(" · ")
-              : "Nessuna lavorazione richiesta"
+              : t("Nessuna lavorazione richiesta")
           }
           value={formatCurrency(breakdown.processingCost, { cents: true })}
           muted
         />
         <Line
-          label="Trasporto"
-          sub={distanceKm ? `${distanceKm} km · consolidated lane` : "Linea consolidata"}
+          label={t("Trasporto")}
+          sub={distanceKm ? t(`${distanceKm} km · ${t("linea consolidata")}`) : t("Linea consolidata")}
           value={formatCurrency(breakdown.transportCost, { cents: true })}
           muted
         />
-        <Line label="Subtotale" value={formatCurrency(breakdown.subtotal, { cents: true })} />
+        <Line label={t("Subtotale")} value={formatCurrency(breakdown.subtotal, { cents: true })} />
         <Line
-          label={`IVA ${Math.round(breakdown.taxRate * 100)}%`}
+          label={t(`IVA ${Math.round(breakdown.taxRate * 100)}%`)}
           value={formatCurrency(breakdown.taxAmount, { cents: true })}
           muted
         />
       </div>
 
       <div className="mt-1 flex items-center justify-between border-t border-line pt-3">
-        <span className="text-[12.5px] font-medium">Totale consegnato</span>
+        <span className="text-[12.5px] font-medium">{t("Totale consegnato")}</span>
         <span className="font-mono text-[15px] font-medium tabular-nums">
           {formatCurrency(breakdown.total, { cents: true })}
         </span>
@@ -118,9 +122,10 @@ export function ProcessingChips({
   processing: (keyof typeof PROCESSING_MAP)[];
   className?: string;
 }) {
+  const { t } = useI18n();
   if (processing.length === 0) {
     return (
-      <span className={cn("text-[12px] text-muted", className)}>Nessuna lavorazione richiesta</span>
+      <span className={cn("text-[12px] text-muted", className)}>{t("Nessuna lavorazione richiesta")}</span>
     );
   }
   return (
@@ -130,7 +135,7 @@ export function ProcessingChips({
           key={p}
           className="rounded-full border border-line bg-white px-2 py-0.5 text-[12px] text-moss"
         >
-          {PROCESSING_MAP[p]?.label ?? p}
+          {t(PROCESSING_MAP[p]?.label ?? p)}
         </span>
       ))}
     </div>

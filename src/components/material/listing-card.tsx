@@ -1,3 +1,6 @@
+"use client";
+
+import { useI18n } from "@/lib/i18n";
 import Link from "next/link";
 import { BadgeCheck, MapPin } from "lucide-react";
 import { MaterialThumb } from "@/components/material/material-thumb";
@@ -23,6 +26,7 @@ export function ListingCard({
   matchScore?: number;
   className?: string;
 }) {
+  const { t } = useI18n();
   return (
     <Link
       href={`/app/marketplace/${listing.id}`}
@@ -40,7 +44,7 @@ export function ListingCard({
         />
         <div className="absolute left-2.5 top-2.5 flex gap-1.5">
           <span className="rounded-full bg-white/90 px-2 py-0.5 text-[11.5px] font-medium text-ink backdrop-blur">
-            {CATEGORY_MAP[listing.category].short}
+            {t(CATEGORY_MAP[listing.category].short)}
           </span>
           {matchScore !== undefined ? (
             <span className="rounded-full bg-forest px-2 py-0.5 font-mono text-[11.5px] text-paper">
@@ -49,7 +53,7 @@ export function ListingCard({
           ) : null}
         </div>
         <span className="absolute bottom-2.5 right-2.5 rounded-full bg-white/90 px-2 py-0.5 text-[11.5px] font-medium text-ink backdrop-blur">
-          {CONDITION_MAP[listing.condition].label}
+          {t(CONDITION_MAP[listing.condition].label)}
         </span>
       </div>
 
@@ -59,7 +63,7 @@ export function ListingCard({
           {listing.status === "active" ? <BadgeCheck className="size-3 shrink-0 text-moss" /> : null}
         </div>
         <h3 className="mt-1 line-clamp-2 text-[14px] font-medium leading-[1.5] text-ink">
-          {listing.title}
+          {t(listing.title)}
         </h3>
 
         <div className="mt-2 flex flex-wrap gap-1">
@@ -68,20 +72,20 @@ export function ListingCard({
               key={part.material}
               className="rounded border border-line/80 bg-paper/60 px-1.5 py-0.5 text-[11.5px] text-muted"
             >
-              {part.material} {part.percent}%
+              {t(part.material)} {part.percent}%
             </span>
           ))}
         </div>
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-4">
           <div>
-            <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">Materiale</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{t("Materiale")}</p>
             <p className="mt-0.5 font-mono text-[13px] tabular-nums">
               {formatPerKg(listing.pricePerKg)}
             </p>
           </div>
           <div className="text-right">
-            <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">Disponibile</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{t("Disponibile")}</p>
             <p className="mt-0.5 font-mono text-[13px] tabular-nums">{formatKg(listing.quantityKg)}</p>
           </div>
         </div>
@@ -93,11 +97,11 @@ export function ListingCard({
           </span>
           {deliveredPerKg !== undefined ? (
             <span className="text-ink">
-              {formatCurrency(deliveredPerKg * 1000, { compact: true })}/t del.
+              {t(`${formatCurrency(deliveredPerKg * 1000, { compact: true })}/t del.`)}
             </span>
           ) : (
             <span className="flex items-center gap-1 text-forest">
-              Visualizza <span aria-hidden>→</span>
+              {t("Visualizza")} <span aria-hidden>→</span>
             </span>
           )}
         </div>

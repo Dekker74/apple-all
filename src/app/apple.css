@@ -1115,12 +1115,14 @@ main.offcut-main-no-header {
   height: var(--app-bar-h);
   min-height: var(--app-bar-h);
   margin-left: calc(50% - 50vw);
-  padding: 0 max(16px, calc((100vw - 1272px) / 2));
+  /* Widen the single-line layout so the full link run fits on large screens. */
+  padding: 0 max(16px, calc((100vw - 1440px) / 2));
   border-bottom: 1px solid var(--apple-hairline);
   background: color-mix(in srgb, var(--apple-parchment) 88%, transparent);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   overflow: hidden;
+  isolation: isolate;
 }
 
 .top-app-sticky {
@@ -1145,13 +1147,31 @@ main.offcut-main-no-header {
   display: flex;
   align-items: center;
   gap: 4px;
+  position: relative;
+  z-index: 1;
   overflow-x: auto;
   overflow-y: hidden;
-  scrollbar-width: none;
+  /* A visible, palette-coloured scrollbar makes overflow discoverable instead
+     of silently hiding the last links (e.g. Messaggi / Profilo). */
+  scrollbar-width: thin;
+  scrollbar-color: var(--apple-blue) transparent;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 4px;
+  overscroll-behavior-x: contain;
 }
 
 .offcut-app-links::-webkit-scrollbar {
-  display: none;
+  display: block;
+  height: 4px;
+}
+
+.offcut-app-links::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.offcut-app-links::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--apple-blue);
 }
 
 .offcut-app-tools {
@@ -1160,6 +1180,20 @@ main.offcut-main-no-header {
   align-items: center;
   gap: 6px;
   margin-left: 0;
+  position: relative;
+  z-index: 2;
+  /* Opaque backdrop: the utility cluster can never show through a clipped link. */
+  background: var(--apple-parchment);
+}
+
+.offcut-app-tools::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: -5px;
+  width: 1px;
+  background: var(--apple-hairline);
 }
 
 .app-bar-utility {
@@ -1207,6 +1241,15 @@ main.offcut-main-no-header {
   color: var(--apple-blue);
   text-decoration: none;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--apple-blue) 16%, transparent);
+}
+
+/* Keep the current section visible when the run overflows: the active pill
+   sticks to the scroll container's start edge. */
+.offcut-app-links a.on {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  scroll-snap-align: start;
 }
 
 .offcut-app-search {
@@ -1623,6 +1666,72 @@ section[data-v="auth"] .seg a.on {
   border-radius: 999px;
 }
 
+/* Below the one-line breakpoint the utilities move to their own line and the
+   nav gets the full bar width. The two lines still add up to --app-bar-h, so
+   no link can be pushed under (or hidden by) the utility cluster. */
+@media (max-width: 1439px) {
+  .offcut-app-bar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: 31px 28px;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 0;
+  }
+
+  .offcut-app-bar > .brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .offcut-app-tools {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    height: 28px;
+  }
+
+  .offcut-app-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .offcut-app-tools .offcut-org-switcher {
+    padding-block: 0;
+  }
+
+  .offcut-app-tools .offcut-org-switcher > span:first-child {
+    width: 24px;
+    height: 24px;
+  }
+
+  .offcut-app-tools button {
+    min-height: 26px;
+    height: 26px;
+    padding-block: 0;
+  }
+
+  .offcut-app-tools .app-bar-languages .pill-btn {
+    min-width: 26px;
+    font-size: 10px !important;
+  }
+
+  .offcut-app-search {
+    height: 26px;
+  }
+
+  .app-theme-toggle {
+    width: 26px;
+    height: 26px;
+  }
+
+  .offcut-app-links a {
+    font-size: 12px;
+    padding: 5px 9px;
+  }
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1024px) {
@@ -1830,8 +1939,14 @@ section[data-v="auth"] .seg a.on {
   }
 
   .offcut-app-bar {
-    gap: 6px;
+    column-gap: 6px;
+    row-gap: 0;
     padding: 0 12px;
+    grid-template-rows: 33px 30px;
+  }
+
+  .offcut-app-tools {
+    height: 30px;
   }
 
   .offcut-app-links a {
@@ -1860,7 +1975,7 @@ section[data-v="auth"] .seg a.on {
 
   .offcut-app-search {
     width: 32px;
-    height: 32px;
+    height: 28px;
     min-width: 0;
     min-height: 0;
     padding: 0;
@@ -1896,5 +2011,23 @@ section[data-v="auth"] .seg a.on {
 
   .offcut-footer {
     padding-bottom: 96px;
+  }
+}
+
+/* Narrow tablets: tighten the pills (not the labels) so the whole nav run
+   still fits on its own line. Below ~600px it becomes a scrollable run with a
+   visible scrollbar, with the active pill pinned to the start. */
+@media (max-width: 767px) {
+  .offcut-app-links a {
+    padding: 5px;
+    font-size: 11px;
+  }
+}
+
+/* Where scrolling is unavoidable, pin the active section to the start so it
+   is visible on arrival without a horizontal swipe. */
+@media (max-width: 639px) {
+  .offcut-app-links a.on {
+    order: -1;
   }
 }

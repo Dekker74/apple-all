@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -68,6 +70,7 @@ export function MatchCard({
   compact?: boolean;
   className?: string;
 }) {
+  const { t } = useI18n();
   const router = useRouter();
   const createOrder = useAppStore((s) => s.createOrderFromMatch);
   const setMatchStatus = useAppStore((s) => s.setMatchStatus);
@@ -76,7 +79,7 @@ export function MatchCard({
   const counterpartName = useAppStore((s) => {
     const counterpartId =
       currentOrgId === listing.orgId ? request.orgId : currentOrgId === request.orgId ? listing.orgId : null;
-    return s.organizations.find((o) => o.id === counterpartId)?.name ?? "Partner Offcut";
+    return s.organizations.find((o) => o.id === counterpartId)?.name ?? t("Partner Offcut");
   });
   const existingOrder = useAppStore((s) =>
     s.orders.find((o) => o.matchId === match.id && o.status !== "cancelled"),
@@ -88,21 +91,21 @@ export function MatchCard({
   function handleOrder() {
     try {
       const id = createOrder(match.id);
-      toast.success("Ordine creato", { description: "Ora è possibile preparare il preventivo." });
+      toast.success(t("Ordine creato"), { description: t("Ora è possibile preparare il preventivo.") });
       router.push(`/app/orders/${id}`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Impossibile creare l'ordine.");
+      toast.error(error instanceof Error ? error.message : t("Impossibile creare l'ordine."));
     }
   }
 
   function handleContact() {
     try {
       const threadId = openInboxThreadForMatch(match.id);
-      if (!threadId) throw new Error("Impossibile aprire la conversazione.");
-      toast.success("Conversazione pronta", { description: `${counterpartName} · ${listing.reference}` });
+      if (!threadId) throw new Error(t("Impossibile aprire la conversazione."));
+      toast.success(t("Conversazione pronta"), { description: `${counterpartName} · ${listing.reference}` });
       router.push(`/app/inbox?tab=messages&thread=${encodeURIComponent(threadId)}`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Impossibile contattare il partner.");
+      toast.error(error instanceof Error ? error.message : t("Impossibile contattare il partner."));
     }
   }
 
@@ -123,17 +126,17 @@ export function MatchCard({
             <div className="flex flex-wrap items-center gap-2">
               <Badge variant={match.confidence === "strong" ? "strong" : "review"} className="gap-1">
                 <span className={cn("size-1.5 rounded-full", confidence.dot)} />
-                {confidence.label}
+                {t(confidence.label)}
               </Badge>
               <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-                {match.quantityKg === request.quantityKg ? "Volume completo" : "Volume parziale"}
+                {match.quantityKg === request.quantityKg ? t("Volume completo") : t("Volume parziale")}
               </span>
             </div>
             <Link
               href={`/app/marketplace/${listing.id}`}
               className="mt-1.5 block truncate text-[14px] font-medium leading-[1.5] text-ink hover:underline"
             >
-              {listing.title}
+              {t(listing.title)}
             </Link>
             <p className="mt-0.5 truncate text-[12px] text-muted">
               {supplierName} · {supplierCity} · {listing.reference}
@@ -142,27 +145,27 @@ export function MatchCard({
         </div>
         <div className="flex shrink-0 flex-col items-end gap-1">
           <ScoreRing score={match.score} confidence={match.confidence} />
-          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">Affinità AI</span>
+          <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">{t("Affinità AI")}</span>
         </div>
       </div>
 
       <div className={cn("grid gap-5 px-5 py-4", compact ? "" : "sm:grid-cols-[1.15fr_1fr]")}>
         <div>
           <p className="eyebrow mb-2 flex items-center gap-1.5">
-            <Sparkles className="size-3 text-moss" /> Perché è compatibile
+            <Sparkles className="size-3 text-moss" /> {t("Perché è compatibile")}
           </p>
           <ul className="space-y-1.5">
             {reasons.map((reason) => (
               <li key={reason} className="flex gap-2 text-[11.5px] leading-relaxed text-ink/85">
                 <Check className="mt-[2px] size-3 shrink-0 text-moss" strokeWidth={2.5} />
-                <span>{reason}</span>
+                <span>{t(reason)}</span>
               </li>
             ))}
           </ul>
           {risk && !compact ? (
             <p className="mt-2.5 flex items-start gap-1.5 text-[12px] leading-relaxed text-amber">
               <CircleAlert className="mt-[1px] size-3 shrink-0" />
-              {risk}
+              {t(risk)}
             </p>
           ) : null}
         </div>
@@ -171,7 +174,7 @@ export function MatchCard({
           <div className="flex items-end justify-between gap-2">
             <div>
               <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
-                Stima consegnata
+                {t("Stima consegnata")}
               </p>
               <p className="mt-0.5 font-display text-[24px] leading-none">
                 {formatCurrency(match.breakdown.total, { cents: true })}
@@ -188,12 +191,12 @@ export function MatchCard({
             <span className="flex items-center gap-1">
               <MapPin className="size-3" /> {match.distanceKm} km
             </span>
-            <span>consegna {formatDate(request.neededBy, { withYear: false })}</span>
+            <span>{t(`consegna ${formatDate(request.neededBy, { withYear: false })}`)}</span>
           </div>
           {!compact ? (
             <div className="mt-2.5">
               <p className="mb-1.5 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
-                Lavorazione
+                {t("Lavorazione")}
               </p>
               <ProcessingChips processing={match.requiredProcessing} />
             </div>
@@ -205,7 +208,7 @@ export function MatchCard({
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" asChild className="-ml-2 text-muted">
             <Link href={`/app/marketplace/${listing.id}`}>
-              Vedi materiale <ArrowUpRight className="size-3.5" />
+              {t("Vedi materiale")} <ArrowUpRight className="size-3.5" />
             </Link>
           </Button>
           <Button
@@ -215,29 +218,29 @@ export function MatchCard({
             onClick={() => {
               setMatchStatus(match.id, match.status === "shortlisted" ? "suggested" : "shortlisted");
               toast.success(
-                match.status === "shortlisted" ? "Rimosso dai preferiti" : "Aggiunto ai preferiti",
+                match.status === "shortlisted" ? t("Rimosso dai preferiti") : t("Aggiunto ai preferiti"),
               );
             }}
           >
-            {match.status === "shortlisted" ? "In preferiti" : "Preferiti"}
+            {match.status === "shortlisted" ? t("In preferiti") : t("Preferiti")}
           </Button>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {isSeller || isBuyer ? (
             <Button size="sm" variant="outline" onClick={handleContact}>
               <MessageSquare className="size-3.5" />
-              {isSeller ? "Contatta acquirente" : "Contatta fornitore"}
+              {isSeller ? t("Contatta acquirente") : t("Contatta fornitore")}
             </Button>
           ) : null}
           {existingOrder ? (
             <Button size="sm" variant="outline" asChild>
               <Link href={`/app/orders/${existingOrder.id}`}>
-                Vedi ordine <ChevronRight className="size-3.5" />
+                {t("Vedi ordine")} <ChevronRight className="size-3.5" />
               </Link>
             </Button>
           ) : (
             <Button size="sm" variant="accent" onClick={handleOrder}>
-              Crea ordine
+              {t("Crea ordine")}
             </Button>
           )}
         </div>

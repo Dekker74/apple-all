@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -40,6 +42,7 @@ const TABS: { value: "all" | OrderStatus; label: string }[] = [
 ];
 
 export default function OrdersPage() {
+  const { t } = useI18n();
   const org = useCurrentOrg();
   const orders = useOrgOrders();
   const quotes = useAppStore((s) => s.quotes);
@@ -82,24 +85,23 @@ export default function OrdersPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Ordini e preventivi · flusso gestito"
-        title="Dall'abbinamento alla consegna."
+        eyebrow={t("Ordini e preventivi · flusso gestito")}
+        title={t("Dall'abbinamento alla consegna.")}
         description={
           <>
-            {org?.name ?? "La tua organizzazione"} · {openOrders.length} ordini attivi. Ogni preventivo è
-            dettagliato: materiale, commissione 6%, lavorazione, trasporto e IVA.
+            {t(`${org?.name ?? t("La tua organizzazione")} · ${openOrders.length} ordini attivi. Ogni preventivo è dettagliato: materiale, commissione 6%, lavorazione, trasporto e IVA.`)}
           </>
         }
         actions={
           <>
             <Button variant="outline" size="sm" asChild>
               <Link href="/app/matches">
-                <Sparkles className="size-3.5" /> Rivedi abbinamenti
+                <Sparkles className="size-3.5" /> {t("Rivedi abbinamenti")}
               </Link>
             </Button>
             <Button size="sm" asChild>
               <Link href="/app/marketplace">
-                <Truck className="size-3.5" /> Materiale di origine
+                <Truck className="size-3.5" /> {t("Materiale di origine")}
               </Link>
             </Button>
           </>
@@ -108,17 +110,17 @@ export default function OrdersPage() {
 
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-4">
         {[
-          { label: "Ordini aperti", value: String(openOrders.length), sub: "attivo nella pipeline" },
+          { label: t("Ordini aperti"), value: String(openOrders.length), sub: t("attivo nella pipeline") },
           {
-            label: "Valore impegnato",
+            label: t("Valore impegnato"),
             value: formatCurrency(committed, { compact: true }),
-            sub: "accettato + programmato + completato",
+            sub: t("accettato + programmato + completato"),
           },
-          { label: "Preventivi in attesa", value: String(awaiting), sub: "decisione richiesta" },
+          { label: t("Preventivi in attesa"), value: String(awaiting), sub: t("decisione richiesta") },
           {
-            label: "Commissione maturata",
+            label: t("Commissione maturata"),
             value: formatCurrency(commission, { compact: true }),
-            sub: "solo ordini completati",
+            sub: t("solo ordini completati"),
           },
         ].map((stat) => (
           <div key={stat.label} className="bg-white px-4 py-3.5">
@@ -137,7 +139,7 @@ export default function OrdersPage() {
               <div key={step.status} className="bg-white px-4 py-3">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-                    {step.label}
+                    {t(step.label)}
                   </span>
                   <span
                     className={cn(
@@ -160,15 +162,15 @@ export default function OrdersPage() {
               <Clock className="size-3.5 text-moss" />
               <span className="font-medium text-ink">
                 {nextAction.status === "quote_issued"
-                  ? `Preventivo ${nextAction.reference} in attesa di accettazione`
-                  : `Programma il ritiro per ${nextAction.reference}`}
+                  ? t(`Preventivo ${nextAction.reference} in attesa di accettazione`)
+                  : t(`Programma il ritiro per ${nextAction.reference}`)}
               </span>
               <span className="text-muted">
                 {formatCurrency(quoteMap.get(nextAction.id)?.breakdown.total ?? 0, { cents: true })}
               </span>
             </span>
             <span className="flex items-center gap-1 text-forest">
-              Apri ordine <ArrowRight className="size-3" />
+              {t("Apri ordine")} <ArrowRight className="size-3" />
             </span>
           </Link>
         ) : null}
@@ -176,21 +178,21 @@ export default function OrdersPage() {
 
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap gap-1">
-          {TABS.map((t) => {
-            const count = t.value === "all" ? orders.length : orders.filter((o) => o.status === t.value).length;
+          {TABS.map((tabItem) => {
+            const count = tabItem.value === "all" ? orders.length : orders.filter((o) => o.status === tabItem.value).length;
             return (
               <button
-                key={t.value}
-                onClick={() => setTab(t.value)}
+                key={tabItem.value}
+                onClick={() => setTab(tabItem.value)}
                 className={cn(
                   "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] transition-colors",
-                  tab === t.value
+                  tab === tabItem.value
                     ? "border-forest bg-forest text-paper"
                     : "border-line bg-white/60 text-muted hover:border-sage hover:text-ink",
                 )}
               >
-                {t.label}
-                <span className={cn("font-mono text-[12px]", tab === t.value ? "text-lime" : "text-muted")}>
+                {t(tabItem.label)}
+                <span className={cn("font-mono text-[12px]", tab === tabItem.value ? "text-lime" : "text-muted")}>
                   {count}
                 </span>
               </button>
@@ -202,11 +204,11 @@ export default function OrdersPage() {
             value={role}
             onChange={(e) => setRole(e.target.value as typeof role)}
             className="h-9 w-[170px] text-[12px]"
-            aria-label="Filtra per ruolo"
+            aria-label={t("Filtra per ruolo")}
           >
-            <option value="all">Entrambe le parti</option>
-            <option value="buy">Sto acquistando</option>
-            <option value="sell">Sto vendendo</option>
+            <option value="all">{t("Entrambe le parti")}</option>
+            <option value="buy">{t("Sto acquistando")}</option>
+            <option value="sell">{t("Sto vendendo")}</option>
           </Select>
         </div>
       </div>
@@ -216,13 +218,13 @@ export default function OrdersPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Ordine</TableHead>
-                <TableHead>Materiale</TableHead>
-                <TableHead className="hidden md:table-cell">Controparte</TableHead>
-                <TableHead className="hidden sm:table-cell">Volume</TableHead>
-                <TableHead className="hidden lg:table-cell">Consegnato</TableHead>
-                <TableHead>Stato</TableHead>
-                <TableHead className="hidden xl:table-cell">Prossimo passo</TableHead>
+                <TableHead>{t("Ordine")}</TableHead>
+                <TableHead>{t("Materiale")}</TableHead>
+                <TableHead className="hidden md:table-cell">{t("Controparte")}</TableHead>
+                <TableHead className="hidden sm:table-cell">{t("Volume")}</TableHead>
+                <TableHead className="hidden lg:table-cell">{t("Consegnato")}</TableHead>
+                <TableHead>{t("Stato")}</TableHead>
+                <TableHead className="hidden xl:table-cell">{t("Prossimo passo")}</TableHead>
                 <TableHead className="w-8" />
               </TableRow>
             </TableHeader>
@@ -240,7 +242,7 @@ export default function OrdersPage() {
                       <Link href={`/app/orders/${order.id}`} className="block">
                         <span className="font-mono text-[11.5px] hover:underline">{order.reference}</span>
                         <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.08em] text-muted">
-                          {isBuy ? "Acquisto" : "Vendita"} · {relativeTime(order.updatedAt)}
+                          {isBuy ? t("Acquisto") : t("Vendita")} · {t(relativeTime(order.updatedAt))}
                         </span>
                       </Link>
                     </TableCell>
@@ -250,9 +252,9 @@ export default function OrdersPage() {
                           <CategoryIcon category={listing.category} size="sm" />
                         ) : null}
                         <span className="min-w-0">
-                          <span className="block truncate text-[12px]">{listing?.title ?? "—"}</span>
+                          <span className="block truncate text-[12px]">{t(listing?.title ?? "—")}</span>
                           <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.08em] text-muted">
-                            {listing ? CATEGORY_MAP[listing.category].short : "—"}
+                            {listing ? t(CATEGORY_MAP[listing.category].short) : "—"}
                             {location ? ` · ${location.city}` : ""}
                           </span>
                         </span>
@@ -261,7 +263,7 @@ export default function OrdersPage() {
                     <TableCell className="hidden md:table-cell text-[11.5px] text-muted">
                       {counterparty?.name ?? "—"}
                       <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.08em]">
-                        {isBuy ? "Fornitore" : "Cliente"}
+                        {isBuy ? t("Fornitore") : t("Cliente")}
                       </span>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell font-mono text-[12px]">
@@ -276,25 +278,27 @@ export default function OrdersPage() {
                     <TableCell className="hidden xl:table-cell text-[12px]">
                       {order.status === "quote_issued" && expiry !== null ? (
                         <span className={expiry <= 3 ? "text-clay" : "text-muted"}>
-                          {expiry <= 0 ? "Preventivo scaduto" : `Accetta entro ${expiry}g`}
+                          {expiry <= 0
+                            ? t("Preventivo scaduto")
+                            : t(`Accetta entro ${expiry} ${expiry === 1 ? t("giorno") : t("giorni")}`)}
                         </span>
                       ) : order.status === "quote_accepted" ? (
-                        <span className="text-muted">Programma ritiro</span>
+                        <span className="text-muted">{t("Programma ritiro")}</span>
                       ) : order.status === "collection_scheduled" && order.collection ? (
                         <span className="text-muted">
-                          Fascia {new Date(order.collection.windowStart).toLocaleDateString("it-IT", {
+                          {t(`Fascia ${new Date(order.collection.windowStart).toLocaleDateString("it-IT", {
                             day: "numeric",
                             month: "short",
-                          })}
+                          })}`)}
                         </span>
                       ) : order.status === "completed" ? (
-                        <span className="text-moss">QC superato · fatturato</span>
+                        <span className="text-moss">{t("QC superato · fatturato")}</span>
                       ) : (
                         <span className="text-muted">{ORDER_STATUS_META[order.status].description}</span>
                       )}
                     </TableCell>
                     <TableCell>
-                      <Link href={`/app/orders/${order.id}`} aria-label="Apri ordine">
+                      <Link href={`/app/orders/${order.id}`} aria-label={t("Apri ordine")}>
                         <ArrowUpRight className="size-3.5 text-muted" />
                       </Link>
                     </TableCell>
@@ -307,21 +311,21 @@ export default function OrdersPage() {
       ) : (
         <EmptyState
           icon={orders.length === 0 ? Inbox : Search}
-          title={orders.length === 0 ? "Nessun ordine" : "Nessun ordine in questa vista"}
+          title={orders.length === 0 ? t("Nessun ordine") : t("Nessun ordine in questa vista")}
           description={
             orders.length === 0
-              ? "Gli ordini nascono da un abbinamento AI o direttamente da un annuncio del marketplace. Poi rivedi ed emetti il preventivo consegnato."
-              : "Prova un'altra scheda di stato, cancella la ricerca o cambia il filtro acquisto/vendita."
+              ? t("Gli ordini nascono da un abbinamento AI o direttamente da un annuncio del marketplace. Poi rivedi ed emetti il preventivo consegnato.")
+              : t("Prova un'altra scheda di stato, cancella la ricerca o cambia il filtro acquisto/vendita.")
           }
           action={
             <div className="flex flex-wrap gap-2">
               <Button size="sm" asChild>
                 <Link href="/app/matches">
-                  <Sparkles className="size-3.5" /> Rivedi abbinamenti
+                  <Sparkles className="size-3.5" /> {t("Rivedi abbinamenti")}
                 </Link>
               </Button>
               <Button size="sm" variant="outline" asChild>
-                <Link href="/app/marketplace">Esplora il mercato</Link>
+                <Link href="/app/marketplace">{t("Esplora il mercato")}</Link>
               </Button>
             </div>
           }
@@ -332,26 +336,26 @@ export default function OrdersPage() {
         {[
           {
             icon: FileText,
-            title: "Un preventivo, cinque voci",
-            body: "Materiale, commissione 6%, lavorazione, trasporto e IVA. Nessun margine nascosto di intermediazione.",
+            title: t("Un preventivo, cinque voci"),
+            body: t("Materiale, commissione 6%, lavorazione, trasporto e IVA. Nessun margine nascosto di intermediazione."),
           },
           {
             icon: CalendarClock,
-            title: "Fasce di ritiro",
-            body: "Trasportatore, lavoratore e partner QC vengono prenotati insieme quando il preventivo viene accettato.",
+            title: t("Fasce di ritiro"),
+            body: t("Trasportatore, lavoratore e partner QC vengono prenotati insieme quando il preventivo viene accettato."),
           },
           {
             icon: Wallet,
-            title: "Saldo",
-            body: "Le fatture vengono saldate a 30 giorni dopo il superamento del QC. Offcut fattura la commissione.",
+            title: t("Saldo"),
+            body: t("Le fatture vengono saldate a 30 giorni dopo il superamento del QC. Offcut fattura la commissione."),
           },
         ].map((item) => {
           const Icon = item.icon;
           return (
-            <div key={item.title} className="rounded-2xl border border-line bg-white p-4">
+            <div key={t(item.title)} className="rounded-2xl border border-line bg-white p-4">
               <Icon className="size-4 text-moss" />
-              <p className="mt-2.5 text-[12px] font-medium">{item.title}</p>
-              <p className="mt-1 text-[12px] leading-relaxed text-muted">{item.body}</p>
+              <p className="mt-2.5 text-[12px] font-medium">{t(item.title)}</p>
+              <p className="mt-1 text-[12px] leading-relaxed text-muted">{t(item.body)}</p>
             </div>
           );
         })}
@@ -359,7 +363,7 @@ export default function OrdersPage() {
 
       {awaiting > 0 ? (
         <div className="flex items-center justify-center gap-1.5 pb-1 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted/70">
-          <Badge variant="review">{awaiting} preventivo in attesa di decisione</Badge>
+          <Badge variant="review">{t(`${awaiting} preventivo in attesa di decisione`)}</Badge>
         </div>
       ) : null}
     </div>

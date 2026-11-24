@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Moon, Sun } from "lucide-react";
@@ -12,7 +14,7 @@ import { OffcutLogo } from "@/components/offcut/logo";
 import { useTheme } from "@/components/theme-provider";
 
 const ITEMS = [
-  { href: "/app/dashboard", label: "Home" },
+  { href: "/app/dashboard", label: "Panoramica" },
   { href: "/app/marketplace", label: "Cerca materiali" },
   { href: "/app/matches", label: "I tuoi abbinamenti" },
   { href: "/app/listings", label: "Vendi materiale" },
@@ -23,6 +25,7 @@ const ITEMS = [
 ] as const;
 
 export function AppNav() {
+  const { t } = useI18n();
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
 
@@ -30,14 +33,14 @@ export function AppNav() {
     <div className="offcut-app-bar">
       <OffcutLogo />
 
-      <nav className="offcut-app-links" aria-label="Spazio di lavoro">
+      <nav className="offcut-app-links" aria-label={t("Spazio di lavoro")}>
         {ITEMS.map((item) => {
           const active =
             pathname === item.href ||
             (item.href !== "/app/dashboard" && pathname.startsWith(`${item.href}/`));
           return (
             <Link key={item.href} href={item.href} className={active ? "on" : undefined}>
-              {item.label}
+              {t(item.label)}
             </Link>
           );
         })}
@@ -54,8 +57,8 @@ export function AppNav() {
             type="button"
             className="app-theme-toggle"
             onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Tema chiaro" : "Tema scuro"}
-            title={theme === "dark" ? "Tema chiaro" : "Tema scuro"}
+            aria-label={theme === "dark" ? t("Tema chiaro") : t("Tema scuro")}
+            title={theme === "dark" ? t("Tema chiaro") : t("Tema scuro")}
           >
             {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </button>

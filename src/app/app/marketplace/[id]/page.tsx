@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -50,6 +52,7 @@ import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export default function ListingDetailPage() {
+  const { t } = useI18n();
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const org = useCurrentOrg();
@@ -105,11 +108,11 @@ export default function ListingDetailPage() {
     return (
       <EmptyState
         icon={Package}
-        title="Materiale non trovato"
-        description="Questo annuncio potrebbe essere stato venduto o archiviato. Esplora il mercato attivo."
+        title={t("Materiale non trovato")}
+        description={t("Questo annuncio potrebbe essere stato venduto o archiviato. Esplora il mercato attivo.")}
         action={
           <Button asChild size="sm">
-            <Link href="/app/marketplace">Torna al marketplace</Link>
+            <Link href="/app/marketplace">{t("Torna al marketplace")}</Link>
           </Button>
         }
       />
@@ -129,33 +132,33 @@ export default function ListingDetailPage() {
     ? listing.conditionFlags
     : [listing.condition];
   const conditionLabel = declaredConditions
-    .map((value) => CONDITIONS.find((option) => option.value === value)?.label ?? CONDITION_MAP[value].label)
+    .map((value) => t(CONDITIONS.find((option) => option.value === value)?.label ?? CONDITION_MAP[value].label))
     .join(" + ");
 
   const evidence = [
     {
-      label: "Dichiarazione di composizione",
+      label: t("Dichiarazione di composizione"),
       note: listing.composition.map((c) => `${c.material} ${c.percent}%`).join(" · "),
       ok: true,
     },
     {
-      label: "Dichiarazione di assenza di pericoli",
-      note: listing.handling.includes("Dichiarazione di assenza di pericoli")
-        ? "Dichiarazione firmata in archivio"
-        : "Da confermare al ritiro",
-      ok: listing.handling.includes("Dichiarazione di assenza di pericoli"),
+      label: t("Dichiarazione di assenza di pericoli"),
+      note: listing.handling.includes(t("Dichiarazione di assenza di pericoli"))
+        ? t("Dichiarazione firmata in archivio")
+        : t("Da confermare al ritiro"),
+      ok: listing.handling.includes(t("Dichiarazione di assenza di pericoli")),
     },
     {
-      label: "Fotografia del materiale",
+      label: t("Fotografia del materiale"),
       note:
         listing.photos.length > 0
-          ? `${listing.photos.length} ${listing.photos.length === 1 ? "foto caricata" : "foto caricate"}`
-          : "In attesa — il fornitore ha richiesto il caricamento",
+          ? t(`${listing.photos.length} ${listing.photos.length === 1 ? "foto caricata" : "foto caricate"}`)
+          : t("In attesa — il fornitore ha richiesto il caricamento"),
       ok: listing.photos.length > 0,
     },
     {
-      label: "Condizioni dichiarate",
-      note: `${conditionLabel} · verifica visiva al QC`,
+      label: t("Condizioni dichiarate"),
+      note: t(`${conditionLabel} · verifica visiva al QC`),
       ok: true,
     },
   ];
@@ -163,18 +166,18 @@ export default function ListingDetailPage() {
   async function handleQuote() {
     if (!listing) return;
     if (new Date(deliveryDate) < new Date(todayInput())) {
-      toast.error("Seleziona una data di consegna nel futuro.");
+      toast.error(t("Seleziona una data di consegna nel futuro."));
       return;
     }
     setSubmitting(true);
     try {
       const orderId = requestQuoteForListing(listing.id, clampedQty, deliveryDate);
-      toast.success("Ordine creato", {
-        description: "Rivedi il preventivo dettagliato ed emettilo quando pronto.",
+      toast.success(t("Ordine creato"), {
+        description: t("Rivedi il preventivo dettagliato ed emettilo quando pronto."),
       });
       router.push(`/app/orders/${orderId}`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Impossibile creare l'ordine.");
+      toast.error(error instanceof Error ? error.message : t("Impossibile creare l'ordine."));
       setSubmitting(false);
     }
   }
@@ -186,10 +189,10 @@ export default function ListingDetailPage() {
           href="/app/marketplace"
           className="inline-flex items-center gap-1.5 text-[11.5px] text-muted transition-colors hover:text-ink"
         >
-          <ArrowLeft className="size-3.5" /> Marketplace
+          <ArrowLeft className="size-3.5" /> {t("Mercato")}
         </Link>
         <div className="flex items-center gap-2">
-          <Badge variant="outline">{CATEGORY_MAP[listing.category].label}</Badge>
+          <Badge variant="outline">{t(CATEGORY_MAP[listing.category].label)}</Badge>
           <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
             {listing.reference}
           </span>
@@ -209,15 +212,15 @@ export default function ListingDetailPage() {
               <div className="flex flex-wrap items-center gap-2">
                 {match ? (
                   <Badge variant={match.confidence === "strong" ? "strong" : "review"}>
-                    <Sparkles className="size-3" /> Abbinamento AI · {match.score}
+                    <Sparkles className="size-3" /> {t(`Abbinamento AI · ${match.score}`)}
                   </Badge>
                 ) : null}
-                <Badge variant="success">{CONDITION_MAP[listing.condition].label}</Badge>
-                <Badge variant="outline">{formatKg(listing.quantityKg)} disponibili</Badge>
-                {listing.status === "matched" ? <Badge variant="warning">Parzialmente impegnato</Badge> : null}
+                <Badge variant="success">{t(CONDITION_MAP[listing.condition].label)}</Badge>
+                <Badge variant="outline">{t(`${formatKg(listing.quantityKg)} disponibili`)}</Badge>
+                {listing.status === "matched" ? <Badge variant="warning">{t("Parzialmente impegnato")}</Badge> : null}
               </div>
               <h1 className="mt-3 text-balance text-[32px] leading-[1.05] sm:text-[38px]">
-                {listing.title}
+                {t(listing.title)}
               </h1>
               <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11.5px] text-muted">
                 <span className="flex items-center gap-1.5">
@@ -228,21 +231,20 @@ export default function ListingDetailPage() {
                   {supplier?.verified ? <BadgeCheck className="size-3.5 text-moss" /> : null}
                 </span>
                 <span className="flex items-center gap-1">
-                  <MapPin className="size-3.5" /> {location?.city} · {distanceKm} km da{" "}
-                  {primary?.city ?? "la tua sede"}
+                  <MapPin className="size-3.5" /> {t(`${location?.city} · ${distanceKm} km da ${primary?.city ?? t("la tua sede")}`)}
                 </span>
                 <span className="flex items-center gap-1">
-                  <CalendarDays className="size-3.5" /> Disponibile dal {formatDate(listing.availableFrom, { withYear: false })} –{" "}
-                  {formatDate(listing.availableUntil)}
+                  <CalendarDays className="size-3.5" /> {t("Disponibile dal")} {t(formatDate(listing.availableFrom, { withYear: false }))} –{" "}
+                  {t(formatDate(listing.availableUntil))}
                 </span>
               </div>
 
               <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
                 {[
-                  { label: "Prezzo materiale", value: formatPerKg(listing.pricePerKg), icon: Package },
-                  { label: "Quantità", value: formatKg(listing.quantityKg), icon: Warehouse },
-                  { label: "Ordine min.", value: formatKg(listing.minOrderKg), icon: Truck },
-                  { label: "Condizione", value: CONDITION_MAP[listing.condition].label, icon: ShieldCheck },
+                  { label: t("Prezzo materiale"), value: formatPerKg(listing.pricePerKg), icon: Package },
+                  { label: t("Quantità"), value: formatKg(listing.quantityKg), icon: Warehouse },
+                  { label: t("Ordine min."), value: formatKg(listing.minOrderKg), icon: Truck },
+                  { label: t("Condizione"), value: t(CONDITION_MAP[listing.condition].label), icon: ShieldCheck },
                 ].map((item) => {
                   const Icon = item.icon;
                   return (
@@ -259,19 +261,19 @@ export default function ListingDetailPage() {
           </div>
 
           <div className="rounded-2xl border border-line bg-white p-5 sm:p-6">
-            <p className="eyebrow">Informazioni sul materiale</p>
-            <p className="mt-2.5 text-[12.5px] leading-relaxed text-ink/80">{listing.description}</p>
+            <p className="eyebrow">{t("Informazioni sul materiale")}</p>
+            <p className="mt-2.5 text-[12.5px] leading-relaxed text-ink/80">{t(listing.description)}</p>
 
             <Separator className="my-5" />
 
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <p className="eyebrow">Composizione</p>
+                <p className="eyebrow">{t("Composizione")}</p>
                 <div className="mt-3 space-y-2.5">
                   {listing.composition.map((part) => (
                     <div key={part.material}>
                       <div className="flex items-center justify-between text-[11.5px]">
-                        <span>{part.material}</span>
+                        <span>{t(part.material)}</span>
                         <span className="font-mono text-[12px] text-muted">{part.percent}%</span>
                       </div>
                       <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-sand">
@@ -285,19 +287,19 @@ export default function ListingDetailPage() {
                 </div>
               </div>
               <div>
-                <p className="eyebrow">Vincoli di movimentazione</p>
+                <p className="eyebrow">{t("Vincoli di movimentazione")}</p>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {listing.handling.map((h) => (
                     <span
                       key={h}
                       className="rounded-full border border-line bg-paper/60 px-2.5 py-1 text-[12px] text-ink/80"
                     >
-                      {h}
+                      {t(h)}
                     </span>
                   ))}
                 </div>
                 <p className="mt-3 text-[12px] leading-relaxed text-muted">
-                  Confezionamento: {listing.packaging} · Ritiro da {location?.city}.
+                  {t(`Confezionamento: ${t(listing.packaging)} · Ritiro da ${location?.city}.`)}
                 </p>
               </div>
             </div>
@@ -306,9 +308,9 @@ export default function ListingDetailPage() {
 
             <div>
               <div className="flex items-center justify-between">
-                <p className="eyebrow">Foto e evidenze</p>
+                <p className="eyebrow">{t("Foto e evidenze")}</p>
                 <span className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                  {evidence.filter((e) => e.ok).length}/{evidence.length} verificato
+                  {t(`${evidence.filter((e) => e.ok).length}/${evidence.length} verificato`)}
                 </span>
               </div>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -327,7 +329,7 @@ export default function ListingDetailPage() {
                     </span>
                     <div>
                       <p className="text-[12px] font-medium">{item.label}</p>
-                      <p className="mt-0.5 text-[11.5px] leading-relaxed text-muted">{item.note}</p>
+                      <p className="mt-0.5 text-[11.5px] leading-relaxed text-muted">{t(item.note)}</p>
                     </div>
                   </div>
                 ))}
@@ -335,35 +337,34 @@ export default function ListingDetailPage() {
               <div className="mt-3 flex gap-2 rounded-xl border border-dashed border-line p-3 text-[11.5px] text-muted">
                 <ImageIcon className="size-4 shrink-0 text-muted/70" />
                 <p>
-                  In produzione i fornitori caricano qui foto, report di laboratorio e dichiarazioni. Questa
-                  versione MVP usa la specifica dichiarata e il campionamento QC al ritiro.
+                  {t("In produzione i fornitori caricano qui foto, report di laboratorio e dichiarazioni. Questa versione MVP usa la specifica dichiarata e il campionamento QC al ritiro.")}
                 </p>
               </div>
             </div>
           </div>
 
           <div className="rounded-2xl border border-line bg-white p-5 sm:p-6">
-            <p className="eyebrow">Lavorazione e qualità</p>
+            <p className="eyebrow">{t("Lavorazione e qualità")}</p>
             <div className="mt-3 flex flex-wrap items-center gap-2">
               <ProcessingChips processing={processing} />
               <span className="text-[12px] text-muted">
                 {processing.length > 0
-                  ? "Coordinato da Offcut con partner verificati."
-                  : "Pronto all'uso — nessuna lavorazione richiesta."}
+                  ? t("Coordinato da Offcut con partner verificati.")
+                  : t("Pronto all'uso — nessuna lavorazione richiesta.")}
               </span>
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               {[
-                { title: "Ritiro", body: "Trasportatore prenotato dopo l'accettazione del preventivo. Vincoli di carico confermati in anticipo.", icon: Truck },
-                { title: "Lavorazione", body: processing.length > 0 ? processing.map((p) => PROCESSING_MAP[p].label).join(" · ") : "Semplice — il materiale viene spedito così com'è.", icon: Warehouse },
-                { title: "Controllo qualità", body: "Campionamento indipendente sulle condizioni dichiarate e sulle specifiche concordate.", icon: ShieldCheck },
+                { title: t("Ritiro"), body: t("Trasportatore prenotato dopo l'accettazione del preventivo. Vincoli di carico confermati in anticipo."), icon: Truck },
+                { title: t("Lavorazione"), body: processing.length > 0 ? processing.map((p) => t(PROCESSING_MAP[p].label)).join(" · ") : t("Semplice — il materiale viene spedito così com'è."), icon: Warehouse },
+                { title: t("Controllo qualità"), body: t("Campionamento indipendente sulle condizioni dichiarate e sulle specifiche concordate."), icon: ShieldCheck },
               ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} className="rounded-xl bg-paper/60 p-3.5">
+                  <div key={t(item.title)} className="rounded-xl bg-paper/60 p-3.5">
                     <Icon className="size-4 text-moss" />
-                    <p className="mt-2 text-[11.5px] font-medium">{item.title}</p>
-                    <p className="mt-1 text-[11.5px] leading-relaxed text-muted">{item.body}</p>
+                    <p className="mt-2 text-[11.5px] font-medium">{t(item.title)}</p>
+                    <p className="mt-1 text-[11.5px] leading-relaxed text-muted">{t(item.body)}</p>
                   </div>
                 );
               })}
@@ -376,12 +377,12 @@ export default function ListingDetailPage() {
             <div className="rounded-2xl border border-line bg-white p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="eyebrow">Stima consegnata immediata</p>
+                  <p className="eyebrow">{t("Stima consegnata immediata")}</p>
                   <p className="mt-1.5 font-display text-[36px] leading-none">
                     {breakdown ? formatCurrency(breakdown.total, { cents: true }) : "—"}
                   </p>
                   <p className="mt-1.5 text-[12px] text-muted">
-                    {breakdown ? formatPerKg(breakdown.deliveredPerKg) : ""} · IVA inclusa
+                    {breakdown ? formatPerKg(breakdown.deliveredPerKg) : ""} {t("· IVA inclusa")}
                   </p>
                 </div>
                 <span className="rounded-full border border-line bg-paper px-2 py-1 font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
@@ -391,7 +392,7 @@ export default function ListingDetailPage() {
 
               <div className="mt-4">
                 <label htmlFor="quantity" className="field-label">
-                  Quantità ordine (kg)
+                  {t("Quantità ordine (kg)")}
                 </label>
                 <div className="mt-1.5 flex gap-2">
                   <Input
@@ -410,17 +411,17 @@ export default function ListingDetailPage() {
                     className="shrink-0"
                     onClick={() => setQuantity(listing.quantityKg)}
                   >
-                    Completo
+                    {t("Completo")}
                   </Button>
                 </div>
                 <p className="mt-1.5 text-[11.5px] text-muted">
-                  Min {formatKg(listing.minOrderKg)} · Massimo {formatKg(listing.quantityKg)} disponibili
+                  {t(`Min ${formatKg(listing.minOrderKg)} · Massimo ${formatKg(listing.quantityKg)} disponibili`)}
                 </p>
               </div>
 
               <div className="mt-4">
                 <label htmlFor="delivery-date" className="field-label">
-                  Data di consegna desiderata
+                  {t("Data di consegna desiderata")}
                 </label>
                 <Input
                   id="delivery-date"
@@ -431,54 +432,53 @@ export default function ListingDetailPage() {
                   className="mt-1.5"
                 />
                 <p className="mt-1.5 text-[11.5px] text-muted">
-                  Scegli tu quando vuoi ricevere il materiale.
+                  {t("Scegli tu quando vuoi ricevere il materiale.")}
                 </p>
               </div>
 
               {breakdown ? (
                 <div className="mt-4 space-y-1.5 border-t border-line pt-3.5 text-[12px]">
                   <div className="flex justify-between">
-                    <span className="text-muted">Materiale</span>
+                    <span className="text-muted">{t("Materiale")}</span>
                     <span className="font-mono">{formatCurrency(breakdown.materialCost, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted">Commissione 6%</span>
+                    <span className="text-muted">{t("Commissione 6%")}</span>
                     <span className="font-mono">{formatCurrency(breakdown.commissionAmount, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted">Lavorazione</span>
+                    <span className="text-muted">{t("Lavorazione")}</span>
                     <span className="font-mono">{formatCurrency(breakdown.processingCost, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted">Trasporto</span>
+                    <span className="text-muted">{t("Trasporto")}</span>
                     <span className="font-mono">{formatCurrency(breakdown.transportCost, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between border-t border-line pt-1.5">
-                    <span className="text-muted">IVA 22%</span>
+                    <span className="text-muted">{t("IVA 22%")}</span>
                     <span className="font-mono">{formatCurrency(breakdown.taxAmount, { cents: true })}</span>
                   </div>
                 </div>
               ) : null}
 
               <Button className="mt-4 w-full" size="lg" onClick={handleQuote} disabled={submitting}>
-                {submitting ? "Creazione ordine…" : "Richiedi questo materiale"}
+                {submitting ? t("Creazione ordine…") : t("Richiedi questo materiale")}
                 <ArrowRight className="size-4" />
               </Button>
               <p className="mt-2 text-center text-[11.5px] leading-relaxed text-muted">
-                Crea un ordine abbinato e un preventivo bozza. Lo rivedi ed emetti prima che qualsiasi impegno
-                diventi effettivo.
+                {t("Crea un ordine abbinato e un preventivo bozza. Lo rivedi ed emetti prima che qualsiasi impegno diventi effettivo.")}
               </p>
             </div>
 
             <div className="rounded-2xl border border-line bg-white p-4">
               <p className="flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-                <Info className="size-3" /> Cosa succede ora
+                <Info className="size-3" /> {t("Cosa succede ora")}
               </p>
               <ol className="mt-3 space-y-2.5">
                 {[
-                  "Confermiamo volume e disponibilità con il fornitore.",
-                  "Partner di lavorazione, trasporto e QC sono inclusi nel prezzo.",
-                  "Accetti un preventivo consegnato, valido 14 giorni.",
+                  t("Confermiamo volume e disponibilità con il fornitore."),
+                  t("Partner di lavorazione, trasporto e QC sono inclusi nel prezzo."),
+                  t("Accetti un preventivo consegnato, valido 14 giorni."),
                 ].map((step, index) => (
                   <li key={step} className="flex gap-2.5 text-[12px] leading-relaxed text-muted">
                     <span className="flex size-4 shrink-0 items-center justify-center rounded-full border border-line font-mono text-[12px] text-forest">
@@ -498,7 +498,7 @@ export default function ListingDetailPage() {
                 <div className="min-w-0">
                   <p className="truncate text-[11.5px] font-medium">{supplier?.name}</p>
                   <p className="text-[11.5px] text-paper/50">
-                    {supplier?.verified ? "Partita IVA verificata · " : ""}Membro dal{" "}
+                    {supplier?.verified ? t("Partita IVA verificata · ") : ""}{t("Membro dal")}{" "}
                     {supplier ? new Date(supplier.createdAt).getFullYear() : "—"}
                   </p>
                 </div>
@@ -506,11 +506,11 @@ export default function ListingDetailPage() {
               <div className="mt-3 grid grid-cols-2 gap-2 border-t border-paper/15 pt-3 text-center">
                 <div>
                   <p className="font-display text-[20px] leading-none">4.8</p>
-                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/45">Valutazione</p>
+                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/45">{t("Valutazione")}</p>
                 </div>
                 <div>
                   <p className="font-display text-[20px] leading-none">96%</p>
-                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/45">Nei tempi</p>
+                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/45">{t("Nei tempi")}</p>
                 </div>
               </div>
             </div>
@@ -522,11 +522,11 @@ export default function ListingDetailPage() {
         <section className="border-t border-line pt-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="eyebrow">Stessa categoria</p>
-              <h2 className="mt-1.5 text-[24px]">Altri annunci di {CATEGORY_MAP[listing.category].short.toLowerCase()}</h2>
+              <p className="eyebrow">{t("Stessa categoria")}</p>
+              <h2 className="mt-1.5 text-[24px]">{t(`Altri annunci di ${CATEGORY_MAP[listing.category].short.toLowerCase()}`)}</h2>
             </div>
             <Link href="/app/marketplace" className="flex items-center gap-1 text-[12px] text-muted hover:text-forest">
-              Esplora tutto <ArrowRight className="size-3" />
+              {t("Esplora tutto")} <ArrowRight className="size-3" />
             </Link>
           </div>
           <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -545,7 +545,7 @@ export default function ListingDetailPage() {
                 <ListingCard
                   key={item.id}
                   listing={item}
-                  supplierName={sup?.name ?? "Fornitore"}
+                  supplierName={sup?.name ?? t("Fornitore")}
                   city={loc?.city ?? "—"}
                   distanceKm={distance}
                   deliveredPerKg={b.deliveredPerKg}

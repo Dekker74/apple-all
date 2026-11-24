@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "@/lib/i18n";
 import { OffcutHeader } from "@/components/offcut/header";
 
 export function OffcutShell({
@@ -14,6 +17,7 @@ export function OffcutShell({
   bare?: boolean;
   header?: boolean;
 }) {
+  const { t } = useI18n();
   return (
     <div className="offcut-site">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-moss focus:px-4 focus:py-2 focus:text-[14px] focus:text-white">
@@ -26,10 +30,10 @@ export function OffcutShell({
       {footer ? (
         <footer className="offcut-footer">
           <div className="offcut-footer-inner">
-            <p>© 2026 Offcut — Materials in motion.</p>
+            <p>© 2026 Offcut — {t("Materiali in movimento.")}</p>
             <p>
-              <Link href="/privacy">Privacy</Link> · <Link href="/terms">Termini</Link> ·{" "}
-              <Link href="/preventivo">Preventivo</Link>
+              <Link href="/privacy">Privacy</Link> · <Link href="/terms">{t("Termini")}</Link> ·{" "}
+              <Link href="/preventivo">{t("Preventivo")}</Link>
             </p>
           </div>
         </footer>

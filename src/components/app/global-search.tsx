@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
@@ -9,6 +11,7 @@ import { Search } from "lucide-react";
  * with the query applied, so there are no stacked search bars on page bodies.
  */
 export function GlobalSearch() {
+  const { t } = useI18n();
   const router = useRouter();
   const [query, setQuery] = useState("");
 
@@ -22,12 +25,12 @@ export function GlobalSearch() {
     <form className="offcut-app-search" onSubmit={submit} role="search">
       <Search className="search-icon size-3.5 shrink-0 text-muted" aria-hidden />
       <input
-        aria-label="Cerca materiali"
-        placeholder="Cerca materiali…"
+        aria-label={t("Cerca materiali")}
+        placeholder={t("Cerca materiali…")}
         value={query}
         onChange={(event) => setQuery(event.target.value)}
       />
-      <button className="search-submit" type="submit" aria-label="Apri la ricerca materiali">
+      <button className="search-submit" type="submit" aria-label={t("Apri la ricerca materiali")}>
         <Search className="size-4" aria-hidden />
       </button>
     </form>

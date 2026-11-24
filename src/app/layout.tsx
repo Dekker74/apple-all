@@ -55,8 +55,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <StructuredData siteUrl={siteUrl} />
-        <Providers>{children}</Providers>
-        <ChatWidget />
+        <Providers>
+          {children}
+          <ChatWidget />
+        </Providers>
       </body>
     </html>
   );

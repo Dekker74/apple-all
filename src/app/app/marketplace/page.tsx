@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -77,6 +79,7 @@ function FilterSection({
 }
 
 export default function MarketplacePage() {
+  const { t } = useI18n();
   const org = useCurrentOrg();
   const locations = useOrgLocations();
   const primary = usePrimaryLocation();
@@ -241,14 +244,14 @@ export default function MarketplacePage() {
   const panel = (
     <div className="space-y-0">
       <FilterSection
-        title="Categoria materiale"
+        title={t("Categoria materiale")}
         action={
           filters.categories.length > 0 ? (
             <button
               onClick={() => setFilters((p) => ({ ...p, categories: [] }))}
               className="text-[11.5px] text-muted hover:text-forest"
             >
-              Cancella
+              {t("Cancella")}
             </button>
           ) : null
         }
@@ -271,7 +274,7 @@ export default function MarketplacePage() {
                     onChange={() => toggleCategory(cat.value)}
                     className="size-3.5 accent-[#14532d]"
                   />
-                  <span className="text-[11.5px]">{cat.label}</span>
+                  <span className="text-[11.5px]">{t(cat.label)}</span>
                 </span>
                 <span className="font-mono text-[12px] text-muted">
                   {enriched.filter((e) => e.listing.category === cat.value).length}
@@ -282,15 +285,15 @@ export default function MarketplacePage() {
         </div>
       </FilterSection>
 
-      <FilterSection title="Quantità disponibile">
+      <FilterSection title={t("Quantità disponibile")}>
         <div className="flex items-center gap-2">
           <Input
             type="number"
             inputMode="numeric"
             min={0}
             max={100000}
-            aria-label="Quantità minima in kg"
-            placeholder="Kg min"
+            aria-label={t("Quantità minima in kg")}
+            placeholder={t("Kg min")}
             value={filters.minKg}
             onChange={(e) => setFilters((p) => ({ ...p, minKg: e.target.value }))}
             className="h-9 text-[11.5px]"
@@ -301,8 +304,8 @@ export default function MarketplacePage() {
             inputMode="numeric"
             min={0}
             max={100000}
-            aria-label="Quantità massima in kg"
-            placeholder="Kg max"
+            aria-label={t("Quantità massima in kg")}
+            placeholder={t("Kg max")}
             value={filters.maxKg}
             onChange={(e) => setFilters((p) => ({ ...p, maxKg: e.target.value }))}
             className="h-9 text-[11.5px]"
@@ -310,7 +313,7 @@ export default function MarketplacePage() {
         </div>
       </FilterSection>
 
-      <FilterSection title="Prezzo consegnato massimo">
+      <FilterSection title={t("Prezzo consegnato massimo")}>
         <div className="relative">
           <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 font-mono text-[12px] text-muted">
             €
@@ -321,21 +324,21 @@ export default function MarketplacePage() {
             min={0}
             max={1000}
             step="0.01"
-            aria-label="Prezzo consegnato massimo per kg"
-            placeholder="es. 1,20 / kg"
+            aria-label={t("Prezzo consegnato massimo per kg")}
+            placeholder={t("es. 1,20 / kg")}
             value={filters.maxDelivered}
             onChange={(e) => setFilters((p) => ({ ...p, maxDelivered: e.target.value }))}
             className="h-9 pl-7 text-[11.5px]"
           />
         </div>
         <p className="mt-1.5 text-[11.5px] leading-relaxed text-muted">
-          Tutto incluso al kg, con lavorazione, trasporto, commissione e IVA.
+          {t("Tutto incluso al kg, con lavorazione, trasporto, commissione e IVA.")}
         </p>
       </FilterSection>
 
-      <FilterSection title="Condizioni del materiale">
+      <FilterSection title={t("Condizioni del materiale")}>
         <p className="mb-2 text-[11.5px] leading-relaxed text-muted">
-          Seleziona una o più condizioni. I materiali che corrispondono anche solo a una verranno mostrati.
+          {t("Seleziona una o più condizioni. I materiali che corrispondono anche solo a una verranno mostrati.")}
         </p>
         <div className="flex flex-wrap gap-1.5">
           {CONDITIONS.map((option) => {
@@ -353,14 +356,14 @@ export default function MarketplacePage() {
                     : "border-line bg-white/60 text-muted hover:border-sage hover:text-ink",
                 )}
               >
-                {option.label}
+                {t(option.label)}
               </button>
             );
           })}
         </div>
       </FilterSection>
 
-      <FilterSection title="Distanza">
+      <FilterSection title={t("Distanza")}>
         <div className="flex items-center gap-2">
           <MapPin className="size-3.5 shrink-0 text-muted" />
           <Select
@@ -370,14 +373,14 @@ export default function MarketplacePage() {
           >
             {locations.map((loc) => (
               <option key={loc.id} value={loc.id}>
-                Da {loc.city}
+                {t(`Da ${loc.city}`)}
               </option>
             ))}
           </Select>
         </div>
         <div className="mt-3">
           <div className="flex items-center justify-between text-[11.5px]">
-            <span className="text-muted">Raggio</span>
+            <span className="text-muted">{t("Raggio")}</span>
             <span className="font-mono">{filters.radiusKm} km</span>
           </div>
           <input
@@ -388,14 +391,14 @@ export default function MarketplacePage() {
             value={filters.radiusKm}
             onChange={(e) => setFilters((p) => ({ ...p, radiusKm: Number(e.target.value) }))}
             className="mt-1.5 w-full accent-[#14532d]"
-            aria-label="Raggio di ricerca in chilometri"
+            aria-label={t("Raggio di ricerca in chilometri")}
           />
         </div>
       </FilterSection>
 
       <div className="pt-4">
         <Button variant="outline" size="sm" className="w-full" onClick={reset}>
-          <RotateCcw className="size-3.5" /> Azzera filtri
+          <RotateCcw className="size-3.5" /> {t("Azzera filtri")}
         </Button>
       </div>
     </div>
@@ -404,25 +407,23 @@ export default function MarketplacePage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Marketplace · solo categorie di lancio"
-        title="Eccedenza, in specifica."
+        eyebrow={t("Marketplace · solo categorie di lancio")}
+        title={t("Eccedenza, in specifica.")}
         description={
           <>
-            {listings.filter((l) => l.status === "active").length} annunci attivi nelle categorie carta,
-            legno e plastica. I prezzi indicati si riferiscono al solo materiale; la scheda stima un
-            ordine consegnato da {origin?.city ?? "la tua sede"}.
+            {t(`${listings.filter((l) => l.status === "active").length} annunci attivi nelle categorie carta, legno e plastica. I prezzi indicati si riferiscono al solo materiale; la scheda stima un ordine consegnato da ${origin?.city ?? t("la tua sede")}.`)}
           </>
         }
         actions={
           <>
             <Button variant="outline" size="sm" asChild>
               <Link href="/app/requests">
-                <Compass className="size-3.5" /> La mia domanda
+                <Compass className="size-3.5" /> {t("La mia domanda")}
               </Link>
             </Button>
             <Button size="sm" asChild>
               <Link href="/app/requests/new">
-                <Plus className="size-3.5" /> Pubblica una richiesta
+                <Plus className="size-3.5" /> {t("Pubblica una richiesta")}
               </Link>
             </Button>
           </>
@@ -444,7 +445,7 @@ export default function MarketplacePage() {
                     : "border-line bg-white/60 text-muted hover:border-sage hover:text-ink",
                 )}
               >
-                {cat.short}
+                {t(cat.short)}
               </button>
             );
           })}
@@ -463,9 +464,9 @@ export default function MarketplacePage() {
             </DialogTrigger>
             <DialogContent className="max-h-[88vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Filtra materiali</DialogTitle>
+                <DialogTitle>{t("Filtra materiali")}</DialogTitle>
                 <DialogDescription>
-                  Filtri rigorosi: solo le tre categorie MVP sono negoziabili.
+                  {t("Filtri rigorosi: solo le tre categorie MVP sono negoziabili.")}
                 </DialogDescription>
               </DialogHeader>
               {panel}
@@ -480,11 +481,11 @@ export default function MarketplacePage() {
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
               className="h-9 w-[150px] text-[12px]"
-              aria-label="Ordina risultati"
+              aria-label={t("Ordina risultati")}
             >
               {SORTS.map((s) => (
                 <option key={s.value} value={s.value}>
-                  {s.label}
+                  {t(s.label)}
                 </option>
               ))}
             </Select>
@@ -497,7 +498,7 @@ export default function MarketplacePage() {
           <div className="sticky top-app-sticky rounded-2xl border border-line bg-white p-4">
             <div className="mb-3 flex items-center justify-between border-b border-line/70 pb-3">
               <div className="flex items-center gap-1.5 text-[12px] font-medium">
-                <SlidersHorizontal className="size-3.5 text-muted" /> Filters
+                <SlidersHorizontal className="size-3.5 text-muted" /> {t("Filtri")}
               </div>
               {activeFilters > 0 ? <Badge variant="lime">{activeFilters}</Badge> : null}
             </div>
@@ -508,18 +509,18 @@ export default function MarketplacePage() {
         <div className="min-w-0">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <p className="text-[11.5px] text-muted">
-              <span className="font-medium text-ink">{filtered.length}</span> materiali
-              {filters.radiusKm < 500 ? ` entro ${filters.radiusKm} km da ${origin?.city}` : ""}
+              <span className="font-medium text-ink">{filtered.length}</span> {t("materiali")}
+              {filters.radiusKm < 500 ? t(` entro ${filters.radiusKm} km da ${origin?.city}`) : ""}
               {avgDelivered > 0 ? (
                 <span className="ml-2 font-mono text-[11.5px] text-muted">
-                  prezzo medio consegnato {formatPerKg(avgDelivered)}
+                  {t("prezzo medio consegnato")} {formatPerKg(avgDelivered)}
                 </span>
               ) : null}
             </p>
             <div className="flex items-center gap-2">
               {views.length > 0 ? (
                 <span className="flex items-center gap-1 font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                  <Sparkles className="size-3 text-moss" /> Punteggi AI dalle tue richieste aperte
+                  <Sparkles className="size-3 text-moss" /> {t("Punteggi AI dalle tue richieste aperte")}
                 </span>
               ) : null}
             </div>
@@ -531,7 +532,7 @@ export default function MarketplacePage() {
                 <ListingCard
                   key={item.listing.id}
                   listing={item.listing}
-                  supplierName={orgMap.get(item.listing.orgId)?.name ?? "Fornitore"}
+                  supplierName={orgMap.get(item.listing.orgId)?.name ?? t("Fornitore")}
                   city={item.location?.city ?? "—"}
                   distanceKm={item.distanceKm}
                   deliveredPerKg={item.breakdown.deliveredPerKg}
@@ -542,16 +543,16 @@ export default function MarketplacePage() {
           ) : (
             <EmptyState
               icon={Search}
-              title="Nessun materiale corrisponde a questi filtri"
-              description="Aumenta il raggio, alza il budget consegnato o rimuovi una categoria. L'MVP tratta solo carta, legno e plastica."
+              title={t("Nessun materiale corrisponde a questi filtri")}
+              description={t("Aumenta il raggio, alza il budget consegnato o rimuovi una categoria. L'MVP tratta solo carta, legno e plastica.")}
               action={
                 <div className="flex gap-2">
                   <Button size="sm" variant="outline" onClick={reset}>
-                    <RotateCcw className="size-3.5" /> Azzera filtri
+                    <RotateCcw className="size-3.5" /> {t("Azzera filtri")}
                   </Button>
                   <Button size="sm" asChild>
                     <Link href="/app/requests/new">
-                      Pubblica una richiesta <ArrowRight className="size-3.5" />
+                      {t("Pubblica una richiesta")} <ArrowRight className="size-3.5" />
                     </Link>
                   </Button>
                 </div>
@@ -562,14 +563,14 @@ export default function MarketplacePage() {
           <div className="mt-6 rounded-2xl border border-line bg-white/60 p-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-[12px] font-medium">Non trovi la qualità giusta?</p>
+                <p className="text-[12px] font-medium">{t("Non trovi la qualità giusta?")}</p>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Pubblica una specifica di domanda. Il motore continuerà a cercare nuova offerta.
+                  {t("Pubblica una specifica di domanda. Il motore continuerà a cercare nuova offerta.")}
                 </p>
               </div>
               <Button size="sm" variant="accent" asChild>
                 <Link href="/app/requests/new">
-                  <Plus className="size-3.5" /> Pubblica una richiesta
+                  <Plus className="size-3.5" /> {t("Pubblica una richiesta")}
                 </Link>
               </Button>
             </div>

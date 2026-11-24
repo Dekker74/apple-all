@@ -39,14 +39,14 @@ const CONTENT = {
     eyebrow: "Inbox · connessioni e logistica",
     title: "Posta e appuntamenti.",
     description: (orgName: string, unread: number, scheduled: number) =>
-      `${orgName} · ${unread} messaggi non letti · ${scheduled} appuntamenti in programma. Ritiri e consegne gestiti da Offcut, con breakdown economico trasparente.`,
+      `${orgName} · ${unread} messaggi non letti · ${scheduled} appuntamenti in programma. Ritiri e consegne gestiti da Offcut, con una ripartizione economica trasparente.`,
     book: "Prenota appuntamento",
     tabConnections: "Connessioni",
     tabMessages: "Messaggi",
     tabAppointments: "Appuntamenti",
-    connectionsSub: "Partner connessi tramite abbinamenti AI e ordini. Prenota un ritiro o una consegna in un clic.",
+    connectionsSub: "Aziende collegate tramite abbinamenti AI e ordini. Prenota un ritiro o una consegna in un clic.",
     bookShort: "Prenota",
-    score: "score",
+    score: "punteggio",
     tonsAvailable: "t scambiate",
     emptyConnectionsTitle: "Nessuna connessione",
     emptyConnectionsDesc: "Quando un abbinamento AI o un ordine collega la tua azienda a un partner, lo trovi qui pronto per la prenotazione.",
@@ -157,6 +157,7 @@ function formatAppointmentDate(date: string, lang: "it" | "en"): string {
 export default function InboxPage() {
   const { lang } = useI18n();
   const t = CONTENT[lang];
+  const { t: tx } = useI18n();
 
   const org = useCurrentOrg();
   const matchViews = useMatchViews();
@@ -425,10 +426,10 @@ export default function InboxPage() {
                       {last ? (
                         <span className="mt-1 flex items-baseline justify-between gap-2">
                           <span className="min-w-0 truncate text-[11.5px] text-muted/80">
-                            {last.body}
+                            {tx(last.body)}
                           </span>
                           <span className="shrink-0 font-mono text-[11px] text-muted/70">
-                            {relativeTime(last.at)}
+                            {tx(relativeTime(last.at))}
                           </span>
                         </span>
                       ) : null}
@@ -486,10 +487,10 @@ export default function InboxPage() {
                           >
                             <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
                               {message.from === "me" ? t.you : activeThread.partnerName} ·{" "}
-                              {relativeTime(message.at)}
+                              {tx(relativeTime(message.at))}
                             </p>
                             <p className="mt-1 whitespace-pre-wrap break-words text-[12.5px] leading-relaxed text-ink">
-                              {message.body}
+                              {tx(message.body)}
                             </p>
                           </div>
                         </div>

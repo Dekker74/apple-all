@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -44,6 +46,7 @@ const TABS: { value: "all" | ListingStatus; label: string }[] = [
 ];
 
 export default function ListingsPage() {
+  const { t } = useI18n();
   const org = useCurrentOrg();
   const listings = useOrgListings();
   const matches = useAppStore((s) => s.matches);
@@ -65,19 +68,19 @@ export default function ListingsPage() {
 
   function toggleStatus(id: string, status: ListingStatus) {
     updateListingStatus(id, status);
-    toast.success(status === "active" ? "Annuncio riattivato" : "Annuncio in pausa");
+    toast.success(status === "active" ? t("Annuncio riattivato") : t("Annuncio in pausa"));
   }
 
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="I tuoi materiali in vendita"
-        title="Materiali che vendi"
-        description={`Hai ${listings.filter((l) => l.status === "active").length} annunci attivi. Quando qualcuno è interessato, lo vedi qui sotto.`}
+        eyebrow={t("I tuoi materiali in vendita")}
+        title={t("Materiali che vendi")}
+        description={t(`Hai ${listings.filter((l) => l.status === "active").length} annunci attivi. Quando qualcuno è interessato, lo vedi qui sotto.`)}
         actions={
           <Button size="sm" asChild>
             <Link href="/app/listings/new">
-              <Plus className="size-3.5" /> Vendi nuovo materiale
+              <Plus className="size-3.5" /> {t("Vendi nuovo materiale")}
             </Link>
           </Button>
         }
@@ -85,9 +88,9 @@ export default function ListingsPage() {
 
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
         {[
-          { label: "Materiali in vendita", value: String(listings.filter((l) => l.status === "active").length) },
-          { label: "Persone interessate", value: String(matchCount) },
-          { label: "Volume totale", value: formatKg(totalVolume) },
+          { label: t("Materiali in vendita"), value: String(listings.filter((l) => l.status === "active").length) },
+          { label: t("Persone interessate"), value: String(matchCount) },
+          { label: t("Volume totale"), value: formatKg(totalVolume) },
         ].map((stat) => (
           <div key={stat.label} className="bg-white px-4 py-3.5">
             <p className="font-mono text-[12px] uppercase tracking-[0.13em] text-muted">{stat.label}</p>
@@ -98,21 +101,21 @@ export default function ListingsPage() {
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-1">
-          {TABS.map((t) => {
-            const count = t.value === "all" ? listings.length : listings.filter((l) => l.status === t.value).length;
+          {TABS.map((tabItem) => {
+            const count = tabItem.value === "all" ? listings.length : listings.filter((l) => l.status === tabItem.value).length;
             return (
               <button
-                key={t.value}
-                onClick={() => setTab(t.value)}
+                key={tabItem.value}
+                onClick={() => setTab(tabItem.value)}
                 className={cn(
                   "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] transition-colors",
-                  tab === t.value
+                  tab === tabItem.value
                     ? "border-forest bg-forest text-paper"
                     : "border-line bg-white/60 text-muted hover:border-sage hover:text-ink",
                 )}
               >
-                {t.label}
-                <span className={cn("font-mono text-[12px]", tab === t.value ? "text-lime" : "text-muted")}>
+                {t(tabItem.label)}
+                <span className={cn("font-mono text-[12px]", tab === tabItem.value ? "text-lime" : "text-muted")}>
                   {count}
                 </span>
               </button>
@@ -129,13 +132,13 @@ export default function ListingsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Materiale</TableHead>
-                <TableHead className="hidden md:table-cell">Categoria</TableHead>
-                <TableHead className="hidden sm:table-cell">Disponibile</TableHead>
-                <TableHead className="hidden lg:table-cell">Prezzo</TableHead>
-                <TableHead>Stato</TableHead>
-                <TableHead>Abbinamenti</TableHead>
-                <TableHead className="hidden xl:table-cell">Disponibile fino al</TableHead>
+                <TableHead>{t("Materiale")}</TableHead>
+                <TableHead className="hidden md:table-cell">{t("Categoria")}</TableHead>
+                <TableHead className="hidden sm:table-cell">{t("Disponibile")}</TableHead>
+                <TableHead className="hidden lg:table-cell">{t("Prezzo")}</TableHead>
+                <TableHead>{t("Stato")}</TableHead>
+                <TableHead>{t("Abbinamenti")}</TableHead>
+                <TableHead className="hidden xl:table-cell">{t("Disponibile fino al")}</TableHead>
                 <TableHead className="w-10" />
               </TableRow>
             </TableHeader>
@@ -160,10 +163,10 @@ export default function ListingsPage() {
                             href={`/app/marketplace/${listing.id}`}
                             className="block max-w-[280px] truncate text-[12.5px] font-medium hover:underline"
                           >
-                            {listing.title}
+                            {t(listing.title)}
                           </Link>
                           <p className="mt-0.5 font-mono text-[12px] uppercase tracking-[0.08em] text-muted">
-                            {listing.reference} · {listing.views} visualizzazioni
+                            {listing.reference} · {listing.views} {t("visualizzazioni")}
                           </p>
                         </div>
                       </div>
@@ -195,19 +198,19 @@ export default function ListingsPage() {
                       )}
                     </TableCell>
                     <TableCell className="hidden xl:table-cell text-[12px] text-muted">
-                      {formatDate(listing.availableUntil)}
+                      {t(formatDate(listing.availableUntil))}
                     </TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon-sm" aria-label="Azioni annuncio">
+                          <Button variant="ghost" size="icon-sm" aria-label={t("Azioni annuncio")}>
                             <MoreHorizontal className="size-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem asChild>
                             <Link href={`/app/marketplace/${listing.id}`}>
-                              <Eye /> Vedi dettagli
+                              <Eye /> {t("Vedi dettagli")}
                             </Link>
                           </DropdownMenuItem>
                           {listingMatches.length > 0 && (
@@ -220,11 +223,11 @@ export default function ListingsPage() {
                           <DropdownMenuSeparator />
                           {listing.status === "active" || listing.status === "matched" ? (
                             <DropdownMenuItem onSelect={() => toggleStatus(listing.id, "archived")}>
-                              <Pause /> Nascondi annuncio
+                              <Pause /> {t("Nascondi annuncio")}
                             </DropdownMenuItem>
                           ) : (
                             <DropdownMenuItem onSelect={() => toggleStatus(listing.id, "active")}>
-                              <Play /> Mostra di nuovo
+                              <Play /> {t("Mostra di nuovo")}
                             </DropdownMenuItem>
                           )}
                         </DropdownMenuContent>
@@ -239,16 +242,16 @@ export default function ListingsPage() {
       ) : (
         <EmptyState
           icon={Package}
-          title={listings.length === 0 ? "Non hai ancora materiali in vendita" : "Nessun materiale in questo stato"}
+          title={listings.length === 0 ? t("Non hai ancora materiali in vendita") : t("Nessun materiale in questo stato")}
           description={
             listings.length === 0
-              ? "Pubblica il tuo primo materiale e inizia a ricevere richieste."
-              : "Prova un altro filtro o pubblica nuovo materiale."
+              ? t("Pubblica il tuo primo materiale e inizia a ricevere richieste.")
+              : t("Prova un altro filtro o pubblica nuovo materiale.")
           }
           action={
             <Button size="sm" asChild>
               <Link href="/app/listings/new">
-                <Plus className="size-3.5" /> Vendi materiale
+                <Plus className="size-3.5" /> {t("Vendi materiale")}
               </Link>
             </Button>
           }
@@ -257,14 +260,14 @@ export default function ListingsPage() {
 
       <div className="flex flex-col gap-3 rounded-2xl border border-line bg-white/60 p-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-[12px] font-medium">💡 Consiglio</p>
+          <p className="text-[12px] font-medium">{t("💡 Consiglio")}</p>
           <p className="mt-0.5 text-[12px] text-muted">
-            Descrivi bene il materiale e le persone giuste lo troveranno più facilmente.
+            {t("Descrivi bene il materiale e le persone giuste lo troveranno più facilmente.")}
           </p>
         </div>
         <Button variant="outline" size="sm" asChild>
           <Link href="/app/marketplace">
-            Esplora marketplace <ArrowUpRight className="size-3.5" />
+            {t("Esplora marketplace")} <ArrowUpRight className="size-3.5" />
           </Link>
         </Button>
       </div>

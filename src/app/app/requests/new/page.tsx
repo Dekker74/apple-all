@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -42,6 +44,7 @@ import type { MaterialCategory, MaterialCondition, ProcessingType } from "@/type
 const STEPS = ["Richiesta materiale", "Volume e budget", "Lavorazione e revisione"];
 
 export default function NewRequestPage() {
+  const { t } = useI18n();
   const router = useRouter();
   const org = useCurrentOrg();
   const locations = useOrgLocations();
@@ -98,25 +101,25 @@ export default function NewRequestPage() {
   function validate(current: number): boolean {
     setError(null);
     if (current === 0) {
-      if (title.trim().length < 6) return fail("Dai alla richiesta un titolo chiaro.");
-      if (!category) return fail("Seleziona una delle tre categorie MVP.");
+      if (title.trim().length < 6) return fail(t("Dai alla richiesta un titolo chiaro."));
+      if (!category) return fail(t("Seleziona una delle tre categorie MVP."));
       if (description.trim().length === 0)
-        return fail("Descrivi l'impiego e i requisiti del materiale.");
-      if (composition.length === 0) return fail("Aggiungi almeno una composizione accettabile.");
+        return fail(t("Descrivi l'impiego e i requisiti del materiale."));
+      if (composition.length === 0) return fail(t("Aggiungi almeno una composizione accettabile."));
       if (acceptedConditions.length === 0)
-        return fail("Seleziona almeno una condizione accettabile.");
+        return fail(t("Seleziona almeno una condizione accettabile."));
       return true;
     }
     if (current === 1) {
-      if (quantity <= 0) return fail("Inserisci la quantità richiesta in chilogrammi.");
-      if (budget <= 0) return fail("Imposta un budget massimo consegnato.");
+      if (quantity <= 0) return fail(t("Inserisci la quantità richiesta in chilogrammi."));
+      if (budget <= 0) return fail(t("Imposta un budget massimo consegnato."));
       if (new Date(neededBy) < new Date(todayInput()))
-        return fail("La data di consegna deve essere nel futuro.");
-      if (radiusKm < 25) return fail("Imposta un raggio di ritiro di almeno 25 km.");
+        return fail(t("La data di consegna deve essere nel futuro."));
+      if (radiusKm < 25) return fail(t("Imposta un raggio di ritiro di almeno 25 km."));
       return true;
     }
     if (current === 2) {
-      if (!locationId) return fail("Seleziona la sede di consegna.");
+      if (!locationId) return fail(t("Seleziona la sede di consegna."));
       return true;
     }
     return true;
@@ -133,7 +136,7 @@ export default function NewRequestPage() {
 
   function publish() {
     if (!validate(0) || !validate(1) || !validate(2)) {
-      setError("Completa i passaggi precedenti prima di pubblicare.");
+      setError(t("Completa i passaggi precedenti prima di pubblicare."));
       return;
     }
     if (!category || !locationId) return;
@@ -155,12 +158,12 @@ export default function NewRequestPage() {
         locationId,
       });
       const count = useAppStore.getState().matches.filter((m) => m.requestId === id).length;
-      toast.success("Richiesta pubblicata", {
-        description: `${count} ${count === 1 ? "potenziale abbinamento trovato" : "potenziali abbinamenti trovati"} sul mercato.`,
+      toast.success(t("Richiesta pubblicata"), {
+        description: `${count} ${count === 1 ? t("potenziale abbinamento trovato") : t("potenziali abbinamenti trovati")} sul mercato.`,
       });
       router.push("/app/requests");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Impossibile pubblicare la richiesta.");
+      setError(err instanceof Error ? err.message : t("Impossibile pubblicare la richiesta."));
       setSaving(false);
     }
   }
@@ -172,17 +175,17 @@ export default function NewRequestPage() {
           href="/app/requests"
           className="inline-flex items-center gap-1.5 text-[11.5px] text-muted hover:text-ink"
         >
-          <ArrowLeft className="size-3.5" /> Le mie richieste
+          <ArrowLeft className="size-3.5" /> {t("Le mie richieste")}
         </Link>
-        <Badge variant="muted">Flusso acquirente · {org?.name}</Badge>
+        <Badge variant="muted">{t("Flusso acquirente")} · {org?.name}</Badge>
       </div>
 
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
         <div>
-          <p className="eyebrow">Cerco materiale</p>
-          <h1 className="mt-2 text-[34px] leading-none sm:text-[38px]">Pubblica una richiesta di materiale</h1>
+          <p className="eyebrow">{t("Cerco materiale")}</p>
+          <h1 className="mt-2 text-[34px] leading-none sm:text-[38px]">{t("Pubblica una richiesta di materiale")}</h1>
           <p className="mt-2 max-w-[560px] text-[12px] leading-relaxed text-muted">
-            Definisci la specifica una sola volta. Il motore valuta ogni annuncio attivo, inclusi lavorazione e budget consegnato.
+            {t("Definisci la specifica una sola volta. Il motore valuta ogni annuncio attivo, inclusi lavorazione e budget consegnato.")}
           </p>
         </div>
         <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
@@ -233,21 +236,21 @@ export default function NewRequestPage() {
           {step === 0 ? (
             <div className="space-y-5">
               <div>
-                <p className="eyebrow">Passo 1</p>
-                <h2 className="mt-1.5 text-[24px]">Di cosa hai bisogno?</h2>
+                <p className="eyebrow">{t("Passo 1")}</p>
+                <h2 className="mt-1.5 text-[24px]">{t("Di cosa hai bisogno?")}</h2>
               </div>
 
-              <Field label="Titolo richiesta" required hint="Includi l'impiego finale: aiuta i fornitori a proporre la qualità giusta.">
+              <Field label={t("Titolo richiesta")} required hint={t("Includi l'impiego finale: aiuta i fornitori a proporre la qualità giusta.")}>
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  placeholder="es. Fiocchi rPET food-grade per estrusione vaschette"
+                  placeholder={t("es. Fiocchi rPET food-grade per estrusione vaschette")}
                 />
               </Field>
 
               <div>
                 <p className="field-label">
-                  Categoria materiale <span className="text-clay">*</span>
+                  {t("Categoria materiale")} <span className="text-clay">*</span>
                 </p>
                 <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
                   {CATEGORIES.map((cat) => {
@@ -269,41 +272,41 @@ export default function NewRequestPage() {
                           {selected ? <Check className="size-3.5 text-forest" strokeWidth={3} /> : null}
                         </div>
                         <p className="mt-2 text-[11.5px] font-medium">{cat.short}</p>
-                        <p className="mt-0.5 text-[12px] leading-[1.5] text-muted">{cat.blurb}</p>
+                        <p className="mt-0.5 text-[12px] leading-[1.5] text-muted">{t(cat.blurb)}</p>
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              <Field label="Impiego e requisiti" required>
+              <Field label={t("Impiego e requisiti")} required>
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={4}
-                  placeholder="Sostituzione del PET vergine nelle vaschette termoformate. Richiesti conformità al contatto alimentare e tracciabilità…"
+                  placeholder={t("Sostituzione del PET vergine nelle vaschette termoformate. Richiesti conformità al contatto alimentare e tracciabilità…")}
                 />
               </Field>
 
               <div>
-                <p className="field-label">Composizione accettabile</p>
+                <p className="field-label">{t("Composizione accettabile")}</p>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Aggiungi qualità o nomi di materiale. Le alternative aumentano gli abbinamenti qualificati.
+                  {t("Aggiungi qualità o nomi di materiale. Le alternative aumentano gli abbinamenti qualificati.")}
                 </p>
                 <div className="mt-2 flex gap-2">
                   <Input
                     value={compositionInput}
                     onChange={(e) => setCompositionInput(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === "Invio" || e.key === ",") {
+                      if (e.key === t("Invio") || e.key === ",") {
                         e.preventDefault();
                         addComposition();
                       }
                     }}
-                    placeholder="es. fiocchi rPET, poi premi Invio"
+                    placeholder={t("es. fiocchi rPET, poi premi Invio")}
                   />
                   <Button type="button" variant="outline" onClick={() => addComposition()}>
-                    <Plus className="size-3.5" /> Aggiungi
+                    <Plus className="size-3.5" /> {t("Aggiungi")}
                   </Button>
                 </div>
                 {composition.length > 0 ? (
@@ -326,16 +329,16 @@ export default function NewRequestPage() {
                     ))}
                   </div>
                 ) : (
-                  <p className="mt-2 text-[11.5px] text-amber">È richiesta almeno una composizione accettabile.</p>
+                  <p className="mt-2 text-[11.5px] text-amber">{t("È richiesta almeno una composizione accettabile.")}</p>
                 )}
               </div>
 
               <div>
                 <p className="field-label">
-                  Condizioni accettabili <span className="text-clay">*</span>
+                  {t("Condizioni accettabili")} <span className="text-clay">*</span>
                 </p>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Seleziona tutte le condizioni che puoi accettare.
+                  {t("Seleziona tutte le condizioni che puoi accettare.")}
                 </p>
                 <div className="mt-2.5 grid gap-2 sm:grid-cols-3">
                   {CONDITIONS.map((option) => {
@@ -362,9 +365,9 @@ export default function NewRequestPage() {
                           {checked ? <Check className="size-3" strokeWidth={3} /> : null}
                         </span>
                         <span>
-                          <span className="block text-[12px] font-medium">{option.label}</span>
+                          <span className="block text-[12px] font-medium">{t(option.label)}</span>
                           <span className="mt-0.5 block text-[11.5px] leading-[1.45] text-muted">
-                            {option.hint}
+                            {t(option.hint)}
                           </span>
                         </span>
                       </button>
@@ -378,58 +381,58 @@ export default function NewRequestPage() {
           {step === 1 ? (
             <div className="space-y-5">
               <div>
-                <p className="eyebrow">Passo 2</p>
-                <h2 className="mt-1.5 text-[24px]">Volume, budget e portata</h2>
+                <p className="eyebrow">{t("Passo 2")}</p>
+                <h2 className="mt-1.5 text-[24px]">{t("Volume, budget e portata")}</h2>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Quantità richiesta (kg)" required>
+                <Field label={t("Quantità richiesta (kg)")} required>
                   <Input
                     type="number"
                     min={1}
                     max={1000000}
-                    aria-label="Quantità richiesta in kg"
+                    aria-label={t("Quantità richiesta in kg")}
                     value={quantityKg}
                     onChange={(e) => setQuantityKg(e.target.value)}
                     placeholder="6000"
                     className="font-mono"
                   />
                 </Field>
-                <Field label="Frequenza" required>
+                <Field label={t("Frequenza")} required>
                   <Select
                     value={frequency}
                     onChange={(e) => setFrequency(e.target.value as typeof frequency)}
                   >
-                    <option value="one_off">Acquisto una tantum</option>
-                    <option value="weekly">Ricorrenza settimanale</option>
-                    <option value="monthly">Ricorrenza mensile</option>
-                    <option value="quarterly">Ricorrenza trimestrale</option>
+                    <option value="one_off">{t("Acquisto una tantum")}</option>
+                    <option value="weekly">{t("Ricorrenza settimanale")}</option>
+                    <option value="monthly">{t("Ricorrenza mensile")}</option>
+                    <option value="quarterly">{t("Ricorrenza trimestrale")}</option>
                   </Select>
                 </Field>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field
-                  label="Budget massimo consegnato (€)"
+                  label={t("Budget massimo consegnato (€)")}
                   required
                   hint={
                     quantity > 0 && budget > 0
-                      ? `Massimale di ${formatPerKg(budgetPerKg)} tutto incluso consegnato.`
-                      : "Tutto incluso: materiale, commissione, lavorazione, trasporto e IVA."
+                      ? t(`Massimale di ${formatPerKg(budgetPerKg)} tutto incluso consegnato.`)
+                      : t("Tutto incluso: materiale, commissione, lavorazione, trasporto e IVA.")
                   }
                 >
                   <Input
                     type="number"
                     min={1}
                     max={100000000}
-                    aria-label="Budget massimo consegnato in euro"
+                    aria-label={t("Budget massimo consegnato in euro")}
                     value={maxBudget}
                     onChange={(e) => setMaxBudget(e.target.value)}
                     placeholder="7800"
                     className="font-mono"
                   />
                 </Field>
-                <Field label="Data di consegna richiesta" required>
+                <Field label={t("Data di consegna richiesta")} required>
                   <Input
                     type="date"
                     min={todayInput()}
@@ -439,11 +442,11 @@ export default function NewRequestPage() {
                 </Field>
               </div>
 
-              <Field label="Sede di consegna / consumo" required>
+              <Field label={t("Sede di consegna / consumo")} required>
                 <Select value={locationId} onChange={(e) => setLocationId(e.target.value)}>
                   {locations.map((loc) => (
                     <option key={loc.id} value={loc.id}>
-                      {loc.name} — {loc.city}
+                      {t(loc.name)} — {loc.city}
                     </option>
                   ))}
                 </Select>
@@ -451,11 +454,11 @@ export default function NewRequestPage() {
 
               <div>
                 <div className="flex items-center justify-between">
-                  <p className="field-label">Raggio di ritiro</p>
+                  <p className="field-label">{t("Raggio di ritiro")}</p>
                   <span className="font-mono text-[11.5px]">{radiusKm} km</span>
                 </div>
                 <p className="mt-0.5 text-[12px] text-muted">
-                  Distanza massima da {selectedLocation?.city ?? "la tua sede"} al fornitore.
+                  {t(`Distanza massima da ${selectedLocation?.city ?? t("la tua sede")} al fornitore.`)}
                 </p>
                 <input
                   type="range"
@@ -465,7 +468,7 @@ export default function NewRequestPage() {
                   value={radiusKm}
                   onChange={(e) => setRadiusKm(Number(e.target.value))}
                   className="mt-3 w-full accent-[#14532d]"
-                  aria-label="Raggio di ritiro"
+                  aria-label={t("Raggio di ritiro")}
                 />
                 <div className="mt-1 flex justify-between font-mono text-[12px] text-muted">
                   <span>25 km</span>
@@ -475,15 +478,15 @@ export default function NewRequestPage() {
 
               <div className="rounded-xl border border-line bg-paper/60 p-3.5">
                 <div className="flex items-center justify-between text-[11.5px]">
-                  <span className="text-muted">Massimale di budget</span>
+                  <span className="text-muted">{t("Massimale di budget")}</span>
                   <span className="font-mono">{budget > 0 ? formatCurrency(budget, { cents: true }) : "—"}</span>
                 </div>
                 <div className="mt-1.5 flex items-center justify-between text-[11.5px]">
-                  <span className="text-muted">Al kg, consegnato</span>
+                  <span className="text-muted">{t("Al kg, consegnato")}</span>
                   <span className="font-mono">{budgetPerKg > 0 ? formatPerKg(budgetPerKg) : "—"}</span>
                 </div>
                 <p className="mt-2 text-[11.5px] leading-relaxed text-muted">
-                  Il motore scarta gli abbinamenti la cui stima consegnata supera questo massimale. I volumi parziali sono proporzionalmente ridotti.
+                  {t("Il motore scarta gli abbinamenti la cui stima consegnata supera questo massimale. I volumi parziali sono proporzionalmente ridotti.")}
                 </p>
               </div>
             </div>
@@ -492,11 +495,10 @@ export default function NewRequestPage() {
           {step === 2 ? (
             <div className="space-y-5">
               <div>
-                <p className="eyebrow">Passo 3</p>
-                <h2 className="mt-1.5 text-[24px]">Lavorazione e revisione</h2>
+                <p className="eyebrow">{t("Passo 3")}</p>
+                <h2 className="mt-1.5 text-[24px]">{t("Lavorazione e revisione")}</h2>
                 <p className="mt-1 text-[12px] text-muted">
-                  Seleziona le fasi che il materiale deve attraversare prima di soddisfare le tue specifiche. I
-                  costi sono inclusi nel preventivo consegnato.
+                  {t("Seleziona le fasi che il materiale deve attraversare prima di soddisfare le tue specifiche. I costi sono inclusi nel preventivo consegnato.")}
                 </p>
               </div>
 
@@ -521,10 +523,10 @@ export default function NewRequestPage() {
                           )
                         }
                         className="mt-0.5"
-                        aria-label={option.label}
+                        aria-label={t(option.label)}
                       />
                       <span>
-                        <span className="block text-[11.5px] font-medium">{option.label}</span>
+                        <span className="block text-[11.5px] font-medium">{t(option.label)}</span>
                         <span className="mt-0.5 block font-mono text-[12px] text-muted">
                           ~{formatPerKg(option.perKg, 3)}
                         </span>
@@ -538,28 +540,28 @@ export default function NewRequestPage() {
                 <div className="flex items-start gap-3">
                   <CategoryIcon category={category ?? "plastic"} size="md" />
                   <div className="min-w-0">
-                    <p className="text-[13px] font-medium leading-[1.5]">{title || "Richiesta senza titolo"}</p>
+                    <p className="text-[13px] font-medium leading-[1.5]">{title || t("Richiesta senza titolo")}</p>
                     <p className="mt-0.5 text-[12px] text-muted">
-                      {category ? CATEGORY_MAP[category].label : "Nessuna categoria"} ·{" "}
-                      {selectedLocation?.city ?? "Sede"} · {frequency === "weekly" ? "Settimanale" : frequency === "monthly" ? "Mensile" : frequency === "quarterly" ? "Trimestrale" : "Una tantum"}
+                      {category ? t(CATEGORY_MAP[category].label) : t("Nessuna categoria")} ·{" "}
+                      {selectedLocation?.city ?? t("Sede")} · {frequency === "weekly" ? t("Settimanale") : frequency === "monthly" ? t("Mensile") : frequency === "quarterly" ? t("Trimestrale") : t("Una tantum")}
                     </p>
                   </div>
                 </div>
                 <div className="mt-3 grid grid-cols-2 gap-2 border-t border-line pt-3 text-[12px] sm:grid-cols-4">
                   <div>
-                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Volume</p>
+                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Volume")}</p>
                     <p className="mt-0.5 font-mono">{quantity > 0 ? formatKg(quantity) : "—"}</p>
                   </div>
                   <div>
-                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Budget</p>
+                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Budget")}</p>
                     <p className="mt-0.5 font-mono">{budget > 0 ? formatCurrency(budget) : "—"}</p>
                   </div>
                   <div>
-                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Consegna</p>
-                    <p className="mt-0.5 font-mono">{formatDate(neededBy, { withYear: false })}</p>
+                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Consegna")}</p>
+                    <p className="mt-0.5 font-mono">{t(formatDate(neededBy, { withYear: false }))}</p>
                   </div>
                   <div>
-                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Raggio</p>
+                    <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Raggio")}</p>
                     <p className="mt-0.5 font-mono">{radiusKm} km</p>
                   </div>
                 </div>
@@ -571,12 +573,12 @@ export default function NewRequestPage() {
                   ))}
                   {acceptedConditions.map((c) => (
                     <span key={c} className="rounded-full border border-line bg-mist/40 px-1.5 py-0.5 text-[11.5px] text-moss">
-                      {CONDITIONS.find((o) => o.value === c)?.label}
+                      {t(CONDITIONS.find((o) => o.value === c)?.label ?? "")}
                     </span>
                   ))}
                   {processing.map((p) => (
                     <span key={p} className="rounded-full border border-line bg-white px-1.5 py-0.5 text-[11.5px] text-moss">
-                      {PROCESSING_OPTIONS.find((o) => o.value === p)?.label}
+                      {t(PROCESSING_OPTIONS.find((o) => o.value === p)?.label ?? "")}
                     </span>
                   ))}
                 </div>
@@ -588,9 +590,9 @@ export default function NewRequestPage() {
                   Condizioni accettabili:{" "}
                   {acceptedConditions.length > 0
                     ? acceptedConditions
-                        .map((c) => CONDITIONS.find((o) => o.value === c)?.label)
+                        .map((c) => t(CONDITIONS.find((o) => o.value === c)?.label ?? ""))
                         .join(" + ")
-                    : "nessuna selezionata"}.
+                    : t("nessuna selezionata")}.
                 </p>
               </div>
             </div>
@@ -613,16 +615,16 @@ export default function NewRequestPage() {
               disabled={step === 0}
               className="-ml-2"
             >
-              <ArrowLeft className="size-3.5" /> Indietro
+              <ArrowLeft className="size-3.5" /> {t("Indietro")}
             </Button>
             {step < STEPS.length - 1 ? (
               <Button onClick={next}>
-                Continua <ArrowRight className="size-3.5" />
+                {t("Continua")} <ArrowRight className="size-3.5" />
               </Button>
             ) : (
               <Button onClick={publish} disabled={saving}>
                 {saving ? <Loader2 className="size-4 animate-spin" /> : <Target className="size-3.5" />}
-                Pubblica richiesta
+                {t("Pubblica richiesta")}
               </Button>
             )}
           </div>
@@ -630,43 +632,43 @@ export default function NewRequestPage() {
 
         <aside className="space-y-3 lg:sticky lg:top-app-sticky">
           <div className="rounded-2xl border border-line bg-white p-4">
-            <p className="eyebrow">Anteprima domanda</p>
+            <p className="eyebrow">{t("Anteprima domanda")}</p>
             <div className="mt-3 flex items-center gap-2.5">
               <CategoryIcon category={category ?? "plastic"} size="md" />
               <div className="min-w-0">
                 <p className="line-clamp-2 text-[12px] font-medium leading-[1.5]">
-                  {title || "La tua richiesta"}
+                  {title || t("La tua richiesta")}
                 </p>
                 <p className="mt-0.5 text-[11.5px] text-muted">
-                  {category ? CATEGORY_MAP[category].label : "Categoria"}
+                  {category ? t(CATEGORY_MAP[category].label) : t("Categoria")}
                 </p>
               </div>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 border-t border-line pt-3 text-[12px]">
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Volume</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Volume")}</p>
                 <p className="mt-0.5 font-mono">{quantity > 0 ? formatKg(quantity) : "—"}</p>
               </div>
               <div>
-                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">Budget/kg</p>
+                <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Budget / kg")}</p>
                 <p className="mt-0.5 font-mono">{budgetPerKg > 0 ? formatPerKg(budgetPerKg) : "—"}</p>
               </div>
             </div>
             <div className="mt-3 flex items-center gap-1.5 rounded-lg bg-paper/70 px-2.5 py-2 text-[11.5px] text-muted">
-              <MapPin className="size-3" /> {selectedLocation?.city ?? "Sede"} · {radiusKm} km di raggio
+              <MapPin className="size-3" /> {t(`${selectedLocation?.city ?? t("Sede")} · ${radiusKm} km di raggio`)}
             </div>
           </div>
           <div className="rounded-2xl border border-line bg-white/60 p-4">
             <p className="flex items-center gap-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-              <ClipboardList className="size-3" /> Checklist richiesta
+              <ClipboardList className="size-3" /> {t("Checklist richiesta")}
             </p>
             <ul className="mt-2.5 space-y-2 text-[12px] text-muted">
               {[
-                "Una delle tre categorie MVP",
-                "Composizione accettabile specificata",
-                "Condizioni accettabili selezionate",
-                "Massimale budget consegnato impostato",
-                "Fasi di lavorazione selezionate",
+                t("Una delle tre categorie MVP"),
+                t("Composizione accettabile specificata"),
+                t("Condizioni accettabili selezionate"),
+                t("Massimale budget consegnato impostato"),
+                t("Fasi di lavorazione selezionate"),
               ].map((item) => (
                 <li key={item} className="flex gap-2">
                   <Check className="mt-0.5 size-3 shrink-0 text-moss" />

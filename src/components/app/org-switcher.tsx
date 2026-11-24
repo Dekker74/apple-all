@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import Link from "next/link";
 import { BadgeCheck, Building2, Check, ChevronsUpDown, Plus, Settings } from "lucide-react";
 import {
@@ -15,6 +17,7 @@ import { useAppStore } from "@/lib/store";
 import { cn, initials } from "@/lib/utils";
 
 export function OrgSwitcher({ className }: { className?: string }) {
+  const { t } = useI18n();
   const orgs = useUserOrgs();
   const currentOrg = useCurrentOrg();
   const switchOrg = useAppStore((s) => s.switchOrg);
@@ -28,12 +31,12 @@ export function OrgSwitcher({ className }: { className?: string }) {
           className,
         )}
       >
-        <Plus className="size-4" /> Crea organizzazione
+        <Plus className="size-4" /> {t("Crea organizzazione")}
       </Link>
     );
   }
 
-  const typeLabel = "Acquirente e fornitore";
+  const typeLabel = t("Acquirente e fornitore");
 
   return (
     <DropdownMenu>
@@ -62,7 +65,7 @@ export function OrgSwitcher({ className }: { className?: string }) {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-[236px]">
-        <DropdownMenuLabel>Organizzazioni</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("Organizzazioni")}</DropdownMenuLabel>
         {orgs.map((org) => (
           <DropdownMenuItem
             key={org.id}
@@ -73,7 +76,7 @@ export function OrgSwitcher({ className }: { className?: string }) {
             <span className="min-w-0 flex-1">
               <span className="block truncate text-[12px] font-medium">{org.name}</span>
               <span className="block text-[11.5px] capitalize text-muted">
-                Acquirente e fornitore · {org.country}
+                {t("Acquirente e fornitore")} · {org.country}
               </span>
             </span>
             {org.id === currentOrg.id ? <Check className="mt-1 size-3.5 text-moss" /> : null}
@@ -82,7 +85,7 @@ export function OrgSwitcher({ className }: { className?: string }) {
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/app/settings">
-            <Settings /> Impostazioni organizzazione
+            <Settings /> {t("Impostazioni organizzazione")}
           </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>

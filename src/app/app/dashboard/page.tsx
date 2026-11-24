@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
@@ -53,6 +55,7 @@ const QUALITY_LABELS: Record<string, string> = {
 };
 
 export default function DashboardPage() {
+  const { t, lang } = useI18n();
   const user = useCurrentUser();
   const org = useCurrentOrg();
   const views = useMatchViews();
@@ -120,10 +123,10 @@ export default function DashboardPage() {
       .slice(0, 2)
       .forEach((o) =>
         items.push({
-          title: `Preventivo ${o.reference} in attesa di accettazione`,
-          meta: `${formatCurrency(quoteByOrder.get(o.id)?.breakdown.total ?? 0, { cents: true })} · scade ${relativeTime(
+          title: t(`Preventivo ${o.reference} in attesa di accettazione`),
+          meta: t(`${formatCurrency(quoteByOrder.get(o.id)?.breakdown.total ?? 0, { cents: true })} · scade ${relativeTime(
             quoteByOrder.get(o.id)?.validUntil ?? new Date().toISOString(),
-          )}`,
+          )}`),
           href: `/app/orders/${o.id}`,
           tone: "amber",
           icon: Clock,
@@ -134,8 +137,8 @@ export default function DashboardPage() {
       .slice(0, 1)
       .forEach((o) =>
         items.push({
-          title: `Programma il ritiro per ${o.reference}`,
-          meta: `${formatKg(o.quantityKg)} · preventivo accettato`,
+          title: t(`Programma il ritiro per ${o.reference}`),
+          meta: t(`${formatKg(o.quantityKg)} · preventivo accettato`),
           href: `/app/orders/${o.id}`,
           tone: "sky",
           icon: CalendarClock,
@@ -146,10 +149,10 @@ export default function DashboardPage() {
       .slice(0, 1)
       .forEach((o) =>
         items.push({
-          title: `Ritiro prenotato · ${o.reference}`,
+          title: t(`Ritiro prenotato · ${o.reference}`),
           meta: o.collection
-            ? `${new Date(o.collection.windowStart).toLocaleDateString("it-IT", { day: "numeric", month: "short" })} · QC ${QUALITY_LABELS[o.collection.qcStatus] ?? o.collection.qcStatus}`
-            : "In attesa di conferma del trasportatore",
+            ? `${new Date(o.collection.windowStart).toLocaleDateString(lang === "it" ? "it-IT" : "en-GB", { day: "numeric", month: "short" })} · QC ${t(QUALITY_LABELS[o.collection.qcStatus] ?? o.collection.qcStatus)}`
+            : t("In attesa di conferma del trasportatore"),
           href: `/app/orders/${o.id}`,
           tone: "moss",
           icon: Truck,
@@ -157,8 +160,8 @@ export default function DashboardPage() {
       );
     if (strongMatches.length > 0) {
       items.push({
-        title: `${strongMatches.length} ${strongMatches.length === 1 ? "abbinamento solido" : "abbinamenti solidi"} da verificare`,
-        meta: "Composizione e budget già verificati",
+        title: t(`${strongMatches.length} ${strongMatches.length === 1 ? "abbinamento solido" : "abbinamenti solidi"} da verificare`),
+        meta: t("Composizione e budget già verificati"),
         href: "/app/matches",
         tone: "moss",
         icon: Sparkles,
@@ -187,10 +190,10 @@ export default function DashboardPage() {
 
   const greeting =
     new Date().getHours() < 12
-      ? "Buongiorno"
+      ? t("Buongiorno")
       : new Date().getHours() < 18
-        ? "Buon pomeriggio"
-        : "Buonasera";
+        ? t("Buon pomeriggio")
+        : t("Buonasera");
 
   const orderValue = (order: Order) => quoteByOrder.get(order.id)?.breakdown.total ?? null;
 
@@ -199,8 +202,8 @@ export default function DashboardPage() {
     const count = generateMatches();
     await new Promise((resolve) => setTimeout(resolve, 550));
     setRefreshing(false);
-    toast.success("Motore di abbinamento aggiornato", {
-      description: `${count} collegamenti offerta–domanda valutati sul mercato.`,
+    toast.success(t("Motore di abbinamento aggiornato"), {
+      description: t(`${count} collegamenti offerta–domanda valutati sul mercato.`),
     });
   }
 
@@ -209,34 +212,33 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow={`Panoramica · ${new Date().toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" })}`}
+        eyebrow={t(`Panoramica · ${new Date().toLocaleDateString(lang === "it" ? "it-IT" : "en-GB", { weekday: "long", day: "numeric", month: "long" })}`)}
         title={`${greeting}, ${user.fullName.split(" ")[0]}.`}
         description={
           <>
-            {org.name} · {openRequests.length} richieste aperte · {activeListings.length} annunci
-            attivi.{" "}
+            {t(`${org.name} · ${openRequests.length} richieste aperte · ${activeListings.length} annunci attivi.`)}{" "}
             {strongMatches.length > 0 ? (
               <span className="text-forest">
-                {strongMatches.length} {strongMatches.length === 1 ? "abbinamento richiede" : "abbinamenti richiedono"} una decisione.
+                {t(`${strongMatches.length} ${strongMatches.length === 1 ? "abbinamento richiede" : "abbinamenti richiedono"} una decisione.`)}
               </span>
             ) : (
-              "Aggiorna il motore per analizzare di nuovo il mercato."
+              t("Aggiorna il motore per analizzare di nuovo il mercato.")
             )}
           </>
         }
         actions={
           <>
             <Button variant="outline" size="sm" onClick={handleRefresh} disabled={refreshing}>
-              <RefreshCw className={cn("size-3.5", refreshing && "animate-spin")} /> Aggiorna abbinamenti
+              <RefreshCw className={cn("size-3.5", refreshing && "animate-spin")} /> {t("Aggiorna abbinamenti")}
             </Button>
             <Button variant="outline" size="sm" asChild>
               <Link href="/app/listings/new">
-                <Plus className="size-3.5" /> Pubblica materiale
+                <Plus className="size-3.5" /> {t("Pubblica materiale")}
               </Link>
             </Button>
             <Button size="sm" asChild>
               <Link href="/app/requests/new">
-                <Plus className="size-3.5" /> Nuova richiesta
+                <Plus className="size-3.5" /> {t("Nuova richiesta")}
               </Link>
             </Button>
           </>
@@ -247,27 +249,26 @@ export default function DashboardPage() {
         <div className="relative overflow-hidden rounded-2xl border border-line bg-white p-6 sm:p-8">
           <div className="absolute inset-y-0 right-0 hidden w-1/3 dot-grid opacity-40 sm:block" />
           <div className="relative max-w-[560px]">
-            <Badge variant="lime">Spazio di lavoro pronto</Badge>
+            <Badge variant="lime">{t("Spazio di lavoro pronto")}</Badge>
             <h2 className="mt-3 text-[26px] leading-tight">
-              Il tuo mercato è attivo. Inizia da uno dei due lati del ciclo.
+              {t("Il tuo mercato è attivo. Inizia da uno dei due lati del ciclo.")}
             </h2>
             <p className="mt-2 text-[12px] leading-relaxed text-muted">
-              Pubblica l'eccedenza che hai già o la specifica che ti serve. Il motore farà una prima analisi
-              nelle categorie di lancio: carta, legno e plastica.
+              {t("Pubblica l'eccedenza che hai già o la specifica che ti serve. Il motore farà una prima analisi nelle categorie di lancio: carta, legno e plastica.")}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Button size="sm" asChild>
                 <Link href="/app/listings/new">
-                  <Package className="size-3.5" /> Pubblica eccedenza
+                  <Package className="size-3.5" /> {t("Pubblica eccedenza")}
                 </Link>
               </Button>
               <Button size="sm" variant="outline" asChild>
                 <Link href="/app/requests/new">
-                  <ClipboardList className="size-3.5" /> Pubblica una richiesta
+                  <ClipboardList className="size-3.5" /> {t("Pubblica una richiesta")}
                 </Link>
               </Button>
               <Button size="sm" variant="ghost" asChild>
-                <Link href="/app/marketplace">Esplora il mercato <ArrowRight className="size-3.5" /></Link>
+                <Link href="/app/marketplace">{t("Esplora il mercato")} <ArrowRight className="size-3.5" /></Link>
               </Button>
             </div>
           </div>
@@ -276,36 +277,36 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <KpiCard
-          label="Pipeline aperta"
+          label={t("Pipeline aperta")}
           value={formatCurrency(pipelineValue, { compact: true })}
-          sub={`${openOrders.length} ordini attivi`}
+          sub={t(`${openOrders.length} ordini attivi`)}
           icon={Wallet}
-          trend={{ value: "+12,4% rispetto al mese scorso", direction: "up" }}
+          trend={{ value: t("+12,4% rispetto al mese scorso"), direction: "up" }}
           spark={[3, 5, 4, 7, 6, 9, 8, 11]}
           accent="lime"
         />
         <KpiCard
-          label="Abbinamenti AI"
+          label={t("Abbinamenti AI")}
           value={String(views.length)}
-          sub={`${strongMatches.length} solidi · ${views.length - strongMatches.length} da verificare`}
+          sub={t(`${strongMatches.length} solidi · ${views.length - strongMatches.length} da verificare`)}
           icon={Sparkles}
-          trend={{ value: "aggiornato 2 ore fa", direction: "up" }}
+          trend={{ value: t("aggiornato 2 ore fa"), direction: "up" }}
           spark={[4, 6, 5, 8, 9, 7, 10, 12]}
         />
         <KpiCard
-          label="Richieste aperte"
+          label={t("Richieste aperte")}
           value={String(openRequests.length)}
-          sub={`${formatKg(openRequests.reduce((sum, r) => sum + r.quantityKg, 0))} domanda mensile`}
+          sub={t(`${formatKg(openRequests.reduce((sum, r) => sum + r.quantityKg, 0))} domanda mensile`)}
           icon={ClipboardList}
-          trend={{ value: "1 aggiunto questa settimana", direction: "up" }}
+          trend={{ value: t("1 aggiunto questa settimana"), direction: "up" }}
           spark={[2, 2, 3, 2, 4, 3, 3, 4]}
         />
         <KpiCard
-          label="Annunci attivi"
+          label={t("Annunci attivi")}
           value={String(activeListings.length)}
-          sub={`${formatKg(activeListings.reduce((sum, l) => sum + l.quantityKg, 0))} disponibili`}
+          sub={t(`${formatKg(activeListings.reduce((sum, l) => sum + l.quantityKg, 0))} disponibili`)}
           icon={Package}
-          trend={{ value: "offerta di mercato", direction: "up" }}
+          trend={{ value: t("offerta di mercato"), direction: "up" }}
           spark={[5, 4, 6, 6, 7, 6, 8, 9]}
           accent="amber"
         />
@@ -316,10 +317,10 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-3 border-b border-line/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="eyebrow flex items-center gap-1.5">
-                <Sparkles className="size-3 text-moss" /> Feed abbinamenti AI
+                <Sparkles className="size-3 text-moss" /> {t("Feed abbinamenti AI")}
               </p>
               <p className="mt-1 text-[12px] text-muted">
-                Classificati per composizione, volume, condizioni, distanza e budget consegnato.
+                {t("Classificati per composizione, volume, condizioni, distanza e budget consegnato.")}
               </p>
             </div>
             <div className="flex items-center gap-1 rounded-full border border-line bg-paper/60 p-1">
@@ -331,7 +332,7 @@ export default function DashboardPage() {
                   direction === "demand" ? "bg-forest text-paper" : "text-muted hover:text-ink",
                 )}
               >
-                Per la mia domanda
+                {t("Per la mia domanda")}
               </button>
               <button
                 onClick={() => setDirection("supply")}
@@ -341,7 +342,7 @@ export default function DashboardPage() {
                   direction === "supply" ? "bg-forest text-paper" : "text-muted hover:text-ink",
                 )}
               >
-                Per la mia offerta
+                {t("Per la mia offerta")}
               </button>
             </div>
           </div>
@@ -359,7 +360,7 @@ export default function DashboardPage() {
                     match={match}
                     listing={listing}
                     request={request}
-                    supplierName={supplier?.name ?? "Fornitore"}
+                    supplierName={supplier?.name ?? t("Fornitore")}
                     supplierCity={location?.city ?? "—"}
                     compact
                   />
@@ -368,15 +369,15 @@ export default function DashboardPage() {
             ) : (
               <EmptyState
                 icon={Sparkles}
-                title="Nessun abbinamento in questa vista"
-                description="Il motore confronta l'offerta attiva con le richieste aperte. Aggiungi una richiesta o aggiorna il mercato."
+                title={t("Nessun abbinamento in questa vista")}
+                description={t("Il motore confronta l'offerta attiva con le richieste aperte. Aggiungi una richiesta o aggiorna il mercato.")}
                 action={
                   <div className="flex gap-2">
                     <Button size="sm" asChild>
-                      <Link href="/app/requests/new">Pubblica una richiesta</Link>
+                      <Link href="/app/requests/new">{t("Pubblica una richiesta")}</Link>
                     </Button>
                     <Button size="sm" variant="outline" onClick={handleRefresh}>
-                      Refresh
+                      {t("Refresh")}
                     </Button>
                   </div>
                 }
@@ -388,7 +389,7 @@ export default function DashboardPage() {
               href="/app/matches"
               className="flex items-center justify-between text-[11.5px] text-muted transition-colors hover:text-forest"
             >
-              <span>Vedi tutti i {views.length} abbinamenti</span>
+              <span>{t(`Vedi tutti i ${views.length} abbinamenti`)}</span>
               <ArrowUpRight className="size-3.5" />
             </Link>
           </div>
@@ -398,7 +399,7 @@ export default function DashboardPage() {
           <section className="rounded-2xl border border-line bg-white">
             <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
               <p className="eyebrow flex items-center gap-1.5">
-                <BellRing className="size-3 text-clay" /> Richiedono attenzione
+                <BellRing className="size-3 text-clay" /> {t("Richiedono attenzione")}
               </p>
               <Badge variant="muted">{attention.length}</Badge>
             </div>
@@ -437,7 +438,7 @@ export default function DashboardPage() {
               ) : (
                 <div className="px-5 py-8 text-center">
                   <CircleAlert className="mx-auto size-4 text-muted/60" />
-                  <p className="mt-2 text-[11.5px] text-muted">Nessun blocco. Il flusso è regolare.</p>
+                  <p className="mt-2 text-[11.5px] text-muted">{t("Nessun blocco. Il flusso è regolare.")}</p>
                 </div>
               )}
             </div>
@@ -446,10 +447,10 @@ export default function DashboardPage() {
           <section className="rounded-2xl border border-line bg-white">
             <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
               <p className="eyebrow flex items-center gap-1.5">
-                <TrendingUp className="size-3 text-moss" /> Polso del mercato
+                <TrendingUp className="size-3 text-moss" /> {t("Polso del mercato")}
               </p>
               <Link href="/app/marketplace" className="text-[11.5px] text-muted hover:text-forest">
-                Esplora
+                {t("Esplora")}
               </Link>
             </div>
             <div className="space-y-3.5 px-5 py-4">
@@ -457,7 +458,7 @@ export default function DashboardPage() {
                 <div key={cat.value}>
                   <div className="flex items-center justify-between text-[12px]">
                     <span className="flex items-center gap-1.5 text-ink">
-                      {cat.short}
+                      {t(cat.short)}
                       <span className="text-[11.5px] text-muted">({cat.count})</span>
                     </span>
                     <span className="font-mono text-[12px] tabular-nums">
@@ -482,33 +483,32 @@ export default function DashboardPage() {
                 </div>
               ))}
               <p className="pt-1 text-[11.5px] leading-relaxed text-muted">
-                Prezzo medio degli annunci al kg, solo offerta attiva. I preventivi consegnati includono
-                lavorazione, trasporto, commissione e IVA.
+                {t("Prezzo medio degli annunci al kg, solo offerta attiva. I preventivi consegnati includono lavorazione, trasporto, commissione e IVA.")}
               </p>
             </div>
           </section>
 
           <section className="rounded-2xl border border-forest bg-forest p-5 text-paper">
             <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-paper/50">
-              Riepilogo finanziario
+              {t("Riepilogo finanziario")}
             </p>
             <div className="mt-3 space-y-2.5 text-[11.5px]">
               <div className="flex justify-between">
-                <span className="text-paper/55">Impegnato (accettato)</span>
+                <span className="text-paper/55">{t("Impegnato (accettato)")}</span>
                 <span className="font-mono">{formatCurrency(committedValue)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-paper/55">Commissione maturata</span>
+                <span className="text-paper/55">{t("Commissione maturata")}</span>
                 <span className="font-mono">{formatCurrency(commission)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-paper/55">GMV completato</span>
+                <span className="text-paper/55">{t("Fatturato completato")}</span>
                 <span className="font-mono">{formatCurrency(completedGmv)}</span>
               </div>
             </div>
             <div className="mt-4 border-t border-paper/15 pt-3">
               <div className="flex items-end justify-between">
-                <span className="text-[11.5px] text-paper/50">Obiettivo trimestrale</span>
+                <span className="text-[11.5px] text-paper/50">{t("Obiettivo trimestrale")}</span>
                 <span className="font-mono text-[11.5px] text-lime">
                   {Math.min(100, Math.round((completedGmv / 50000) * 100))}%
                 </span>
@@ -528,14 +528,14 @@ export default function DashboardPage() {
         <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
           <div>
             <p className="eyebrow flex items-center gap-1.5">
-              <Truck className="size-3 text-muted" /> Pipeline ordini
+              <Truck className="size-3 text-muted" /> {t("Pipeline ordini")}
             </p>
             <p className="mt-1 text-[12px] text-muted">
-              Bozza → abbinato → preventivo → accettato → ritiro → completato.
+              {t("Bozza → abbinato → preventivo → accettato → ritiro → completato.")}
             </p>
           </div>
           <Link href="/app/orders" className="flex items-center gap-1 text-[12px] text-muted hover:text-forest">
-            Tutti gli ordini <ArrowUpRight className="size-3" />
+            {t("Tutti gli ordini")} <ArrowUpRight className="size-3" />
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-px bg-line/60 sm:grid-cols-3 lg:grid-cols-6">
@@ -549,7 +549,7 @@ export default function DashboardPage() {
               <div key={step.status} className="bg-white px-4 py-3.5">
                 <div className="flex items-center justify-between">
                   <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-                    {step.label}
+                    {t(step.label)}
                   </span>
                   <span
                     className={cn(
@@ -571,23 +571,23 @@ export default function DashboardPage() {
       <section className="overflow-hidden rounded-2xl border border-line bg-white">
         <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
           <p className="eyebrow flex items-center gap-1.5">
-            <Euro className="size-3 text-muted" /> Ordini recenti
+            <Euro className="size-3 text-muted" /> {t("Ordini recenti")}
           </p>
           <Link href="/app/orders" className="text-[12px] text-muted hover:text-forest">
-            Vedi tutti
+            {t("Vedi tutti")}
           </Link>
         </div>
         {recentOrders.length > 0 ? (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Ordine</TableHead>
-                <TableHead>Materiale</TableHead>
-                <TableHead className="hidden md:table-cell">Controparte</TableHead>
-                <TableHead className="hidden sm:table-cell">Volume</TableHead>
-                <TableHead className="hidden lg:table-cell">Consegnato</TableHead>
-                <TableHead>Stato</TableHead>
-                <TableHead className="hidden md:table-cell">Aggiornato</TableHead>
+                <TableHead>{t("Ordine")}</TableHead>
+                <TableHead>{t("Materiale")}</TableHead>
+                <TableHead className="hidden md:table-cell">{t("Controparte")}</TableHead>
+                <TableHead className="hidden sm:table-cell">{t("Volume")}</TableHead>
+                <TableHead className="hidden lg:table-cell">{t("Consegnato")}</TableHead>
+                <TableHead>{t("Stato")}</TableHead>
+                <TableHead className="hidden md:table-cell">{t("Aggiornato")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -604,16 +604,16 @@ export default function DashboardPage() {
                     </TableCell>
                     <TableCell className="max-w-[240px]">
                       <Link href={`/app/orders/${order.id}`} className="block truncate text-[12px]">
-                        {listing?.title ?? "—"}
+                        {t(listing?.title ?? "—")}
                       </Link>
                       <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.08em] text-muted">
-                        {listing ? CATEGORY_MAP[listing.category].short : "—"}
+                        {listing ? t(CATEGORY_MAP[listing.category].short) : "—"}
                       </span>
                     </TableCell>
                     <TableCell className="hidden md:table-cell text-muted">
                       {counterparty?.name ?? "—"}
                       <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.08em]">
-                        {isBuy ? "Fornitore" : "Cliente"}
+                        {isBuy ? t("Fornitore") : t("Cliente")}
                       </span>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell font-mono text-[12px]">
@@ -626,7 +626,7 @@ export default function DashboardPage() {
                       <OrderStatusBadge status={order.status} />
                     </TableCell>
                     <TableCell className="hidden md:table-cell text-[12px] text-muted">
-                      {relativeTime(order.updatedAt)}
+                      {t(relativeTime(order.updatedAt))}
                     </TableCell>
                   </TableRow>
                 );
@@ -637,11 +637,11 @@ export default function DashboardPage() {
           <div className="px-5 py-12">
             <EmptyState
               icon={Inbox}
-              title="Nessun ordine"
-              description="Crea un ordine da un abbinamento per generare un preventivo trasparente e avviare la logistica."
+              title={t("Nessun ordine")}
+              description={t("Crea un ordine da un abbinamento per generare un preventivo trasparente e avviare la logistica.")}
               action={
                 <Button size="sm" asChild>
-                  <Link href="/app/matches">Rivedi abbinamenti</Link>
+                  <Link href="/app/matches">{t("Rivedi abbinamenti")}</Link>
                 </Button>
               }
             />
@@ -650,7 +650,7 @@ export default function DashboardPage() {
       </section>
 
       <p className="flex items-center justify-center gap-1.5 pb-2 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted/60">
-        <MapPin className="size-3" /> Mercato MVP: carta e cartone · legno · plastica — Emilia-Romagna, area di Bologna
+        <MapPin className="size-3" /> {t("Mercato MVP: carta e cartone · legno · plastica — Emilia-Romagna, area di Bologna")}
       </p>
     </div>
   );

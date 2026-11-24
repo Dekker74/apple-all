@@ -1,5 +1,7 @@
 "use client";
 
+import { useI18n } from "@/lib/i18n";
+
 import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -29,6 +31,7 @@ type Confidence = "all" | "strong" | "review";
 type MatchState = "all" | "suggested" | "shortlisted" | "quoted";
 
 export default function MatchesPage() {
+  const { t } = useI18n();
   const org = useCurrentOrg();
   const views = useMatchViews();
   const listings = useAppStore((s) => s.listings);
@@ -86,31 +89,31 @@ export default function MatchesPage() {
     const count = generateMatches();
     await new Promise((resolve) => setTimeout(resolve, 550));
     setRefreshing(false);
-    toast.success("Motore di abbinamento aggiornato", {
-      description: `${count} collegamenti offerta–domanda valutati nelle categorie di lancio.`,
+    toast.success(t("Motore di abbinamento aggiornato"), {
+      description: t(`${count} collegamenti offerta–domanda valutati nelle categorie di lancio.`),
     });
   }
 
   const FILTERS: { value: Direction; label: string; count: number }[] = [
-    { value: "all", label: "Tutti", count: views.length },
-    { value: "supply", label: "Per il tuo materiale", count: supplyCount },
-    { value: "demand", label: "Materiale che cerchi", count: demandCount },
+    { value: "all", label: t("Tutti"), count: views.length },
+    { value: "supply", label: t("Per il tuo materiale"), count: supplyCount },
+    { value: "demand", label: t("Materiale che cerchi"), count: demandCount },
   ];
 
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Abbinamenti per te"
-        title="Chi è interessato al tuo materiale"
-        description="Queste persone cercano materiale come il tuo. Puoi contattarle direttamente."
+        eyebrow={t("Abbinamenti per te")}
+        title={t("Chi è interessato al tuo materiale")}
+        description={t("Queste persone cercano materiale come il tuo. Puoi contattarle direttamente.")}
         actions={
           <>
             <Button variant="outline" size="sm" onClick={handleRefresh} disabled={refreshing}>
-              <RefreshCw className={cn("size-3.5", refreshing && "animate-spin")} /> Aggiorna
+              <RefreshCw className={cn("size-3.5", refreshing && "animate-spin")} /> {t("Aggiorna")}
             </Button>
             <Button size="sm" asChild>
               <Link href="/app/marketplace">
-                <Compass className="size-3.5" /> Cerca materiali
+                <Compass className="size-3.5" /> {t("Cerca materiali")}
               </Link>
             </Button>
           </>
@@ -119,12 +122,12 @@ export default function MatchesPage() {
 
       <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line lg:grid-cols-3">
         {[
-          { label: "Persone interessate", value: String(views.length), sub: `${strongCount} molto interessate` },
-          { label: "Salvati", value: String(shortlisted), sub: "da ricontattare" },
+          { label: t("Persone interessate"), value: String(views.length), sub: t(`${strongCount} molto interessate`) },
+          { label: t("Salvati"), value: String(shortlisted), sub: t("da ricontattare") },
           {
-            label: "Valore totale",
+            label: t("Valore totale"),
             value: formatCurrency(pipelineValue, { compact: true }),
-            sub: `${formatKg(views.reduce((sum, v) => sum + v.match.quantityKg, 0))} di materiale`,
+            sub: t(`${formatKg(views.reduce((sum, v) => sum + v.match.quantityKg, 0))} di materiale`),
           },
         ].map((stat) => (
           <div key={stat.label} className="bg-white px-4 py-3.5">
@@ -167,11 +170,11 @@ export default function MatchesPage() {
               value={state}
               onChange={(e) => setState(e.target.value as MatchState)}
               className="h-9 w-full text-[12px] sm:w-[150px]"
-              aria-label="Filtra per stato"
+              aria-label={t("Filtra per stato")}
             >
-              <option value="all">Tutti</option>
-              <option value="suggested">Nuovi</option>
-              <option value="shortlisted">Salvati</option>
+              <option value="all">{t("Tutti")}</option>
+              <option value="suggested">{t("Nuovi")}</option>
+              <option value="shortlisted">{t("Salvati")}</option>
               <option value="quoted">Ordinati</option>
             </Select>
           </div>
@@ -185,15 +188,15 @@ export default function MatchesPage() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-[13px] font-medium text-moss">
-                  <Sparkles className="inline size-3.5" /> Compratori interessati al tuo annuncio
+                  <Sparkles className="inline size-3.5" /> {t("Compratori interessati al tuo annuncio")}
                 </p>
                 <p className="mt-1 text-[12px] text-muted">
-                  <strong>{listing.title}</strong> · {listing.reference}
+                  <strong>{t(listing.title)}</strong> · {listing.reference}
                 </p>
               </div>
               <Button size="sm" variant="outline" asChild>
                 <Link href="/app/matches">
-                  Vedi tutti gli abbinamenti
+                  {t("Vedi tutti gli abbinamenti")}
                 </Link>
               </Button>
             </div>
@@ -215,7 +218,7 @@ export default function MatchesPage() {
                 match={match}
                 listing={listing}
                 request={request}
-                supplierName={supplier?.name ?? "Fornitore"}
+                supplierName={supplier?.name ?? t("Fornitore")}
                 supplierCity={location?.city ?? "—"}
               />
             );
@@ -224,22 +227,22 @@ export default function MatchesPage() {
       ) : (
         <EmptyState
           icon={Sparkles}
-          title={views.length === 0 ? "Nessuno interessato ancora" : "Nessun risultato"}
+          title={views.length === 0 ? t("Nessuno interessato ancora") : t("Nessun risultato")}
           description={
             views.length === 0
-              ? "Pubblica materiale in vendita o cerca materiale di cui hai bisogno."
-              : "Prova con un altro filtro o cerca qualcosa di diverso."
+              ? t("Pubblica materiale in vendita o cerca materiale di cui hai bisogno.")
+              : t("Prova con un altro filtro o cerca qualcosa di diverso.")
           }
           action={
             <div className="flex flex-wrap gap-2">
               <Button size="sm" asChild>
                 <Link href="/app/listings/new">
-                  <Plus className="size-3.5" /> Vendi materiale
+                  <Plus className="size-3.5" /> {t("Vendi materiale")}
                 </Link>
               </Button>
               <Button size="sm" variant="outline" asChild>
                 <Link href="/app/requests/new">
-                  <Target className="size-3.5" /> Cerca materiale
+                  <Target className="size-3.5" /> {t("Cerca materiale")}
                 </Link>
               </Button>
             </div>
@@ -248,9 +251,9 @@ export default function MatchesPage() {
       )}
 
       <div className="rounded-2xl border border-line bg-white/60 p-5">
-        <p className="text-[13px] font-medium">💡 Hai trovato qualcuno interessante?</p>
+        <p className="text-[13px] font-medium">{t("💡 Hai trovato qualcuno interessante?")}</p>
         <p className="mt-1 text-[12px] text-muted">
-          Clicca sulla scheda per vedere i dettagli e contattare direttamente la persona.
+          {t("Clicca sulla scheda per vedere i dettagli e contattare direttamente la persona.")}
         </p>
       </div>
     </div>
