@@ -3,11 +3,8 @@ import { cn } from "@/lib/utils";
 
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 44 44" className={cn("size-8 text-moss", className)} role="img" aria-label="Offcut logo">
-      <path d="M22 3 39 13v18L22 41 5 31V13L22 3Z" fill="none" stroke="currentColor" strokeWidth="2.5" />
-      <path d="M13 25c7-1 12-6 17-13 1 8-2 17-11 20-4 1-7-2-6-7Z" fill="currentColor" />
-      <path d="M13 31c4-5 8-9 14-13" fill="none" stroke="var(--bg)" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src="/images/offcut-mark.svg" alt="Offcut" className={cn("brand-mark", className)} />
   );
 }
 

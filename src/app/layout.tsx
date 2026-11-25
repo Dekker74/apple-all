@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "Materials in motion. Industrial surplus matched, collected and delivered.",
     images: ["/images/og-cover.png"],
   },
-  icons: { icon: "/icon.svg" },
+  icons: { icon: "/icon.svg", apple: "/apple-icon.svg" },
 };
 
 export const viewport: Viewport = {

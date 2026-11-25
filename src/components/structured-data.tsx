@@ -9,7 +9,7 @@ export function StructuredData({ siteUrl }: { siteUrl: string }) {
         "@type": "Organization",
         name: "Offcut",
         url: siteUrl,
-        logo: `${siteUrl}/icon.svg`,
+        logo: `${siteUrl}/images/offcut-logo.svg`,
         areaServed: "IT",
         description,
       },

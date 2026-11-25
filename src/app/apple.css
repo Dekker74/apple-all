@@ -374,14 +374,37 @@ header#top .brand:hover {
 }
 
 header#top .brand-mark {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   color: #ffffff;
   transition: transform 500ms var(--apple-ease);
 }
 
 header#top .brand:hover .brand-mark {
   transform: rotate(-12deg);
+}
+
+header#top .brand:hover img.brand-mark {
+  transform: none;
+  opacity: 0.8;
+}
+
+img.brand-mark {
+  display: block;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #121816;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+img.brand-mark.logo-full {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+}
+
+html.dark img.brand-mark {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 
 header#top nav {
@@ -1137,8 +1160,8 @@ main.offcut-main-no-header {
 }
 
 .offcut-app-bar > .brand .brand-mark {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 .offcut-app-links {
