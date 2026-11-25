@@ -1099,6 +1099,43 @@ main.offcut-main-bare {
   overflow-wrap: anywhere;
 }
 
+.apple-email-row .apple-person {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.apple-email-row .apple-person-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.apple-email-row .apple-person-role {
+  justify-self: start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--moss);
+  background: var(--mint);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.apple-email-row .apple-person-email {
+  font-size: 12px;
+  color: var(--mut);
+}
+
+.dark .apple-email-row .apple-person-name {
+  color: #ffffff;
+}
+
+.dark .apple-email-row .apple-person-role {
+  color: var(--apple-blue-on-dark);
+  background: rgba(27, 110, 69, 0.22);
+}
+
 .apple-tile .assistant-card {
   max-width: 860px;
   margin: 0 auto;

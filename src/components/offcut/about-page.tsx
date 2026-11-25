@@ -69,11 +69,11 @@ const COPY = {
   },
 } as const;
 
-const EMAILS = [
-  "andrea.greco@steamschoolemilia.it",
-  "linda.battaglia@steamschoolemilia.it",
-  "dario.felice@steamschoolemilia.it",
-];
+const TEAM = [
+  { name: "Linda Battaglia", role: "CEO", email: "linda.battaglia@steamschoolemilia.it" },
+  { name: "Andrea Greco", role: "CTO & COO", email: "andrea.greco@steamschoolemilia.it" },
+  { name: "Dario Felice", role: "CFO", email: "dario.felice@steamschoolemilia.it" },
+] as const;
 
 export function AboutPage() {
   const { lang } = useI18n();
@@ -187,11 +187,15 @@ export function AboutPage() {
             <p>{c.teamDesc}</p>
           </div>
           <div className="apple-email-list apple-reveal apple-delay-2">
-            {EMAILS.map((email) => (
-              <div className="apple-email-row" key={email}>
-                <span>{email}</span>
-                <button type="button" className="btn sm ghost" onClick={() => void copyEmail(email)}>
-                  {copied === email ? c.copied : c.copy}
+            {TEAM.map((member) => (
+              <div className="apple-email-row" key={member.email}>
+                <div className="apple-person">
+                  <span className="apple-person-name">{member.name}</span>
+                  <span className="apple-person-role">{member.role}</span>
+                  <span className="apple-person-email">{member.email}</span>
+                </div>
+                <button type="button" className="btn sm ghost" onClick={() => void copyEmail(member.email)}>
+                  {copied === member.email ? c.copied : c.copy}
                 </button>
               </div>
             ))}
