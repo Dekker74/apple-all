@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://all-1-2026.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://apple-all.vercel.app";
 const lastModified = new Date("2026-11-23");
 
 export default function sitemap(): MetadataRoute.Sitemap {

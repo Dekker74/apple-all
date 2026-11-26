@@ -1,7 +1,7 @@
 /* Offcut reference design system — copied from the attached FINAL VERSION OFFCUT APP.html */
 
 :root{
-  --bg:#f5f5f7;--sf:#ffffff;--sf2:#fafafc;--ink:#1d1d1f;--mut:#7a7a7a;--line:#e0e0e0;
+  --bg:#f5f5f7;--sf:#ffffff;--sf2:#fafafc;--ink:#1d1d1f;--mut:#5f5f5f;--line:#e0e0e0;
   --moss:#14532d;--moss-hover:#166534;--mint:#e4f1e8;--amb:#8a5410;--on:#ffffff;--danger:#c4372c;
   box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light
 }

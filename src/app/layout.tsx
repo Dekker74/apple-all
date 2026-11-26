@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   description:
     "Offcut helps businesses see industrial surplus as a resource. We connect companies with reusable or recoverable materials, then collect, process and deliver them.",
   metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+    languages: {
+      en: `${siteUrl}/`,
+      it: `${siteUrl}/`,
+      "x-default": `${siteUrl}/`,
+    },
+  },
   openGraph: {
     title: "Offcut – Scrap becomes raw material",
     description:
@@ -45,11 +53,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{document.documentElement.classList.add('js');var t=localStorage.getItem('circularlink-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;if(d){document.documentElement.classList.add('dark');document.documentElement.style.colorScheme='dark';}}catch(e){}})();`,
+            __html: `(function(){try{document.documentElement.classList.add('js');var t=localStorage.getItem('circularlink-theme');var d=t?t==='dark':window.matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.setAttribute('data-theme',d?'dark':'light');document.documentElement.style.colorScheme=d?'dark':'light';if(d)document.documentElement.classList.add('dark');var l=localStorage.getItem('circularlink.lang');if(l==='it'||l==='en')document.documentElement.lang=l;}catch(e){}})();`,
           }}
         />
       </head>
