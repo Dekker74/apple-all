@@ -1,5 +1,7 @@
 # ✅ Modifiche Completate — CircularLink Offcut Design
 
+> **Aggiornamento 26 novembre 2026 — stato finale verificato.** I valori di palette e le note qui sotto sono storici; la palette spedita è quella di `src/app/apple.css`: dark `--bg #000`, `--sf #1d1d1f`, `--apple-blue #1b6e45`, `--apple-blue-on-dark #6ee7a8`; light `--moss #14532d`, `--mint #e4f1e8`. Le sezioni obsolete su “~80 città Emilia-Romagna”, “logo CircularLink” e “deploy pronto” sono sostituite dal paragrafo **Stato finale** in fondo. Fonte di verità: `MASTER_PROMPT_COMPLIANCE.md`, `qa/QA_REPORT.md`, `qa/FINAL_FLOW_REPORT.md`.
+
 ## 🎨 1. Estetica Offcut (Applicata a Tutto il Sito)
 
 ### Palette Colori
@@ -152,12 +154,12 @@ Piacenza, Castel San Giovanni, Fiorenzuola d'Arda, Rottofreno, Podenzano, Carpan
 
 ### Knowledge Base
 Il bot conosce:
-- ✅ **Matching materiali**: come funziona l'algoritmo, compatibilità
-- ✅ **Prezzi e commissioni**: 6% + trasporto €120 + servizio €45 + lavorazione
-- ✅ **Ritiro e consegna**: prenotazione, finestre orarie, tracciamento
-- ✅ **Materiali supportati**: carta, legno, plastica + condizioni
-- ✅ **Impatto CO₂e**: calcolo risparmio per tonnellata
-- ✅ **Area operativa**: Emilia-Romagna
+- ✅ **Matching materiali**: confronto tra materiale, quantità, condizione e distanza, con valutazione qualitativa e motivazioni; nessuna percentuale di compatibilità inventata.
+- ✅ **Prezzi e commissioni**: commissione 6% sugli affari conclusi; materiale, lavorazione e trasporto definiti nel preventivo, senza importi fissi inventati.
+- ✅ **Ritiro e consegna**: ritiro e consegna organizzati tramite la piattaforma, data scelta dall'acquirente; nessun tracciamento in tempo reale non implementato.
+- ✅ **Materiali supportati**: carta/cartone, legno, plastica + condizioni selezionabili e foto del venditore.
+- ✅ **Impatto CO₂e**: stima indicativa con fattori medi di settore, non certificato e non risparmio garantito.
+- ✅ **Area operativa**: Bologna e comuni limitrofi al lancio.
 
 ### UI Features
 
@@ -255,34 +257,13 @@ $ npm run build
 
 ---
 
-## 🚀 Prossimi Passi
+## Stato finale verificato (26 novembre 2026)
 
-### 1. Push su GitHub
-```bash
-git push origin main
-```
-
-### 2. Configurare Gemini su Vercel
-- Vai su Vercel Dashboard → Settings → Environment Variables
-- Aggiungi `GEMINI_API_KEY`
-- Redeploy
-
-### 3. Test in produzione
-- [ ] Widget chat visibile
-- [ ] Conversazione Gemini funzionante
-- [ ] City selector su `/preventivo`
-- [ ] Colori Offcut light/dark
-- [ ] Responsive mobile
-
----
-
-## 🎯 Risultato Finale
-
-✅ **Estetica Offcut** applicata a tutto il sito (pubblico + app)  
-✅ **~80 città Emilia-Romagna** con UI pills interattiva  
-✅ **Chatbot Gemini** con knowledge base CircularLink completa  
-✅ **Logo CircularLink** mantenuto (non cambiato in Offcut)  
-✅ **Build verde** (0 errori type/lint)  
-✅ **Commit pronto** per push  
-
-**Pronto per il deploy! 🚀**
+- **Identità**: nome Offcut, logo fornito installato, verde come accento su superfici neutre (dark `#000`/`#1d1d1f`, light `#f1f4ef`), nessun blu residuo.
+- **Area operativa**: solo Bologna e comuni limitrofi; nessuna città Emilia-Romagna aggiunta.
+- **Assistente**: nome **Offcut AI**, KB allineata a matching qualitativo, commissione 6% e costi reali, nessun prezzo o tracciamento inventato, aperto solo su richiesta, rate limit 20/min e payload 10 KB, CSP report-only.
+- **Verifiche**: `npm run typecheck` e `npm run build` verdi (28/28 pagine); QA funzionale 18 PASS, mirato 10 PASS, regressioni annunci 5/5, revisione estetica misurabile 14/14 con 0 finding; log ed exit code in `qa/logs/`.
+- **Copertura viewport**: 360, 375, 390, 430, 768, 1024, 1440, 1920 px, EN/IT, dark/light, 0 overflow e 0 errori console/HTTP nei percorsi testati.
+- **Conformità Master Prompt**: 73 % con metodo di peso esplicito in `MASTER_PROMPT_COMPLIANCE.md`.
+- **Blocchi**: push, PR e deploy **non autorizzati**; produzione remota osservata con `404 DEPLOYMENT_NOT_FOUND`; Lighthouse, screen reader, backup DB e staging non verificati.
+- **Nota lint**: `package.json` non definisce uno script `lint`; il typo checking è coperto da `npm run typecheck`.
