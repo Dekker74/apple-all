@@ -1,0 +1,18 @@
+[visual] home-desktop-light-en
+[visual] home-desktop-dark-it
+[visual] home-tablet-light-it
+[visual] home-mobile-light-it
+[visual] FAIL dashboard-desktop-light-it: page.waitForURL: Timeout 20000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "domcontentloaded"
+  navigated to "http://127.0.0.1:3100/login"
+============================================================
+[visual] marketplace-tablet-light-en
+[visual] marketplace-mobile-dark-it
+[visual] detail-desktop-light-en
+[visual] wizard-tablet-light-it
+[visual] quote-desktop-light-it
+[visual] impact-mobile-light-en
+[visual] login-mobile-dark-it
+[visual] inbox-desktop-dark-en
+[visual] settings-tablet-light-it

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Offcut — confronto visivo prima/dopo e schermate finali</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1d1d1f; }
+  .wrap { width: 100%; padding: 0; }
+  h2 { font-size: 17px; margin: 26px 0 10px; letter-spacing: -0.02em; }
+  h2:first-child { margin-top: 4px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .cell { min-width: 0; }
+  .cell img { display: block; width: 100%; max-height: 330px; object-fit: contain; object-position: top left; border: 1px solid #e0e0e0; }
+  .cap { padding: 5px 2px; font-size: 12px; font-weight: 600; }
+  .tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; margin-right: 5px; background: #e4f1e8; color: #14532d; }
+  .tag.after { background: #1b6e45; color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2>Homepage desktop — prima (a3de235) / dopo (finale)</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>home desktop light EN</div><img src="/root/apple-all/qa/visual-before/before-home-desktop-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>home desktop light EN</div><img src="/root/apple-all/qa/visual-review/home-desktop-light-en.png"></div>
+  </div>
+  <h2>Homepage mobile — prima / dopo</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>home mobile light EN</div><img src="/root/apple-all/qa/visual-before/before-home-mobile-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>home mobile light IT</div><img src="/root/apple-all/qa/visual-review/home-mobile-light-it.png"></div>
+  </div>
+  <h2>Impatto, preventivo, login — prima / dopo</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>impatto desktop</div><img src="/root/apple-all/qa/visual-before/before-impact-desktop-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>impatto mobile EN</div><img src="/root/apple-all/qa/visual-review/impact-mobile-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>preventivo desktop</div><img src="/root/apple-all/qa/visual-before/before-quote-desktop-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>preventivo desktop IT</div><img src="/root/apple-all/qa/visual-review/quote-desktop-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>login desktop</div><img src="/root/apple-all/qa/visual-before/before-login-desktop-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>login mobile dark IT</div><img src="/root/apple-all/qa/visual-review/login-mobile-dark-it.png"></div>
+  </div>
+  <h2>Schermate finali aggiuntive</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap">home desktop dark IT</div><img src="/root/apple-all/qa/visual-review/home-desktop-dark-it.png"></div>
+    <div class="cell"><div class="cap">home tablet light IT</div><img src="/root/apple-all/qa/visual-review/home-tablet-light-it.png"></div>
+    <div class="cell"><div class="cap">dashboard desktop light IT</div><img src="/root/apple-all/qa/visual-review/dashboard-desktop-light-it.png"></div>
+    <div class="cell"><div class="cap">marketplace tablet light EN</div><img src="/root/apple-all/qa/visual-review/marketplace-tablet-light-en.png"></div>
+    <div class="cell"><div class="cap">marketplace mobile dark IT</div><img src="/root/apple-all/qa/visual-review/marketplace-mobile-dark-it.png"></div>
+    <div class="cell"><div class="cap">dettaglio annuncio desktop EN</div><img src="/root/apple-all/qa/visual-review/detail-desktop-light-en.png"></div>
+    <div class="cell"><div class="cap">wizard annuncio tablet IT</div><img src="/root/apple-all/qa/visual-review/wizard-tablet-light-it.png"></div>
+    <div class="cell"><div class="cap">inbox desktop dark EN</div><img src="/root/apple-all/qa/visual-review/inbox-desktop-dark-en.png"></div>
+    <div class="cell"><div class="cap">impostazioni tablet light IT</div><img src="/root/apple-all/qa/visual-review/settings-tablet-light-it.png"></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { referenceFromId, validateQuotePayload } from "@/lib/quotes/schema";
 import { persistQuoteRequest } from "@/lib/quotes/supabase";
-import { sendQuoteEmails } from "@/lib/quotes/email";
+import { sendQuoteEmails, teamAddress } from "@/lib/quotes/email";
 import { buildQuoteMailto } from "@/lib/quotes/mailto";
 
 export const runtime = "nodejs";
@@ -87,11 +87,11 @@ export async function POST(request: Request) {
   const mailto = email.sent && email.confirmationSent
     ? undefined
     : buildQuoteMailto({
-        to: validated.value.email,
+        to: teamAddress(),
         reference,
         payload: validated.value,
         lang: validated.value.locale === "en" ? "en" : "it",
-        siteUrl: process.env.NEXT_PUBLIC_SITE_URL,
+        siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://apple-all.vercel.app",
       });
 
   const persisted = await persistQuoteRequest({

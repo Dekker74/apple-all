@@ -12,28 +12,33 @@ import {
   CircleAlert,
   ClipboardList,
   Clock,
-  Euro,
   Inbox,
-  MapPin,
   Package,
   Plus,
   RefreshCw,
   Sparkles,
-  TrendingUp,
   Truck,
   Wallet,
 } from "lucide-react";
 import { toast } from "sonner";
+import { localized } from "@/components/app/offcut-ux-copy";
 import { PageHeader } from "@/components/app/page-header";
 import { KpiCard } from "@/components/app/stat-card";
+import {
+  PipelineRail,
+  QuickActionTile,
+  SectionPanel,
+  StatusCallout,
+  WorkSkeleton,
+} from "@/components/app/offcut-ux-primitives";
+import { dateText, money, relativeText } from "@/components/app/offcut-ux-text";
 import { MatchCard } from "@/components/material/match-card";
 import { OrderStatusBadge } from "@/components/material/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CATEGORIES, CATEGORY_MAP, ORDER_STATUS_META, ORDER_STEPS } from "@/lib/constants";
-import { relativeTime } from "@/lib/format";
+import { CATEGORIES, CATEGORY_MAP, ORDER_STEPS } from "@/lib/constants";
 import {
   useCurrentOrg,
   useCurrentUser,
@@ -42,7 +47,7 @@ import {
   useOrgOrders,
   useOrgRequests,
 } from "@/lib/hooks";
-import { formatCurrency, formatKg, formatPerKg } from "@/lib/pricing";
+import { formatKg, formatPerKg } from "@/lib/pricing";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import type { Order } from "@/types";
@@ -54,8 +59,34 @@ const QUALITY_LABELS: Record<string, string> = {
   failed: "non superato",
 };
 
+const COPY = {
+  it: {
+    refreshing: "Aggiornamento…",
+    refreshingMatches: "Aggiornamento abbinamenti",
+    refreshShort: "Aggiorna",
+    nextActions: "Prossime azioni",
+    nextActionsNote: "Scorciatoie per le attività più frequenti.",
+    listingHint: "Aggiungi eccedenza al mercato",
+    requestHint: "Definisci la qualità che ti serve",
+    matchesHint: (strong: number, total: number) => `${strong} solidi · ${total} totali`,
+    ordersHint: (count: number) => `${count} ordini attivi`,
+  },
+  en: {
+    refreshing: "Refreshing…",
+    refreshingMatches: "Refreshing matches",
+    refreshShort: "Refresh",
+    nextActions: "Next actions",
+    nextActionsNote: "Shortcuts for the most frequent tasks.",
+    listingHint: "Add surplus to the marketplace",
+    requestHint: "Define the quality you need",
+    matchesHint: (strong: number, total: number) => `${strong} strong · ${total} total`,
+    ordersHint: (count: number) => `${count} active orders`,
+  },
+};
+
 export default function DashboardPage() {
   const { t, lang } = useI18n();
+  const c = localized(COPY, lang);
   const user = useCurrentUser();
   const org = useCurrentOrg();
   const views = useMatchViews();
@@ -65,7 +96,6 @@ export default function DashboardPage() {
   const organizations = useAppStore((s) => s.organizations);
   const locations = useAppStore((s) => s.locations);
   const quotes = useAppStore((s) => s.quotes);
-  const matches = useAppStore((s) => s.matches);
   const generateMatches = useAppStore((s) => s.generateMatches);
   const [direction, setDirection] = useState<"demand" | "supply">(
     org?.type === "supplier" ? "supply" : "demand",
@@ -115,7 +145,6 @@ export default function DashboardPage() {
       title: string;
       meta: string;
       href: string;
-      tone: "amber" | "sky" | "moss";
       icon: typeof Clock;
     }[] = [];
     orders
@@ -124,11 +153,10 @@ export default function DashboardPage() {
       .forEach((o) =>
         items.push({
           title: t(`Preventivo ${o.reference} in attesa di accettazione`),
-          meta: t(`${formatCurrency(quoteByOrder.get(o.id)?.breakdown.total ?? 0, { cents: true })} · scade ${relativeTime(
-            quoteByOrder.get(o.id)?.validUntil ?? new Date().toISOString(),
-          )}`),
+          meta: t(
+            `${money(quoteByOrder.get(o.id)?.breakdown.total ?? 0, lang, { cents: true })} · scade ${relativeText(quoteByOrder.get(o.id)?.validUntil ?? new Date().toISOString(), lang)}`,
+          ),
           href: `/app/orders/${o.id}`,
-          tone: "amber",
           icon: Clock,
         }),
       );
@@ -140,7 +168,6 @@ export default function DashboardPage() {
           title: t(`Programma il ritiro per ${o.reference}`),
           meta: t(`${formatKg(o.quantityKg)} · preventivo accettato`),
           href: `/app/orders/${o.id}`,
-          tone: "sky",
           icon: CalendarClock,
         }),
       );
@@ -151,31 +178,26 @@ export default function DashboardPage() {
         items.push({
           title: t(`Ritiro prenotato · ${o.reference}`),
           meta: o.collection
-            ? `${new Date(o.collection.windowStart).toLocaleDateString(lang === "it" ? "it-IT" : "en-GB", { day: "numeric", month: "short" })} · QC ${t(QUALITY_LABELS[o.collection.qcStatus] ?? o.collection.qcStatus)}`
+            ? `${dateText(o.collection.windowStart, lang, { withYear: false })} · QC ${t(QUALITY_LABELS[o.collection.qcStatus] ?? o.collection.qcStatus)}`
             : t("In attesa di conferma del trasportatore"),
           href: `/app/orders/${o.id}`,
-          tone: "moss",
           icon: Truck,
         }),
       );
     if (strongMatches.length > 0) {
       items.push({
-        title: t(`${strongMatches.length} ${strongMatches.length === 1 ? "abbinamento solido" : "abbinamenti solidi"} da verificare`),
+        title: t(
+          `${strongMatches.length} ${strongMatches.length === 1 ? "abbinamento solido" : "abbinamenti solidi"} da verificare`,
+        ),
         meta: t("Composizione e budget già verificati"),
         href: "/app/matches",
-        tone: "moss",
         icon: Sparkles,
       });
     }
     return items.slice(0, 4);
-  }, [orders, quoteByOrder, strongMatches.length]);
+  }, [orders, quoteByOrder, strongMatches.length, lang]);
 
   const marketPulse = useMemo(() => {
-    const deltas: Record<string, number> = {
-      paper_cardboard: 3.2,
-      wood: -1.4,
-      plastic: 5.8,
-    };
     return CATEGORIES.map((cat) => {
       const items = allListings.filter(
         (l) => l.category === cat.value && l.status === "active",
@@ -184,7 +206,7 @@ export default function DashboardPage() {
         items.length > 0
           ? items.reduce((sum, l) => sum + l.pricePerKg, 0) / items.length
           : 0;
-      return { ...cat, avg, delta: deltas[cat.value] ?? 0, count: items.length };
+      return { ...cat, avg, count: items.length };
     });
   }, [allListings]);
 
@@ -209,17 +231,36 @@ export default function DashboardPage() {
 
   if (!user || !org) return null;
 
+  const pipelineRail = ORDER_STEPS.map((step) => {
+    const stageOrders = orders.filter((o) => o.status === step.status);
+    const value = stageOrders.reduce(
+      (sum, o) => sum + (quoteByOrder.get(o.id)?.breakdown.total ?? 0),
+      0,
+    );
+    return {
+      label: t(step.label),
+      count: stageOrders.length,
+      value: value > 0 ? money(value, lang, { compact: true }) : undefined,
+    };
+  });
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <PageHeader
-        eyebrow={t(`Panoramica · ${new Date().toLocaleDateString(lang === "it" ? "it-IT" : "en-GB", { weekday: "long", day: "numeric", month: "long" })}`)}
+        eyebrow={t(
+          `Panoramica · ${dateText(new Date(), lang, { withYear: false })}`,
+        )}
         title={`${greeting}, ${user.fullName.split(" ")[0]}.`}
         description={
           <>
-            {t(`${org.name} · ${openRequests.length} richieste aperte · ${activeListings.length} annunci attivi.`)}{" "}
+            {t(
+              `${org.name} · ${openRequests.length} richieste aperte · ${activeListings.length} annunci attivi.`,
+            )}{" "}
             {strongMatches.length > 0 ? (
               <span className="text-forest">
-                {t(`${strongMatches.length} ${strongMatches.length === 1 ? "abbinamento richiede" : "abbinamenti richiedono"} una decisione.`)}
+                {t(
+                  `${strongMatches.length} ${strongMatches.length === 1 ? "abbinamento richiede" : "abbinamenti richiedono"} una decisione.`,
+                )}
               </span>
             ) : (
               t("Aggiorna il motore per analizzare di nuovo il mercato.")
@@ -229,7 +270,8 @@ export default function DashboardPage() {
         actions={
           <>
             <Button variant="outline" size="sm" onClick={handleRefresh} disabled={refreshing}>
-              <RefreshCw className={cn("size-3.5", refreshing && "animate-spin")} /> {t("Aggiorna abbinamenti")}
+              <RefreshCw className={cn("size-3.5", refreshing && "animate-spin motion-reduce:animate-none")} />{" "}
+              {refreshing ? c.refreshing : t("Aggiorna abbinamenti")}
             </Button>
             <Button variant="outline" size="sm" asChild>
               <Link href="/app/listings/new">
@@ -246,17 +288,15 @@ export default function DashboardPage() {
       />
 
       {listings.length === 0 && requests.length === 0 ? (
-        <div className="relative overflow-hidden rounded-2xl border border-line bg-white p-6 sm:p-8">
-          <div className="absolute inset-y-0 right-0 hidden w-1/3 dot-grid opacity-40 sm:block" />
-          <div className="relative max-w-[560px]">
-            <Badge variant="lime">{t("Spazio di lavoro pronto")}</Badge>
-            <h2 className="mt-3 text-[26px] leading-tight">
-              {t("Il tuo mercato è attivo. Inizia da uno dei due lati del ciclo.")}
-            </h2>
-            <p className="mt-2 text-[12px] leading-relaxed text-muted">
-              {t("Pubblica l'eccedenza che hai già o la specifica che ti serve. Il motore farà una prima analisi nelle categorie di lancio: carta, legno e plastica.")}
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
+        <StatusCallout
+          icon={Package}
+          tone="focus"
+          title={t("Spazio di lavoro pronto")}
+          description={t(
+            "Pubblica l'eccedenza che hai già o la specifica che ti serve. Il motore farà una prima analisi nelle categorie di lancio: carta, legno e plastica.",
+          )}
+          action={
+            <>
               <Button size="sm" asChild>
                 <Link href="/app/listings/new">
                   <Package className="size-3.5" /> {t("Pubblica eccedenza")}
@@ -267,66 +307,48 @@ export default function DashboardPage() {
                   <ClipboardList className="size-3.5" /> {t("Pubblica una richiesta")}
                 </Link>
               </Button>
-              <Button size="sm" variant="ghost" asChild>
-                <Link href="/app/marketplace">{t("Esplora il mercato")} <ArrowRight className="size-3.5" /></Link>
-              </Button>
-            </div>
-          </div>
-        </div>
+            </>
+          }
+        />
       ) : null}
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <KpiCard
           label={t("Pipeline aperta")}
-          value={formatCurrency(pipelineValue, { compact: true })}
-          sub={t(`${openOrders.length} ordini attivi`)}
+          value={money(pipelineValue, lang, { compact: true })}
+          sub={c.ordersHint(openOrders.length)}
           icon={Wallet}
-          trend={{ value: t("+12,4% rispetto al mese scorso"), direction: "up" }}
-          spark={[3, 5, 4, 7, 6, 9, 8, 11]}
-          accent="lime"
         />
         <KpiCard
           label={t("Abbinamenti AI")}
           value={String(views.length)}
           sub={t(`${strongMatches.length} solidi · ${views.length - strongMatches.length} da verificare`)}
           icon={Sparkles}
-          trend={{ value: t("aggiornato 2 ore fa"), direction: "up" }}
-          spark={[4, 6, 5, 8, 9, 7, 10, 12]}
         />
         <KpiCard
           label={t("Richieste aperte")}
           value={String(openRequests.length)}
           sub={t(`${formatKg(openRequests.reduce((sum, r) => sum + r.quantityKg, 0))} domanda mensile`)}
           icon={ClipboardList}
-          trend={{ value: t("1 aggiunto questa settimana"), direction: "up" }}
-          spark={[2, 2, 3, 2, 4, 3, 3, 4]}
         />
         <KpiCard
           label={t("Annunci attivi")}
           value={String(activeListings.length)}
           sub={t(`${formatKg(activeListings.reduce((sum, l) => sum + l.quantityKg, 0))} disponibili`)}
           icon={Package}
-          trend={{ value: t("offerta di mercato"), direction: "up" }}
-          spark={[5, 4, 6, 6, 7, 6, 8, 9]}
-          accent="amber"
         />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[1.55fr_1fr] [&>*]:min-w-0">
-        <section className="rounded-2xl border border-line bg-white">
-          <div className="flex flex-col gap-3 border-b border-line/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="eyebrow flex items-center gap-1.5">
-                <Sparkles className="size-3 text-moss" /> {t("Feed abbinamenti AI")}
-              </p>
-              <p className="mt-1 text-[12px] text-muted">
-                {t("Classificati per composizione, volume, condizioni, distanza e budget consegnato.")}
-              </p>
-            </div>
+        <SectionPanel
+          title={t("Feed abbinamenti AI")}
+          note={t("Classificati per composizione, volume, condizioni, distanza e budget consegnato.")}
+          action={
             <div className="flex items-center gap-1 rounded-full border border-line bg-paper/60 p-1">
               <button
                 onClick={() => setDirection("demand")}
                 disabled={!hasDemand}
+                aria-pressed={direction === "demand"}
                 className={cn(
                   "rounded-full px-2.5 py-1 text-[12px] transition-colors disabled:opacity-40",
                   direction === "demand" ? "bg-forest text-paper" : "text-muted hover:text-ink",
@@ -337,6 +359,7 @@ export default function DashboardPage() {
               <button
                 onClick={() => setDirection("supply")}
                 disabled={!hasSupply}
+                aria-pressed={direction === "supply"}
                 className={cn(
                   "rounded-full px-2.5 py-1 text-[12px] transition-colors disabled:opacity-40",
                   direction === "supply" ? "bg-forest text-paper" : "text-muted hover:text-ink",
@@ -345,64 +368,60 @@ export default function DashboardPage() {
                 {t("Per la mia offerta")}
               </button>
             </div>
-          </div>
-          <div className="space-y-3 p-4">
-            {feed.length > 0 ? (
-              feed.map(({ match }) => {
-                const listing = listingMap.get(match.listingId);
-                const request = requestMap.get(match.requestId);
-                if (!listing || !request) return null;
-                const supplier = orgMap.get(listing.orgId);
-                const location = locMap.get(listing.locationId);
-                return (
-                  <MatchCard
-                    key={match.id}
-                    match={match}
-                    listing={listing}
-                    request={request}
-                    supplierName={supplier?.name ?? t("Fornitore")}
-                    supplierCity={location?.city ?? "—"}
-                    compact
-                  />
-                );
-              })
-            ) : (
-              <EmptyState
-                icon={Sparkles}
-                title={t("Nessun abbinamento in questa vista")}
-                description={t("Il motore confronta l'offerta attiva con le richieste aperte. Aggiungi una richiesta o aggiorna il mercato.")}
-                action={
-                  <div className="flex gap-2">
-                    <Button size="sm" asChild>
-                      <Link href="/app/requests/new">{t("Pubblica una richiesta")}</Link>
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={handleRefresh}>
-                      {t("Refresh")}
-                    </Button>
-                  </div>
-                }
-              />
-            )}
-          </div>
-          <div className="border-t border-line/80 px-5 py-3">
-            <Link
-              href="/app/matches"
-              className="flex items-center justify-between text-[11.5px] text-muted transition-colors hover:text-forest"
-            >
-              <span>{t(`Vedi tutti i ${views.length} abbinamenti`)}</span>
-              <ArrowUpRight className="size-3.5" />
-            </Link>
-          </div>
-        </section>
+          }
+          bodyClassName="space-y-3 p-4"
+        >
+          {refreshing ? (
+            <WorkSkeleton rows={2} label={c.refreshingMatches} />
+          ) : feed.length > 0 ? (
+            feed.map(({ match }) => {
+              const listing = listingMap.get(match.listingId);
+              const request = requestMap.get(match.requestId);
+              if (!listing || !request) return null;
+              const supplier = orgMap.get(listing.orgId);
+              const location = locMap.get(listing.locationId);
+              return (
+                <MatchCard
+                  key={match.id}
+                  match={match}
+                  listing={listing}
+                  request={request}
+                  supplierName={supplier?.name ?? t("Fornitore")}
+                  supplierCity={location?.city ?? "—"}
+                  compact
+                />
+              );
+            })
+          ) : (
+            <EmptyState
+              icon={Sparkles}
+              title={t("Nessun abbinamento in questa vista")}
+              description={t(
+                "Il motore confronta l'offerta attiva con le richieste aperte. Aggiungi una richiesta o aggiorna il mercato.",
+              )}
+              action={
+                <div className="flex flex-wrap justify-center gap-2">
+                  <Button size="sm" asChild>
+                    <Link href="/app/requests/new">{t("Pubblica una richiesta")}</Link>
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={handleRefresh}>
+                    {c.refreshShort}
+                  </Button>
+                </div>
+              }
+            />
+          )}
+        </SectionPanel>
 
         <div className="space-y-4">
-          <section className="rounded-2xl border border-line bg-white">
-            <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
-              <p className="eyebrow flex items-center gap-1.5">
+          <SectionPanel
+            title={
+              <span className="flex items-center gap-1.5">
                 <BellRing className="size-3 text-clay" /> {t("Richiedono attenzione")}
-              </p>
-              <Badge variant="muted">{attention.length}</Badge>
-            </div>
+              </span>
+            }
+            action={<Badge variant="muted">{attention.length}</Badge>}
+          >
             <div className="divide-y divide-line/60">
               {attention.length > 0 ? (
                 attention.map((item) => {
@@ -411,22 +430,13 @@ export default function DashboardPage() {
                     <Link
                       key={`${item.title}-${item.href}`}
                       href={item.href}
-                      className="flex items-start gap-3 px-5 py-3 transition-colors hover:bg-paper/60"
+                      className="flex items-start gap-3 px-5 py-3.5 transition-colors hover:bg-paper/60"
                     >
-                      <span
-                        className={cn(
-                          "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg",
-                          item.tone === "amber"
-                            ? "bg-amber/10 text-amber"
-                            : item.tone === "sky"
-                              ? "bg-sky/10 text-sky"
-                              : "bg-mist text-moss",
-                        )}
-                      >
+                      <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg bg-paper text-forest">
                         <Icon className="size-3.5" />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[11.5px] font-medium leading-[1.5] text-ink">
+                        <span className="block text-[12px] font-medium leading-[1.5] text-ink">
                           {item.title}
                         </span>
                         <span className="mt-0.5 block text-[11.5px] text-muted">{item.meta}</span>
@@ -437,220 +447,187 @@ export default function DashboardPage() {
                 })
               ) : (
                 <div className="px-5 py-8 text-center">
-                  <CircleAlert className="mx-auto size-4 text-muted/60" />
+                  <CircleAlert className="mx-auto size-4 text-muted" />
                   <p className="mt-2 text-[11.5px] text-muted">{t("Nessun blocco. Il flusso è regolare.")}</p>
                 </div>
               )}
             </div>
-          </section>
+          </SectionPanel>
 
-          <section className="rounded-2xl border border-line bg-white">
-            <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
-              <p className="eyebrow flex items-center gap-1.5">
-                <TrendingUp className="size-3 text-moss" /> {t("Polso del mercato")}
-              </p>
+          <SectionPanel
+            title={t("Polso del mercato")}
+            note={t(
+              "Prezzo medio degli annunci al kg, solo offerta attiva. I preventivi consegnati includono lavorazione, trasporto, commissione e IVA.",
+            )}
+            action={
               <Link href="/app/marketplace" className="text-[11.5px] text-muted hover:text-forest">
                 {t("Esplora")}
               </Link>
-            </div>
-            <div className="space-y-3.5 px-5 py-4">
-              {marketPulse.map((cat) => (
-                <div key={cat.value}>
-                  <div className="flex items-center justify-between text-[12px]">
-                    <span className="flex items-center gap-1.5 text-ink">
-                      {t(cat.short)}
-                      <span className="text-[11.5px] text-muted">({cat.count})</span>
-                    </span>
-                    <span className="font-mono text-[12px] tabular-nums">
-                      {cat.avg > 0 ? formatPerKg(cat.avg) : "—"}
-                      <span
-                        className={cn(
-                          "ml-2 text-[11.5px]",
-                          cat.delta >= 0 ? "text-moss" : "text-clay",
-                        )}
-                      >
-                        {cat.delta >= 0 ? "+" : ""}
-                        {cat.delta}%
-                      </span>
-                    </span>
-                  </div>
-                  <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-sand">
-                    <div
-                      className="h-full rounded-full bg-moss/60"
-                      style={{ width: `${Math.min(100, (cat.avg / 0.8) * 100)}%` }}
-                    />
-                  </div>
+            }
+            bodyClassName="space-y-3.5 px-5 py-4"
+          >
+            {marketPulse.map((cat) => (
+              <div key={cat.value}>
+                <div className="flex items-center justify-between gap-3 text-[12px]">
+                  <span className="truncate text-ink">
+                    {t(cat.short)} <span className="text-muted">({cat.count})</span>
+                  </span>
+                  <span className="shrink-0 font-mono text-[12px] tabular-nums">
+                    {cat.avg > 0 ? formatPerKg(cat.avg) : "—"}
+                  </span>
                 </div>
-              ))}
-              <p className="pt-1 text-[11.5px] leading-relaxed text-muted">
-                {t("Prezzo medio degli annunci al kg, solo offerta attiva. I preventivi consegnati includono lavorazione, trasporto, commissione e IVA.")}
-              </p>
-            </div>
-          </section>
+                <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-sand">
+                  <div
+                    className="h-full rounded-full bg-moss/60"
+                    style={{ width: `${cat.avg > 0 ? Math.min(100, (cat.avg / 0.8) * 100) : 0}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </SectionPanel>
 
-          <section className="rounded-2xl border border-forest bg-forest p-5 text-paper">
-            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-paper/50">
-              {t("Riepilogo finanziario")}
-            </p>
-            <div className="mt-3 space-y-2.5 text-[11.5px]">
-              <div className="flex justify-between">
-                <span className="text-paper/55">{t("Impegnato (accettato)")}</span>
-                <span className="font-mono">{formatCurrency(committedValue)}</span>
+          <SectionPanel title={t("Riepilogo finanziario")} bodyClassName="px-5 py-4">
+            <div className="space-y-2.5 text-[11.5px]">
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-muted">{t("Impegnato (accettato)")}</span>
+                <span className="shrink-0 font-mono tabular-nums">{money(committedValue, lang, { cents: true })}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-paper/55">{t("Commissione maturata")}</span>
-                <span className="font-mono">{formatCurrency(commission)}</span>
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-muted">{t("Commissione maturata")}</span>
+                <span className="shrink-0 font-mono tabular-nums">{money(commission, lang, { cents: true })}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-paper/55">{t("Fatturato completato")}</span>
-                <span className="font-mono">{formatCurrency(completedGmv)}</span>
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-muted">{t("Fatturato completato")}</span>
+                <span className="shrink-0 font-mono tabular-nums">{money(completedGmv, lang, { cents: true })}</span>
               </div>
             </div>
-            <div className="mt-4 border-t border-paper/15 pt-3">
-              <div className="flex items-end justify-between">
-                <span className="text-[11.5px] text-paper/50">{t("Obiettivo trimestrale")}</span>
-                <span className="font-mono text-[11.5px] text-lime">
-                  {Math.min(100, Math.round((completedGmv / 50000) * 100))}%
-                </span>
-              </div>
-              <div className="mt-1.5 h-1 overflow-hidden rounded-full bg-paper/15">
-                <div
-                  className="h-full rounded-full bg-lime"
-                  style={{ width: `${Math.min(100, (completedGmv / 50000) * 100)}%` }}
-                />
-              </div>
-            </div>
-          </section>
+          </SectionPanel>
         </div>
       </div>
 
-      <section className="rounded-2xl border border-line bg-white">
-        <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
-          <div>
-            <p className="eyebrow flex items-center gap-1.5">
-              <Truck className="size-3 text-muted" /> {t("Pipeline ordini")}
-            </p>
-            <p className="mt-1 text-[12px] text-muted">
-              {t("Bozza → abbinato → preventivo → accettato → ritiro → completato.")}
-            </p>
-          </div>
+      <SectionPanel
+        title={t("Pipeline ordini")}
+        note={t("Bozza → abbinato → preventivo → accettato → ritiro → completato.")}
+        action={
           <Link href="/app/orders" className="flex items-center gap-1 text-[12px] text-muted hover:text-forest">
             {t("Tutti gli ordini")} <ArrowUpRight className="size-3" />
           </Link>
-        </div>
-        <div className="grid grid-cols-2 gap-px bg-line/60 sm:grid-cols-3 lg:grid-cols-6">
-          {ORDER_STEPS.map((step) => {
-            const stageOrders = orders.filter((o) => o.status === step.status);
-            const value = stageOrders.reduce(
-              (sum, o) => sum + (quoteByOrder.get(o.id)?.breakdown.total ?? 0),
-              0,
-            );
-            return (
-              <div key={step.status} className="bg-white px-4 py-3.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-                    {t(step.label)}
-                  </span>
-                  <span
-                    className={cn(
-                      "size-1.5 rounded-full",
-                      stageOrders.length > 0 ? "bg-moss" : "bg-line",
-                    )}
-                  />
-                </div>
-                <p className="mt-2 font-display text-[24px] leading-none">{stageOrders.length}</p>
-                <p className="mt-1 font-mono text-[11.5px] text-muted">
-                  {value > 0 ? formatCurrency(value, { compact: true }) : "—"}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+        }
+        bodyClassName="overflow-x-auto"
+      >
+        <PipelineRail items={pipelineRail} />
+      </SectionPanel>
 
-      <section className="overflow-hidden rounded-2xl border border-line bg-white">
-        <div className="flex items-center justify-between border-b border-line/80 px-5 py-4">
-          <p className="eyebrow flex items-center gap-1.5">
-            <Euro className="size-3 text-muted" /> {t("Ordini recenti")}
-          </p>
-          <Link href="/app/orders" className="text-[12px] text-muted hover:text-forest">
-            {t("Vedi tutti")}
-          </Link>
-        </div>
-        {recentOrders.length > 0 ? (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{t("Ordine")}</TableHead>
-                <TableHead>{t("Materiale")}</TableHead>
-                <TableHead className="hidden md:table-cell">{t("Controparte")}</TableHead>
-                <TableHead className="hidden sm:table-cell">{t("Volume")}</TableHead>
-                <TableHead className="hidden lg:table-cell">{t("Consegnato")}</TableHead>
-                <TableHead>{t("Stato")}</TableHead>
-                <TableHead className="hidden md:table-cell">{t("Aggiornato")}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {recentOrders.map((order) => {
-                const listing = listingMap.get(order.listingId);
-                const isBuy = order.buyerOrgId === org.id;
-                const counterparty = orgMap.get(isBuy ? order.supplierOrgId : order.buyerOrgId);
-                return (
-                  <TableRow key={order.id} className="cursor-pointer">
-                    <TableCell>
-                      <Link href={`/app/orders/${order.id}`} className="font-mono text-[11.5px] hover:underline">
-                        {order.reference}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="max-w-[240px]">
-                      <Link href={`/app/orders/${order.id}`} className="block truncate text-[12px]">
-                        {t(listing?.title ?? "—")}
-                      </Link>
-                      <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.08em] text-muted">
-                        {listing ? t(CATEGORY_MAP[listing.category].short) : "—"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell text-muted">
-                      {counterparty?.name ?? "—"}
-                      <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.08em]">
-                        {isBuy ? t("Fornitore") : t("Cliente")}
-                      </span>
-                    </TableCell>
-                    <TableCell className="hidden sm:table-cell font-mono text-[12px]">
-                      {formatKg(order.quantityKg)}
-                    </TableCell>
-                    <TableCell className="hidden lg:table-cell font-mono text-[12px]">
-                      {orderValue(order) ? formatCurrency(orderValue(order)!, { cents: true }) : "—"}
-                    </TableCell>
-                    <TableCell>
-                      <OrderStatusBadge status={order.status} />
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell text-[12px] text-muted">
-                      {t(relativeTime(order.updatedAt))}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        ) : (
-          <div className="px-5 py-12">
-            <EmptyState
-              icon={Inbox}
-              title={t("Nessun ordine")}
-              description={t("Crea un ordine da un abbinamento per generare un preventivo trasparente e avviare la logistica.")}
-              action={
-                <Button size="sm" asChild>
-                  <Link href="/app/matches">{t("Rivedi abbinamenti")}</Link>
-                </Button>
-              }
+      <div className="grid gap-4 xl:grid-cols-[1.15fr_1fr] [&>*]:min-w-0">
+        <SectionPanel title={c.nextActions} note={c.nextActionsNote}>
+          <div className="grid gap-2 p-4 sm:grid-cols-2">
+            <QuickActionTile
+              href="/app/listings/new"
+              icon={Package}
+              label={t("Pubblica materiale")}
+              hint={c.listingHint}
+            />
+            <QuickActionTile
+              href="/app/requests/new"
+              icon={ClipboardList}
+              label={t("Nuova richiesta")}
+              hint={c.requestHint}
+            />
+            <QuickActionTile
+              href="/app/matches"
+              icon={Sparkles}
+              label={t("Rivedi abbinamenti")}
+              hint={c.matchesHint(strongMatches.length, views.length)}
+            />
+            <QuickActionTile
+              href="/app/orders"
+              icon={Truck}
+              label={t("Tutti gli ordini")}
+              hint={c.ordersHint(openOrders.length)}
             />
           </div>
-        )}
-      </section>
+        </SectionPanel>
 
-      <p className="flex items-center justify-center gap-1.5 pb-2 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted/60">
-        <MapPin className="size-3" /> {t("Mercato MVP: carta e cartone · legno · plastica — Emilia-Romagna, area di Bologna")}
+        <SectionPanel
+          title={t("Ordini recenti")}
+          action={
+            <Link href="/app/orders" className="text-[12px] text-muted hover:text-forest">
+              {t("Vedi tutti")}
+            </Link>
+          }
+          bodyClassName="overflow-x-auto"
+        >
+          {recentOrders.length > 0 ? (
+            <Table className="min-w-[640px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t("Ordine")}</TableHead>
+                  <TableHead>{t("Materiale")}</TableHead>
+                  <TableHead>{t("Volume")}</TableHead>
+                  <TableHead>{t("Consegnato")}</TableHead>
+                  <TableHead>{t("Stato")}</TableHead>
+                  <TableHead>{t("Aggiornato")}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recentOrders.map((order) => {
+                  const listing = listingMap.get(order.listingId);
+                  return (
+                    <TableRow key={order.id}>
+                      <TableCell>
+                        <Link href={`/app/orders/${order.id}`} className="font-mono text-[11.5px] hover:underline">
+                          {order.reference}
+                        </Link>
+                      </TableCell>
+                      <TableCell className="max-w-[220px]">
+                        <Link href={`/app/orders/${order.id}`} className="block truncate text-[12px]">
+                          {t(listing?.title ?? "—")}
+                        </Link>
+                        <span className="mt-0.5 block font-mono text-[11px] uppercase tracking-[0.08em] text-muted">
+                          {listing ? t(CATEGORY_MAP[listing.category].short) : "—"}
+                        </span>
+                      </TableCell>
+                      <TableCell className="font-mono text-[12px]">
+                        {formatKg(order.quantityKg)}
+                      </TableCell>
+                      <TableCell className="font-mono text-[12px]">
+                        {(() => {
+                          const value = orderValue(order);
+                          return value !== null ? money(value, lang, { cents: true }) : "—";
+                        })()}
+                      </TableCell>
+                      <TableCell>
+                        <OrderStatusBadge status={order.status} />
+                      </TableCell>
+                      <TableCell className="text-[12px] text-muted">
+                        {relativeText(order.updatedAt, lang)}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="p-4">
+              <EmptyState
+                icon={Inbox}
+                title={t("Nessun ordine")}
+                description={t(
+                  "Crea un ordine da un abbinamento per generare un preventivo trasparente e avviare la logistica.",
+                )}
+                action={
+                  <Button size="sm" asChild>
+                    <Link href="/app/matches">{t("Rivedi abbinamenti")}</Link>
+                  </Button>
+                }
+              />
+            </div>
+          )}
+        </SectionPanel>
+      </div>
+
+      <p className="flex items-center justify-center gap-1.5 pb-2 text-center font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+        {t("Mercato MVP: carta e cartone · legno · plastica — Emilia-Romagna, area di Bologna")}
       </p>
     </div>
   );
