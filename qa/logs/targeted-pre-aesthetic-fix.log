@@ -1,0 +1,33 @@
+[targeted] PASS demo login + app nav: 8 link operativi visibili
+[targeted] PASS chat non intrusivo e nome Offcut AI: chiuso all'avvio, icona SVG, nessuna animazione continua, nome Offcut AI, open/close OK
+[targeted] PASS testi senza emoji: 0 emoji nelle liste annunci
+[targeted] PASS traduzione logistica EN: testo EN completo, nessun residuo IT
+[targeted] PASS badge verifica non inventati: nessun badge o stato KYC fittizio
+[targeted] PASS console e HTTP UI: 0 errori console/pageerror/HTTP
+[targeted] PASS CSP report-only: header presente, default-src self e frame-ancestors none
+[targeted] PASS API chat payload e rate limit: 413 oltre 10 KB, 400 messaggio vuoto, 429 dopo 20 richieste/min
+[viewport] 360px 1/11 / overflow=0px
+[viewport] 360px 2/11 /chi-siamo overflow=0px
+[viewport] 360px 3/11 /impatto overflow=0px
+[viewport] 360px 4/11 /preventivo overflow=0px
+[viewport] 360px 5/11 /login overflow=0px
+[viewport] 360px 6/11 /signup overflow=0px
+[viewport] 360px 7/11 /privacy overflow=0px
+[viewport] 360px 8/11 /terms overflow=0px
+[viewport] 360px 9/11 /app/dashboard overflow=0px
+[viewport] 360px 10/11 /app/marketplace overflow=0px
+[viewport] 360px 11/11 /app/orders overflow=0px
+[targeted] PASS Sweep 360px: 11 route, overflow max=0px, 8 link app, 0 errori
+[viewport] 375px 1/11 / overflow=0px
+[viewport] 375px 2/11 /chi-siamo overflow=0px
+[viewport] 375px 3/11 /impatto overflow=0px
+[viewport] 375px 4/11 /preventivo overflow=0px
+[viewport] 375px 5/11 /login overflow=0px
+[viewport] 375px 6/11 /signup overflow=0px
+[viewport] 375px 7/11 /privacy overflow=0px
+[viewport] 375px 8/11 /terms overflow=0px
+[viewport] 375px 9/11 /app/dashboard overflow=0px
+[viewport] 375px 10/11 /app/marketplace overflow=0px
+[viewport] 375px 11/11 /app/orders overflow=0px
+[targeted] PASS Sweep 375px: 11 route, overflow max=0px, 8 link app, 0 errori
+[targeted] 10 PASS, 0 errori

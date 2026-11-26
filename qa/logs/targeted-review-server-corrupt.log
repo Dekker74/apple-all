@@ -1,0 +1,93 @@
+[targeted] FAIL demo login + app nav: TimeoutError: page.waitForURL: Timeout 20000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================
+[targeted] FAIL chat non intrusivo: AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+
+0 !== 1
+
+[targeted] FAIL testi senza emoji: TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for locator('h1') to be visible[22m
+
+[targeted] FAIL traduzione logistica EN: TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for locator('h1') to be visible[22m
+
+[targeted] FAIL badge verifica non inventati: TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for locator('h1') to be visible[22m
+
+[targeted] FAIL console e HTTP: AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   "Refused to apply style from 'http://127.0.0.1:3100/_next/static/css/app/layout.css?v=1795690944433' because its MIME type ('text/plain') is not a supported stylesheet MIME type, and strict MIME checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/main-app.js?v=1795690944433',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/main-app.js?v=1795690944433' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app-pages-internals.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app-pages-internals.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/login/page.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/login/page.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/layout.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/layout.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/not-found.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/not-found.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   "Refused to apply style from 'http://127.0.0.1:3100/_next/static/css/app/layout.css?v=1795690966285' because its MIME type ('text/plain') is not a supported stylesheet MIME type, and strict MIME checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/main-app.js?v=1795690966285',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/main-app.js?v=1795690966285' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app-pages-internals.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app-pages-internals.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/layout.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/layout.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/not-found.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/not-found.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/app/layout.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/app/layout.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/app/listings/page.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/app/listings/page.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 500 http://127.0.0.1:3100/app/orders/ord_rpet',
++   'Failed to load resource: the server responded with a status of 500 (Internal Server Error)',
++   "pageerror: Cannot find module './vendor-chunks/@supabase.js'\n" +
++     'Require stack:\n' +
++     '- /root/apple-all/.next/server/webpack-runtime.js\n' +
++     '- /root/apple-all/.next/server/app/app/orders/[id]/page.js\n' +
++     '- /root/apple-all/node_modules/next/dist/server/require.js\n' +
++     '- /root/apple-all/node_modules/next/dist/server/load-components.js\n' +
++     '- /root/apple-all/node_modules/next/dist/build/utils.js\n' +
++     '- /root/apple-all/node_modules/next/dist/server/dev/static-paths-worker.js\n' +
++     '- /root/apple-all/node_modules/next/dist/compiled/jest-worker/processChild.js',
++   "Refused to apply style from 'http://127.0.0.1:3100/_next/static/css/app/layout.css?v=1795690999752' because its MIME type ('text/plain') is not a supported stylesheet MIME type, and strict MIME checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/main-app.js?v=1795690999752',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/main-app.js?v=1795690999752' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app-pages-internals.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app-pages-internals.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/layout.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/layout.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/not-found.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/not-found.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/app/layout.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/app/layout.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled.",
++   'HTTP 404 http://127.0.0.1:3100/_next/static/chunks/app/app/settings/page.js',
++   'Failed to load resource: the server responded with a status of 404 (Not Found)',
++   "Refused to execute script from 'http://127.0.0.1:3100/_next/static/chunks/app/app/settings/page.js' because its MIME type ('text/plain') is not executable, and strict MIME type checking is enabled."
++ ]
+- []
+
+[targeted] 0 PASS, 6 errori
