@@ -1,0 +1,2387 @@
+{
+  "generatedAt": "2026-11-26T12:36:32.404Z",
+  "phase": "review1",
+  "base": "http://127.0.0.1:3100",
+  "homeScrollHeightByViewport": {
+    "360": 12631,
+    "375": 12495,
+    "390": 12269,
+    "430": 12067,
+    "768": 8373,
+    "1024": 7976,
+    "1440": 7961,
+    "1920": 7958
+  },
+  "rows": [
+    {
+      "viewport": "360",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 12631,
+      "scrollWidth": 360,
+      "innerHeight": 780,
+      "innerWidth": 360,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1247,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 992,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1443,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 1215,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1237,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 907,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 938,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 843,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1081,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 582,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 719,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 421,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 288,
+          "y": 708,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "360",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 4227,
+      "scrollWidth": 360,
+      "innerHeight": 780,
+      "innerWidth": 360,
+      "overflowPx": 0,
+      "textLength": 2997,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1279,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 299,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 282,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 216,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 437,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 368,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 95,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 95,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 196,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 9,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 288,
+          "y": 708,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "360",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5475,
+      "scrollWidth": 360,
+      "innerHeight": 780,
+      "innerWidth": 360,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 288,
+          "y": 708,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "375",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 12495,
+      "scrollWidth": 375,
+      "innerHeight": 812,
+      "innerWidth": 375,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1236,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 992,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1443,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 1160,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1206,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 907,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 938,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 843,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1065,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 582,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 696,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 421,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 303,
+          "y": 740,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "375",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 4190,
+      "scrollWidth": 375,
+      "innerHeight": 812,
+      "innerWidth": 375,
+      "overflowPx": 0,
+      "textLength": 2997,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1242,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 299,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 282,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 216,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 437,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 368,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 110,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 110,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 196,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 9,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 303,
+          "y": 740,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "375",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5431,
+      "scrollWidth": 375,
+      "innerHeight": 812,
+      "innerWidth": 375,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 303,
+          "y": 740,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "390",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 12269,
+      "scrollWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1229,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 969,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1419,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 1160,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1206,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 830,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 914,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 843,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1065,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 534,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 673,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 421,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 318,
+          "y": 772,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "390",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 4022,
+      "scrollWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowPx": 0,
+      "textLength": 2997,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1124,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 299,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 282,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 216,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 437,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 368,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 125,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 125,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 196,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 9,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 318,
+          "y": 772,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "390",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5397,
+      "scrollWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 318,
+          "y": 772,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "430",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 12067,
+      "scrollWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1253,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 930,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1329,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 1138,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1187,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 835,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 919,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 824,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1029,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 539,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 653,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 426,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 358,
+          "y": 860,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "430",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 3932,
+      "scrollWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowPx": 0,
+      "textLength": 2997,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1089,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 281,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 264,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 197,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 437,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 368,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 165,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 165,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 196,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 9,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 358,
+          "y": 860,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "430",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5397,
+      "scrollWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 358,
+          "y": 860,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "768",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 8373,
+      "scrollWidth": 768,
+      "innerHeight": 1024,
+      "innerWidth": 768,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1087,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 560,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1119,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 611,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 765,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 651,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 467,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 555,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 807,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 401,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 645,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 343,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 546,
+          "y": 936,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "768",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 3228,
+      "scrollWidth": 768,
+      "innerHeight": 1024,
+      "innerWidth": 768,
+      "overflowPx": 0,
+      "textLength": 3017,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 916,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 254,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 239,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 172,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 269,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 342,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 275,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 333,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 196,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 9,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 546,
+          "y": 936,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "768",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2777,
+      "scrollWidth": 768,
+      "innerHeight": 1024,
+      "innerWidth": 768,
+      "overflowPx": 0,
+      "textLength": 3352,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 546,
+          "y": 936,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1024",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 7976,
+      "scrollWidth": 1024,
+      "innerHeight": 768,
+      "innerWidth": 1024,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1129,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 497,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 790,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 614,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 638,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 703,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 475,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 608,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 678,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 430,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 680,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 385,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 802,
+          "y": 680,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1024",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2958,
+      "scrollWidth": 1024,
+      "innerHeight": 768,
+      "innerWidth": 1024,
+      "overflowPx": 0,
+      "textLength": 3024,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 897,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 254,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 220,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 172,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 269,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 284,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 275,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 333,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "CL-2026-0146",
+          "w": 82,
+          "h": 15
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 243,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "CL-2026-0139",
+          "w": 82,
+          "h": 15
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 243,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "CL-2026-0124",
+          "w": 82,
+          "h": 15
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 243,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 12,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 802,
+          "y": 680,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1024",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2757,
+      "scrollWidth": 1024,
+      "innerHeight": 768,
+      "innerWidth": 1024,
+      "overflowPx": 0,
+      "textLength": 3752,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 802,
+          "y": 680,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 7961,
+      "scrollWidth": 1440,
+      "innerHeight": 900,
+      "innerWidth": 1440,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 785,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 580,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 915,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 680,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 707,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 543,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 570,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 454,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 763,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 512,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 615,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 467,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1218,
+          "y": 812,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2031,
+      "scrollWidth": 1440,
+      "innerHeight": 900,
+      "innerWidth": 1440,
+      "overflowPx": 0,
+      "textLength": 3027,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 897,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 254,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 239,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 172,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 342,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 342,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 275,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 333,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 196,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 9,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1218,
+          "y": 812,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2084,
+      "scrollWidth": 1440,
+      "innerHeight": 900,
+      "innerWidth": 1440,
+      "overflowPx": 0,
+      "textLength": 3755,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1218,
+          "y": 812,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1920",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 7958,
+      "scrollWidth": 1920,
+      "innerHeight": 1080,
+      "innerWidth": 1920,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 783,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 580,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 915,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 680,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 707,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 543,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 570,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 454,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 763,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 512,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 615,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 467,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1698,
+          "y": 992,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1920",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2031,
+      "scrollWidth": 1920,
+      "innerHeight": 1080,
+      "innerWidth": 1920,
+      "overflowPx": 0,
+      "textLength": 3027,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 897,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 254,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 239,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 157,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 172,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 342,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 342,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 275,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 333,
+          "h": 21
+        },
+        {
+          "tag": "A",
+          "text": "Esplora",
+          "w": 39,
+          "h": 17
+        },
+        {
+          "tag": "A",
+          "text": "Tutti gli ordini",
+          "w": 89,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Vedi tutti",
+          "w": 47,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Fiocchi rPET food-grade — lavati, 99,5%",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli OCC kraft 90/10",
+          "w": 196,
+          "h": 18
+        },
+        {
+          "tag": "A",
+          "text": "Ritagli di rovere essiccato in forno",
+          "w": 196,
+          "h": 18
+        }
+      ],
+      "smallTargetCount": 9,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1698,
+          "y": 992,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1920",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2084,
+      "scrollWidth": 1920,
+      "innerHeight": 1080,
+      "innerWidth": 1920,
+      "overflowPx": 0,
+      "textLength": 3755,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [
+        {
+          "tag": "A",
+          "text": "Vai al contenuto",
+          "w": 1,
+          "h": 1
+        }
+      ],
+      "smallTargetCount": 1,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1698,
+          "y": 992,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    }
+  ]
+}

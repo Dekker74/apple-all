@@ -1,0 +1,1070 @@
+{
+  "meta": {
+    "generatedAt": "2026-11-26T11:52:21.973Z",
+    "baseUrl": "http://127.0.0.1:3100",
+    "expectedHost": "apple-all.vercel.app",
+    "node": "v22.23.5",
+    "mode": "full",
+    "playwright": "/root/.npm/_npx/e41f203b7505f1fb/node_modules/playwright/index.mjs"
+  },
+  "coverage": [
+    {
+      "route": "/",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "mobile-360",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "mobile-375",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "mobile-430",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "tablet-768",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "tablet-1024",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/login",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/signup",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/terms",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "wide-1920",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    }
+  ],
+  "checks": [
+    {
+      "name": "Link interni",
+      "status": "PASS",
+      "detail": "16 URL interni unici verificati; 0 rotti."
+    },
+    {
+      "name": "Dark/light + persistenza",
+      "status": "PASS",
+      "detail": "iniziale=light, dopo toggle=dark, dopo reload=dark, bodyBg=rgb(0, 0, 0)"
+    },
+    {
+      "name": "Toggle EN/IT",
+      "status": "PASS",
+      "detail": "lang=en, aria-pressed=true, testo cambiato=true"
+    },
+    {
+      "name": "App bar link + pill attiva",
+      "status": "PASS",
+      "detail": "3 route app; mobile active pill visibile=true; Panoramica"
+    },
+    {
+      "name": "Focus visibile da tastiera",
+      "status": "PASS",
+      "detail": "8 tab stop, 0 senza indicatore; skip-link=true"
+    },
+    {
+      "name": "prefers-reduced-motion",
+      "status": "PASS",
+      "detail": "media query=true; elementi con animazione/transizione attiva=0"
+    },
+    {
+      "name": "Chatbot mobile",
+      "status": "PASS",
+      "detail": "apertura iniziale=false, apertura manuale=true, chiusura=true, riapertura=true, overlap header=0px², nav=0px²"
+    },
+    {
+      "name": "Onboarding 2 passi / no scelta buyer-seller",
+      "status": "PASS",
+      "detail": "campi steps iniziali=5, radio=0"
+    },
+    {
+      "name": "Condizioni multi-select + upload foto",
+      "status": "PASS",
+      "detail": "condizioni=3, file multipli=1, testi chiave=true/true"
+    },
+    {
+      "name": "Ricorrenza settimanale + data consegna",
+      "status": "PASS",
+      "detail": "weekly=true, date=1, condizioni=3, etichetta=true"
+    },
+    {
+      "name": "Select allineate",
+      "status": "INFO",
+      "detail": "left selettori=561,113, spread=448px"
+    },
+    {
+      "name": "Trasporto ordine e data consegna acquirente",
+      "status": "PASS",
+      "detail": "dettaglio materiale: data=true, trasporto=true"
+    },
+    {
+      "name": "Buy e sell entrambi attivi",
+      "status": "PASS",
+      "detail": "Modalità acquirente e fornitore presente."
+    },
+    {
+      "name": "Form preventivo breve",
+      "status": "PASS",
+      "detail": "9 campi nel form."
+    },
+    {
+      "name": "Metadata dominio",
+      "status": "PASS",
+      "detail": "canonical=https://apple-all.vercel.app, og:url=https://apple-all.vercel.app, hreflang=3, sitemap=5 URL, app indicizzato=false"
+    }
+  ],
+  "findings": [],
+  "artifacts": [
+    "qa/screenshots/home-390-en-light.png",
+    "qa/screenshots/home-1440-it-dark.png",
+    "qa/screenshots/dashboard-390-it-light.png",
+    "qa/screenshots/marketplace-1440-en-light.png"
+  ],
+  "limits": [
+    "Verifica eseguita sul worktree locale, non sulla preview Vercel (SSO non richiesto).",
+    "Contrasto calcolato dai colori CSS compositi: non sostituisce un audit WCAG con screen reader.",
+    "Download preventivo e pagamento non eseguiti: flusso richiede creazione ordine; nessuna azione irreversibile avviata.",
+    "Lighthouse non eseguito: fuori dal perimetro dello script QA proporzionato; usare browser tool lighthouse separatamente."
+  ]
+}

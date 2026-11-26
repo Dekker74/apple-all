@@ -1,5 +1,5 @@
 const description =
-  "Marketplace per il recupero e il riuso di materiali industriali in eccedenza.";
+  "Offcut helps businesses see industrial surplus as a resource. We connect companies with reusable or recoverable materials, then collect, process and deliver them.";
 
 export function StructuredData({ siteUrl }: { siteUrl: string }) {
   const graph = {
@@ -18,6 +18,7 @@ export function StructuredData({ siteUrl }: { siteUrl: string }) {
         name: "Offcut",
         url: siteUrl,
         description,
+        inLanguage: ["en", "it"],
       },
     ],
   };

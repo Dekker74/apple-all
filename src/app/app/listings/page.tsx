@@ -1,15 +1,16 @@
 "use client";
 
-import { useI18n } from "@/lib/i18n";
-
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowUpRight,
+  Copy,
   Eye,
   MoreHorizontal,
   Package,
   Pause,
+  Pencil,
   Play,
   Plus,
   Sparkles,
@@ -17,8 +18,6 @@ import {
 import { toast } from "sonner";
 import { PageHeader } from "@/components/app/page-header";
 import { CategoryIcon } from "@/components/material/category-icon";
-import { MaterialThumb } from "@/components/material/material-thumb";
-import { ListingStatusBadge } from "@/components/material/status-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -30,130 +29,291 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CATEGORY_MAP } from "@/lib/constants";
-import { formatDate } from "@/lib/format";
+import { LISTING_DRAFT_KEY } from "@/components/forms/draft-keys";
+import { CATEGORY_COPY } from "@/components/forms/form-copy";
+import { formatLocalDate } from "@/components/forms/local-format";
+import { MaterialPreview } from "@/components/forms/material-preview";
+import { StatusPill } from "@/components/forms/status-pill";
+import { useLocalCopy } from "@/components/forms/use-local-copy";
 import { useCurrentOrg, useOrgListings } from "@/lib/hooks";
+import { useI18n } from "@/lib/i18n";
 import { formatKg, formatPerKg } from "@/lib/pricing";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import type { ListingStatus } from "@/types";
+import type { ListingStatus, MaterialListing } from "@/types";
 
-const TABS: { value: "all" | ListingStatus; label: string }[] = [
-  { value: "all", label: "Tutti" },
-  { value: "active", label: "Attivi" },
-  { value: "sold", label: "Venduti" },
-  { value: "draft", label: "Bozze" },
+const COPY = {
+  it: {
+    eyebrow: "I tuoi materiali in vendita",
+    title: "Materiali che vendi",
+    description: (count: number) =>
+      `Hai ${count} ${count === 1 ? "annuncio attivo" : "annunci attivi"}. Quando qualcuno è interessato, lo vedi qui sotto.`,
+    newListing: "Vendi nuovo materiale",
+    stats: {
+      active: "Materiali in vendita",
+      interested: "Persone interessate",
+      volume: "Volume totale",
+    },
+    tabs: { all: "Tutti", active: "Attivi", sold: "Venduti", draft: "Bozze" },
+    views: (count: number) => `${count} visualizzazioni marketplace`,
+    columns: {
+      material: "Materiale",
+      category: "Categoria",
+      available: "Disponibile",
+      price: "Prezzo",
+      status: "Stato",
+      matches: "Abbinamenti",
+      until: "Disponibile fino al",
+    },
+    buyers: (count: number) => `${count} ${count === 1 ? "compratore" : "compratori"}`,
+    interested: (count: number) =>
+      `${count} ${count === 1 ? "persona interessata" : "persone interessate"}`,
+    actions: "Azioni annuncio",
+    details: "Vedi dettagli",
+    edit: "Modifica materiali",
+    duplicate: "Duplica come bozza",
+    hide: "Nascondi annuncio",
+    show: "Mostra di nuovo",
+    empty: {
+      title: "Non hai ancora materiali in vendita",
+      description:
+        "Pubblica il tuo primo annuncio: scegli la categoria, aggiungi quantità e prezzo, poi controlla l'anteprima.",
+      filteredTitle: "Nessun materiale in questo stato",
+      filteredDescription: "Prova un altro filtro o pubblica nuovo materiale.",
+      action: "Vendi materiale",
+      reset: "Mostra tutti",
+    },
+    tipTitle: "Consiglio",
+    tipDescription:
+      "Descrivi bene il materiale e le persone giuste lo troveranno più facilmente.",
+    explore: "Esplora marketplace",
+    toastShown: "Annuncio riattivato",
+    toastHidden: "Annuncio in pausa",
+    toastDuplicated: "Bozza pronta",
+    duplicateDescription: "Controlla i dati nel form prima di pubblicare la copia.",
+    toastDuplicateFailed: "Impossibile preparare la bozza. Riprova.",
+    toastEditFailed: "Impossibile preparare la modifica. Riprova.",
+  },
+  en: {
+    eyebrow: "Your materials for sale",
+    title: "Materials you sell",
+    description: (count: number) =>
+      `You have ${count} active ${count === 1 ? "listing" : "listings"}. When someone is interested, you will see it here.`,
+    newListing: "Sell new material",
+    stats: {
+      active: "Materials for sale",
+      interested: "Interested companies",
+      volume: "Total volume",
+    },
+    tabs: { all: "All", active: "Active", sold: "Sold", draft: "Drafts" },
+    views: (count: number) => `${count} marketplace views`,
+    columns: {
+      material: "Material",
+      category: "Category",
+      available: "Available",
+      price: "Price",
+      status: "Status",
+      matches: "Matches",
+      until: "Available until",
+    },
+    buyers: (count: number) => `${count} ${count === 1 ? "buyer" : "buyers"}`,
+    interested: (count: number) =>
+      `${count} ${count === 1 ? "interested company" : "interested companies"}`,
+    actions: "Listing actions",
+    details: "View details",
+    edit: "Edit materials",
+    duplicate: "Duplicate as draft",
+    hide: "Hide listing",
+    show: "Show again",
+    empty: {
+      title: "You have not listed any material yet",
+      description:
+        "Publish your first listing: pick a category, add quantity and price, then check the preview.",
+      filteredTitle: "No material in this status",
+      filteredDescription: "Try another filter or publish new material.",
+      action: "Sell material",
+      reset: "Show all",
+    },
+    tipTitle: "Tip",
+    tipDescription: "Describe the material clearly so the right buyers can find it.",
+    explore: "Explore marketplace",
+    toastShown: "Listing reactivated",
+    toastHidden: "Listing paused",
+    toastDuplicated: "Draft ready",
+    duplicateDescription: "Review the details in the form before publishing the copy.",
+    toastDuplicateFailed: "Could not prepare the draft. Please try again.",
+    toastEditFailed: "Could not prepare the edit. Please try again.",
+  },
+} as const;
+
+const TABS: { value: "all" | ListingStatus; key: keyof (typeof COPY.it)["tabs"] }[] = [
+  { value: "all", key: "all" },
+  { value: "active", key: "active" },
+  { value: "sold", key: "sold" },
+  { value: "draft", key: "draft" },
 ];
 
 export default function ListingsPage() {
-  const { t } = useI18n();
+  const s = useLocalCopy(COPY);
+  const { lang } = useI18n();
+  const categoryCopy = useLocalCopy(CATEGORY_COPY);
+  const router = useRouter();
   const org = useCurrentOrg();
   const listings = useOrgListings();
-  const matches = useAppStore((s) => s.matches);
-  const updateListingStatus = useAppStore((s) => s.updateListingStatus);
+  const matches = useAppStore((state) => state.matches);
+  const updateListingStatus = useAppStore((state) => state.updateListingStatus);
   const [tab, setTab] = useState<(typeof TABS)[number]["value"]>("all");
 
   const filtered = useMemo(
-    () => (tab === "all" ? listings : listings.filter((l) => l.status === tab)),
+    () => (tab === "all" ? listings : listings.filter((listing) => listing.status === tab)),
     [listings, tab],
   );
 
-  const totalVolume = listings.reduce((sum, l) => sum + l.quantityKg, 0);
-  const avgPrice =
-    listings.length > 0 ? listings.reduce((sum, l) => sum + l.pricePerKg, 0) / listings.length : 0;
-  const totalViews = listings.reduce((sum, l) => sum + l.views, 0);
+  const totalVolume = listings.reduce((sum, listing) => sum + listing.quantityKg, 0);
+  const totalViews = listings.reduce((sum, listing) => sum + listing.views, 0);
   const matchCount = matches.filter(
-    (m) => listings.some((l) => l.id === m.listingId) && m.status !== "dismissed",
+    (match) => listings.some((listing) => listing.id === match.listingId) && match.status !== "dismissed",
   ).length;
 
   function toggleStatus(id: string, status: ListingStatus) {
     updateListingStatus(id, status);
-    toast.success(status === "active" ? t("Annuncio riattivato") : t("Annuncio in pausa"));
+    toast.success(status === "active" ? s.toastShown : s.toastHidden);
+  }
+
+  function buildListingDraft(listing: MaterialListing, editingId?: string) {
+    return {
+      title: editingId ? listing.title : `${listing.title} (${lang === "it" ? "copia" : "copy"})`,
+      category: listing.category,
+      description: listing.description,
+      conditionFlags: listing.conditionFlags ?? [listing.condition],
+      composition: listing.composition,
+      quantityKg: String(listing.quantityKg),
+      minOrderKg: String(listing.minOrderKg),
+      pricePerKg: String(listing.pricePerKg),
+      availableFrom: listing.availableFrom,
+      availableUntil: listing.availableUntil,
+      locationId: listing.locationId,
+      packaging: listing.packaging,
+      handling: listing.handling,
+      photos: listing.photos ?? [],
+      editingId,
+    };
+  }
+
+  function openDraft(draft: ReturnType<typeof buildListingDraft>, error: string) {
+    try {
+      window.localStorage.setItem(LISTING_DRAFT_KEY, JSON.stringify(draft));
+      router.push("/app/listings/new");
+    } catch {
+      toast.error(error);
+    }
+  }
+
+  function editListing(listing: MaterialListing) {
+    openDraft(buildListingDraft(listing, listing.id), s.toastEditFailed);
+  }
+
+  function duplicateListing(listing: MaterialListing) {
+    const draft = buildListingDraft(listing);
+    try {
+      window.localStorage.setItem(LISTING_DRAFT_KEY, JSON.stringify(draft));
+      toast.success(s.toastDuplicated, { description: s.duplicateDescription });
+      router.push("/app/listings/new");
+    } catch {
+      toast.error(s.toastDuplicateFailed);
+    }
   }
 
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow={t("I tuoi materiali in vendita")}
-        title={t("Materiali che vendi")}
-        description={t(`Hai ${listings.filter((l) => l.status === "active").length} annunci attivi. Quando qualcuno è interessato, lo vedi qui sotto.`)}
+        eyebrow={s.eyebrow}
+        title={s.title}
+        description={s.description(listings.filter((listing) => listing.status === "active").length)}
         actions={
-          <Button size="sm" asChild>
+          <Button size="lg" asChild>
             <Link href="/app/listings/new">
-              <Plus className="size-3.5" /> {t("Vendi nuovo materiale")}
+              <Plus className="size-4" /> {s.newListing}
             </Link>
           </Button>
         }
       />
 
-      <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
         {[
-          { label: t("Materiali in vendita"), value: String(listings.filter((l) => l.status === "active").length) },
-          { label: t("Persone interessate"), value: String(matchCount) },
-          { label: t("Volume totale"), value: formatKg(totalVolume) },
+          { label: s.stats.active, value: String(listings.filter((l) => l.status === "active").length) },
+          { label: s.stats.interested, value: String(matchCount) },
+          { label: s.stats.volume, value: formatKg(totalVolume) },
         ].map((stat) => (
-          <div key={stat.label} className="bg-white px-4 py-3.5">
-            <p className="font-mono text-[12px] uppercase tracking-[0.13em] text-muted">{stat.label}</p>
+          <div key={stat.label} className="min-w-0 bg-white px-4 py-3.5">
+            <p className="font-mono text-[11.5px] uppercase tracking-[0.13em] text-muted">
+              {stat.label}
+            </p>
             <p className="mt-1.5 font-display text-[24px] leading-none">{stat.value}</p>
           </div>
         ))}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-1">
-          {TABS.map((tabItem) => {
-            const count = tabItem.value === "all" ? listings.length : listings.filter((l) => l.status === tabItem.value).length;
+        <div className="flex w-full gap-2 overflow-x-auto pb-1 sm:w-auto">
+          {TABS.map((item) => {
+            const count =
+              item.value === "all"
+                ? listings.length
+                : listings.filter((listing) => listing.status === item.value).length;
+            const active = tab === item.value;
             return (
               <button
-                key={tabItem.value}
-                onClick={() => setTab(tabItem.value)}
+                key={item.value}
+                type="button"
+                onClick={() => setTab(item.value)}
+                aria-pressed={active}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] transition-colors",
-                  tab === tabItem.value
+                  "flex min-h-10 shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] transition-colors motion-reduce:transition-none",
+                  active
                     ? "border-forest bg-forest text-paper"
                     : "border-line bg-white/60 text-muted hover:border-sage hover:text-ink",
                 )}
               >
-                {t(tabItem.label)}
-                <span className={cn("font-mono text-[12px]", tab === tabItem.value ? "text-lime" : "text-muted")}>
+                {s.tabs[item.key]}
+                <span className={cn("font-mono", active ? "text-lime" : "text-muted")}>
                   {count}
                 </span>
               </button>
             );
           })}
         </div>
-        <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-          {totalViews} visualizzazioni marketplace
+        <p className="font-mono text-[11.5px] uppercase tracking-[0.1em] text-muted">
+          {s.views(totalViews)}
         </p>
       </div>
 
       {filtered.length > 0 ? (
-        <div className="overflow-hidden rounded-2xl border border-line bg-white">
+        <div className="overflow-x-auto rounded-2xl border border-line bg-white">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t("Materiale")}</TableHead>
-                <TableHead className="hidden md:table-cell">{t("Categoria")}</TableHead>
-                <TableHead className="hidden sm:table-cell">{t("Disponibile")}</TableHead>
-                <TableHead className="hidden lg:table-cell">{t("Prezzo")}</TableHead>
-                <TableHead>{t("Stato")}</TableHead>
-                <TableHead>{t("Abbinamenti")}</TableHead>
-                <TableHead className="hidden xl:table-cell">{t("Disponibile fino al")}</TableHead>
-                <TableHead className="w-10" />
+                <TableHead>{s.columns.material}</TableHead>
+                <TableHead className="hidden md:table-cell">{s.columns.category}</TableHead>
+                <TableHead className="hidden sm:table-cell">{s.columns.available}</TableHead>
+                <TableHead className="hidden lg:table-cell">{s.columns.price}</TableHead>
+                <TableHead>{s.columns.status}</TableHead>
+                <TableHead>{s.columns.matches}</TableHead>
+                <TableHead className="hidden xl:table-cell">{s.columns.until}</TableHead>
+                <TableHead className="w-12" />
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((listing) => {
                 const listingMatches = matches.filter(
-                  (m) => m.listingId === listing.id && m.status !== "dismissed",
+                  (match) => match.listingId === listing.id && match.status !== "dismissed",
                 );
                 return (
                   <TableRow key={listing.id}>
                     <TableCell>
                       <div className="flex items-center gap-3">
-                        <MaterialThumb
+                        <MaterialPreview
                           category={listing.category}
-                          reference={listing.reference}
                           photos={listing.photos}
                           compact
                           className="hidden h-11 w-14 shrink-0 rounded-lg sm:block"
@@ -163,10 +323,10 @@ export default function ListingsPage() {
                             href={`/app/marketplace/${listing.id}`}
                             className="block max-w-[280px] truncate text-[12.5px] font-medium hover:underline"
                           >
-                            {t(listing.title)}
+                            {listing.title}
                           </Link>
-                          <p className="mt-0.5 font-mono text-[12px] uppercase tracking-[0.08em] text-muted">
-                            {listing.reference} · {listing.views} {t("visualizzazioni")}
+                          <p className="mt-0.5 font-mono text-[11.5px] uppercase tracking-[0.08em] text-muted">
+                            {listing.reference} · {listing.views}
                           </p>
                         </div>
                       </div>
@@ -174,7 +334,7 @@ export default function ListingsPage() {
                     <TableCell className="hidden md:table-cell">
                       <span className="flex items-center gap-1.5 text-[12px] text-muted">
                         <CategoryIcon category={listing.category} size="sm" />
-                        {CATEGORY_MAP[listing.category].short}
+                        {categoryCopy[listing.category]?.short ?? s.columns.category}
                       </span>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell font-mono text-[12px]">
@@ -184,13 +344,13 @@ export default function ListingsPage() {
                       {formatPerKg(listing.pricePerKg)}
                     </TableCell>
                     <TableCell>
-                      <ListingStatusBadge status={listing.status} />
+                      <StatusPill kind="listing" status={listing.status} />
                     </TableCell>
                     <TableCell>
                       {listingMatches.length > 0 ? (
                         <Link href={`/app/matches?listing=${listing.id}`}>
                           <Badge variant="lime" className="cursor-pointer hover:opacity-80">
-                            <Sparkles className="size-3" /> {listingMatches.length} compratori
+                            <Sparkles className="size-3" /> {s.buyers(listingMatches.length)}
                           </Badge>
                         </Link>
                       ) : (
@@ -198,36 +358,47 @@ export default function ListingsPage() {
                       )}
                     </TableCell>
                     <TableCell className="hidden xl:table-cell text-[12px] text-muted">
-                      {t(formatDate(listing.availableUntil))}
+                      {formatLocalDate(listing.availableUntil, lang)}
                     </TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon-sm" aria-label={t("Azioni annuncio")}>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={s.actions}
+                            className="size-11 sm:size-9"
+                          >
                             <MoreHorizontal className="size-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem asChild>
                             <Link href={`/app/marketplace/${listing.id}`}>
-                              <Eye /> {t("Vedi dettagli")}
+                              <Eye /> {s.details}
                             </Link>
                           </DropdownMenuItem>
-                          {listingMatches.length > 0 && (
+                          <DropdownMenuItem onSelect={() => editListing(listing)}>
+                            <Pencil /> {s.edit}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onSelect={() => duplicateListing(listing)}>
+                            <Copy /> {s.duplicate}
+                          </DropdownMenuItem>
+                          {listingMatches.length > 0 ? (
                             <DropdownMenuItem asChild>
                               <Link href={`/app/matches?listing=${listing.id}`}>
-                                <Sparkles /> {listingMatches.length} persone interessate
+                                <Sparkles /> {s.interested(listingMatches.length)}
                               </Link>
                             </DropdownMenuItem>
-                          )}
+                          ) : null}
                           <DropdownMenuSeparator />
                           {listing.status === "active" || listing.status === "matched" ? (
                             <DropdownMenuItem onSelect={() => toggleStatus(listing.id, "archived")}>
-                              <Pause /> {t("Nascondi annuncio")}
+                              <Pause /> {s.hide}
                             </DropdownMenuItem>
                           ) : (
                             <DropdownMenuItem onSelect={() => toggleStatus(listing.id, "active")}>
-                              <Play /> {t("Mostra di nuovo")}
+                              <Play /> {s.show}
                             </DropdownMenuItem>
                           )}
                         </DropdownMenuContent>
@@ -242,32 +413,35 @@ export default function ListingsPage() {
       ) : (
         <EmptyState
           icon={Package}
-          title={listings.length === 0 ? t("Non hai ancora materiali in vendita") : t("Nessun materiale in questo stato")}
+          title={listings.length === 0 ? s.empty.title : s.empty.filteredTitle}
           description={
-            listings.length === 0
-              ? t("Pubblica il tuo primo materiale e inizia a ricevere richieste.")
-              : t("Prova un altro filtro o pubblica nuovo materiale.")
+            listings.length === 0 ? s.empty.description : s.empty.filteredDescription
           }
           action={
-            <Button size="sm" asChild>
-              <Link href="/app/listings/new">
-                <Plus className="size-3.5" /> {t("Vendi materiale")}
-              </Link>
-            </Button>
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button size="lg" asChild>
+                <Link href="/app/listings/new">
+                  <Plus className="size-4" /> {s.empty.action}
+                </Link>
+              </Button>
+              {listings.length > 0 ? (
+                <Button variant="outline" size="lg" onClick={() => setTab("all")}>
+                  {s.empty.reset}
+                </Button>
+              ) : null}
+            </div>
           }
         />
       )}
 
       <div className="flex flex-col gap-3 rounded-2xl border border-line bg-white/60 p-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-[12px] font-medium">{t("💡 Consiglio")}</p>
-          <p className="mt-0.5 text-[12px] text-muted">
-            {t("Descrivi bene il materiale e le persone giuste lo troveranno più facilmente.")}
-          </p>
+        <div className="min-w-0">
+          <p className="text-[12px] font-medium">{s.tipTitle}</p>
+          <p className="mt-0.5 text-[12px] leading-relaxed text-muted">{s.tipDescription}</p>
         </div>
-        <Button variant="outline" size="sm" asChild>
+        <Button variant="outline" size="lg" asChild>
           <Link href="/app/marketplace">
-            {t("Esplora marketplace")} <ArrowUpRight className="size-3.5" />
+            {s.explore} <ArrowUpRight className="size-4" />
           </Link>
         </Button>
       </div>

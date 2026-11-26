@@ -20,7 +20,7 @@ const config: Config = {
         paper: "#f5f5f7",
         sand: "#fafafc",
         line: "#e0e0e0",
-        muted: "#7a7a7a",
+        muted: "#5f5f5f",
         clay: "#a8543b",
         amber: "#8a5410",
         sky: "#2f6b52",

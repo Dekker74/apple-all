@@ -1,0 +1,10 @@
+[qa] errore fatale: page.waitForSelector: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for locator('.offcut-app-links a') to be visible[22m
+
+    at signInDemo (/root/apple-all/qa/verify.mjs:484:14)
+    at async checkAppNav (/root/apple-all/qa/verify.mjs:713:3)
+    at async main (/root/apple-all/qa/verify.mjs:1158:3) {
+  log: [ "  - waiting for locator('.offcut-app-links a') to be visible" ],
+  name: 'TimeoutError'
+}

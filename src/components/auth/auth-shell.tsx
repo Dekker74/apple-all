@@ -83,7 +83,7 @@ export function AuthShell({
         </header>
 
         <main className="flex flex-1 items-center justify-center px-5 py-8 sm:px-8">
-          <div className="w-full max-w-[440px] animate-fade-up">{children}</div>
+          <div className="w-full max-w-[440px]">{children}</div>
         </main>
 
         <footer className="px-5 pb-6 text-center text-[12px] leading-relaxed text-muted sm:px-8">
@@ -93,7 +93,7 @@ export function AuthShell({
           {" · "}
           <Link href="/privacy" className="hover:text-ink hover:underline">{t("footer.privacy")}</Link>
           {" · "}
-          <a href="mailto:hello@circularlink.app" className="hover:text-ink hover:underline">hello@circularlink.app</a>
+          <Link href="/preventivo" className="hover:text-ink hover:underline">{t("nav.cta")}</Link>
         </footer>
       </div>
     </div>

@@ -1,5 +1,5 @@
-import { AboutPage } from "@/components/offcut/about-page";
+import { LandingPage } from "@/components/landing/landing-page";
 
 export default function Home() {
-  return <AboutPage />;
+  return <LandingPage />;
 }

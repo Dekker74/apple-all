@@ -3,6 +3,7 @@
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
+import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 export function ThemeToggle({
@@ -13,8 +14,9 @@ export function ThemeToggle({
   className?: string;
 }) {
   const { theme, toggleTheme } = useTheme();
+  const { t } = useI18n();
   const isDark = theme === "dark";
-  const label = isDark ? "Attiva modalità chiara" : "Attiva modalità scura";
+  const label = isDark ? t("theme.lightAction") : t("theme.darkAction");
 
   return (
     <Button
@@ -28,7 +30,7 @@ export function ThemeToggle({
       className={cn(showLabel && "gap-2", className)}
     >
       {isDark ? <Sun className="size-4" /> : <Moon className="size-4" />}
-      {showLabel ? <span>{isDark ? "Modalità chiara" : "Modalità scura"}</span> : null}
+      {showLabel ? <span>{isDark ? t("theme.light") : t("theme.dark")}</span> : null}
     </Button>
   );
 }

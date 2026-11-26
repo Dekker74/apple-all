@@ -1,0 +1,1817 @@
+{
+  "generatedAt": "2026-11-26T13:17:23.340Z",
+  "phase": "after",
+  "base": "http://127.0.0.1:3100",
+  "homeScrollHeightByViewport": {
+    "360": 11770,
+    "375": 11591,
+    "390": 11363,
+    "430": 11135,
+    "768": 8373,
+    "1024": 7976,
+    "1440": 7961,
+    "1920": 7958
+  },
+  "rows": [
+    {
+      "viewport": "360",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 11770,
+      "scrollWidth": 360,
+      "innerHeight": 780,
+      "innerWidth": 360,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1116,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 911,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1389,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 866,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1127,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 895,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 926,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 831,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1069,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 570,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 675,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 397,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 288,
+          "y": 708,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "360",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 4159,
+      "scrollWidth": 360,
+      "innerHeight": 780,
+      "innerWidth": 360,
+      "overflowPx": 0,
+      "textLength": 2994,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1282,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 295,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 285,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 214,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 401,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 360,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 288,
+          "y": 708,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "360",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5475,
+      "scrollWidth": 360,
+      "innerHeight": 780,
+      "innerWidth": 360,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 288,
+          "y": 708,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "375",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 11591,
+      "scrollWidth": 375,
+      "innerHeight": 812,
+      "innerWidth": 375,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1086,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 888,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1389,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 809,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1097,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 895,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 926,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 831,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1053,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 570,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 652,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 397,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 303,
+          "y": 740,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "375",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 4122,
+      "scrollWidth": 375,
+      "innerHeight": 812,
+      "innerWidth": 375,
+      "overflowPx": 0,
+      "textLength": 2994,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1245,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 295,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 285,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 214,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 401,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 360,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 303,
+          "y": 740,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "375",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5431,
+      "scrollWidth": 375,
+      "innerHeight": 812,
+      "innerWidth": 375,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 303,
+          "y": 740,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "390",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 11363,
+      "scrollWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1079,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 865,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1365,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 807,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1097,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 818,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 902,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 831,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1053,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 522,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 629,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 397,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 318,
+          "y": 772,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "390",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 3955,
+      "scrollWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowPx": 0,
+      "textLength": 2994,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1127,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 295,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 285,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 214,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 401,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 360,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 318,
+          "y": 772,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "390",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5397,
+      "scrollWidth": 390,
+      "innerHeight": 844,
+      "innerWidth": 390,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 318,
+          "y": 772,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "430",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 11135,
+      "scrollWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowPx": 0,
+      "textLength": 6790,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1103,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 803,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1247,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 810,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 1078,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 823,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 907,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 812,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 1017,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 527,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 609,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 402,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 358,
+          "y": 860,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "430",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 3864,
+      "scrollWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowPx": 0,
+      "textLength": 2994,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1092,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 277,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 267,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 196,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 401,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 360,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 358,
+          "y": 860,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "430",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 5397,
+      "scrollWidth": 430,
+      "innerHeight": 932,
+      "innerWidth": 430,
+      "overflowPx": 0,
+      "textLength": 3333,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 358,
+          "y": 860,
+          "w": 56,
+          "h": 56
+        }
+      ]
+    },
+    {
+      "viewport": "768",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 8373,
+      "scrollWidth": 768,
+      "innerHeight": 1024,
+      "innerWidth": 768,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1087,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 560,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 1119,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 611,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 765,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 651,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 467,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 555,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 807,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 401,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 645,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 343,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 546,
+          "y": 936,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "768",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 3159,
+      "scrollWidth": 768,
+      "innerHeight": 1024,
+      "innerWidth": 768,
+      "overflowPx": 0,
+      "textLength": 3014,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 917,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 250,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 235,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 164,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 249,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 333,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 546,
+          "y": 936,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "768",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2777,
+      "scrollWidth": 768,
+      "innerHeight": 1024,
+      "innerWidth": 768,
+      "overflowPx": 0,
+      "textLength": 3352,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 546,
+          "y": 936,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1024",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 7976,
+      "scrollWidth": 1024,
+      "innerHeight": 768,
+      "innerWidth": 1024,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 1129,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 497,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 790,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 614,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 638,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 703,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 475,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 608,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 678,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 430,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 680,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 385,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 802,
+          "y": 680,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1024",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2918,
+      "scrollWidth": 1024,
+      "innerHeight": 768,
+      "innerWidth": 1024,
+      "overflowPx": 0,
+      "textLength": 3021,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 898,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 250,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 216,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 164,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 249,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 304,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 802,
+          "y": 680,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1024",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2757,
+      "scrollWidth": 1024,
+      "innerHeight": 768,
+      "innerWidth": 1024,
+      "overflowPx": 0,
+      "textLength": 3752,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 802,
+          "y": 680,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 7961,
+      "scrollWidth": 1440,
+      "innerHeight": 900,
+      "innerWidth": 1440,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 785,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 580,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 915,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 680,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 707,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 543,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 570,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 454,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 763,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 512,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 615,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 467,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1218,
+          "y": 812,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 1994,
+      "scrollWidth": 1440,
+      "innerHeight": 900,
+      "innerWidth": 1440,
+      "overflowPx": 0,
+      "textLength": 3024,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 898,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 250,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 235,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 164,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 333,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 333,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1218,
+          "y": 812,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1440",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2084,
+      "scrollWidth": 1440,
+      "innerHeight": 900,
+      "innerWidth": 1440,
+      "overflowPx": 0,
+      "textLength": 3755,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1218,
+          "y": 812,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1920",
+      "route": "home",
+      "role": null,
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 7958,
+      "scrollWidth": 1920,
+      "innerHeight": 1080,
+      "innerWidth": 1920,
+      "overflowPx": 0,
+      "textLength": 6816,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 783,
+          "label": "home-hero-title"
+        },
+        {
+          "index": 2,
+          "id": "come-funziona",
+          "height": 580,
+          "label": "process-title"
+        },
+        {
+          "index": 3,
+          "id": "per-chi",
+          "height": 915,
+          "label": "audience-title"
+        },
+        {
+          "index": 4,
+          "id": "materiali",
+          "height": 680,
+          "label": "materials-title"
+        },
+        {
+          "index": 5,
+          "id": "marketplace",
+          "height": 707,
+          "label": "marketplace-title"
+        },
+        {
+          "index": 6,
+          "id": "matching",
+          "height": 543,
+          "label": "matching-title"
+        },
+        {
+          "index": 7,
+          "id": "logistica",
+          "height": 570,
+          "label": "logistics-title"
+        },
+        {
+          "index": 8,
+          "id": "impatto",
+          "height": 454,
+          "label": "impact-title"
+        },
+        {
+          "index": 9,
+          "id": "piattaforma",
+          "height": 763,
+          "label": "platform-title"
+        },
+        {
+          "index": 10,
+          "id": "azienda",
+          "height": 512,
+          "label": "company-title"
+        },
+        {
+          "index": 11,
+          "id": "faq",
+          "height": 615,
+          "label": "faq-title"
+        },
+        {
+          "index": 12,
+          "id": "",
+          "height": 467,
+          "label": "final-title"
+        },
+        {
+          "index": 13,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 13,
+      "h1": "Lo scarto è solo l'inizio.",
+      "h2Count": 11,
+      "imageCount": 7,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1698,
+          "y": 992,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1920",
+      "route": "dashboard",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 1994,
+      "scrollWidth": 1920,
+      "innerHeight": 1080,
+      "innerWidth": 1920,
+      "overflowPx": 0,
+      "textLength": 3024,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 898,
+          "label": ""
+        },
+        {
+          "index": 2,
+          "id": "",
+          "height": 250,
+          "label": ""
+        },
+        {
+          "index": 3,
+          "id": "",
+          "height": 235,
+          "label": ""
+        },
+        {
+          "index": 4,
+          "id": "",
+          "height": 153,
+          "label": ""
+        },
+        {
+          "index": 5,
+          "id": "",
+          "height": 164,
+          "label": ""
+        },
+        {
+          "index": 6,
+          "id": "",
+          "height": 333,
+          "label": ""
+        },
+        {
+          "index": 7,
+          "id": "",
+          "height": 333,
+          "label": ""
+        },
+        {
+          "index": 8,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 8,
+      "h1": "Buon pomeriggio, Elena.",
+      "h2Count": 7,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1698,
+          "y": 992,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    },
+    {
+      "viewport": "1920",
+      "route": "marketplace",
+      "role": "buyer",
+      "httpStatus": 200,
+      "status": "complete",
+      "title": "Offcut – Scrap becomes raw material",
+      "scrollHeight": 2084,
+      "scrollWidth": 1920,
+      "innerHeight": 1080,
+      "innerWidth": 1920,
+      "overflowPx": 0,
+      "textLength": 3755,
+      "sections": [
+        {
+          "index": 1,
+          "id": "",
+          "height": 0,
+          "label": ""
+        }
+      ],
+      "sectionCount": 1,
+      "h1": "Eccedenza, in specifica.",
+      "h2Count": 0,
+      "imageCount": 1,
+      "smallTargets": [],
+      "smallTargetCount": 0,
+      "fixed": [
+        {
+          "selector": "chat-widget",
+          "x": 1698,
+          "y": 992,
+          "w": 198,
+          "h": 64
+        }
+      ]
+    }
+  ]
+}

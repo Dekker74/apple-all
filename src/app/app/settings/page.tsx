@@ -8,10 +8,7 @@ import { useRouter } from "next/navigation";
 import {
   AlertTriangle,
   ArrowUpRight,
-  BadgeCheck,
   Building2,
-  Check,
-  CircleAlert,
   Database,
   Globe,
   KeyRound,
@@ -21,7 +18,6 @@ import {
   Plus,
   RotateCcw,
   Save,
-  ShieldCheck,
   Trash2,
   UserPlus,
   Users,
@@ -199,12 +195,6 @@ export default function SettingsPage() {
         eyebrow={t("Impostazioni spazio di lavoro")}
         title={t("Organizzazione e accesso.")}
         description={t("Dati legali, sedi operative, ruoli del team e dati demo. Le modifiche si applicano subito ad abbinamenti e prezzi consegnati.")}
-        actions={
-          <Badge variant={org.verified ? "success" : "muted"}>
-            {org.verified ? <BadgeCheck className="size-3" /> : null}
-            {org.verified ? t("Partita IVA verificata") : t("Verifica in attesa")}
-          </Badge>
-        }
       />
 
       <div className="flex flex-wrap gap-1">
@@ -342,36 +332,6 @@ export default function SettingsPage() {
               </div>
             </section>
 
-            <section className="rounded-2xl border border-line bg-white p-5">
-              <p className="eyebrow flex items-center gap-1.5">
-                <ShieldCheck className="size-3 text-moss" /> {t("Verifica")}
-              </p>
-              <ul className="mt-3 space-y-2.5 text-[12px]">
-                {[
-                  { label: t("Formato partita IVA"), done: true },
-                  { label: t("Sede legale"), done: locations.length > 0 },
-                  { label: t("Contatto principale"), done: Boolean(user.email) },
-                  { label: t("Revisione KYC manuale"), done: org.verified },
-                ].map((item) => (
-                  <li key={t(item.label)} className="flex items-center justify-between gap-2">
-                    <span className="flex items-center gap-2 text-muted">
-                      <span
-                        className={cn(
-                          "flex size-4 items-center justify-center rounded-full",
-                          item.done ? "bg-mist text-moss" : "bg-sand text-muted",
-                        )}
-                      >
-                        {item.done ? <Check className="size-2.5" strokeWidth={3} /> : <CircleAlert className="size-2.5" />}
-                      </span>
-                      {t(item.label)}
-                    </span>
-                    <span className={cn("font-mono text-[12px] uppercase", item.done ? "text-moss" : "text-muted")}>
-                      {item.done ? t("Fatto") : t("In attesa")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </section>
           </div>
         </div>
       ) : null}
@@ -748,7 +708,7 @@ export default function SettingsPage() {
         </div>
       ) : null}
 
-      <p className="flex items-center justify-center gap-1.5 pb-2 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted/60">
+      <p className="flex items-center justify-center gap-1.5 pb-2 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
         <Trash2 className="size-3" /> {t("L'eliminazione dello spazio di lavoro richiede una richiesta al supporto in questa versione MVP")}
       </p>
     </div>

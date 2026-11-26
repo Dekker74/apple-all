@@ -8,7 +8,6 @@ import { useParams } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
-  BadgeCheck,
   Building2,
   CalendarClock,
   CalendarDays,
@@ -34,6 +33,8 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import { localized } from "@/components/app/offcut-ux-copy";
+import { dateText, dateTimeText, money, perKg, relativeText, timeText } from "@/components/app/offcut-ux-text";
 import { CategoryIcon } from "@/components/material/category-icon";
 import { MaterialThumb } from "@/components/material/material-thumb";
 import { PriceBreakdownPanel, ProcessingChips } from "@/components/material/price-breakdown";
@@ -61,9 +62,9 @@ import {
   ORDER_STEPS,
   PROCESSING_MAP,
 } from "@/lib/constants";
-import { daysUntil, formatDate, formatDateTime, relativeTime, todayInput } from "@/lib/format";
+import { daysUntil, todayInput } from "@/lib/format";
 import { useCurrentOrg, useCurrentUser } from "@/lib/hooks";
-import { formatCurrency, formatKg, formatPerKg } from "@/lib/pricing";
+import { formatKg } from "@/lib/pricing";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import type { OrderEvent, OrderStatus } from "@/types";
@@ -82,6 +83,17 @@ const QUOTE_STATUS_LABELS: Record<string, string> = {
   expired: "scaduto",
 };
 
+const COPY = {
+  it: {
+    qcCertificate: (reference: string) => `Certificato QC ${reference} · superato`,
+    qcDocument: (reference: string) => `${reference} · superato`,
+  },
+  en: {
+    qcCertificate: (reference: string) => `QC certificate ${reference} · passed`,
+    qcDocument: (reference: string) => `${reference} · passed`,
+  },
+};
+
 function eventIcon(kind: OrderEvent["kind"]) {
   switch (kind) {
     case "user":
@@ -96,7 +108,7 @@ function eventIcon(kind: OrderEvent["kind"]) {
 }
 
 function StepRail({ status }: { status: OrderStatus }) {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const current = ORDER_STATUS_META[status].step;
   if (status === "cancelled") {
     return (
@@ -106,13 +118,17 @@ function StepRail({ status }: { status: OrderStatus }) {
     );
   }
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-white">
-      <div className="grid grid-cols-3 gap-px bg-line/60 sm:grid-cols-6">
+    <div className="overflow-x-auto rounded-2xl border border-line bg-white" aria-label={t("Pipeline ordini")}>
+      <div className="grid min-w-[720px] grid-cols-6 gap-px bg-line/60">
         {ORDER_STEPS.map((step, index) => {
           const done = index < current;
           const active = index === current;
           return (
-            <div key={step.status} className="relative bg-white px-3 py-3">
+            <div
+              key={step.status}
+              className="relative bg-white px-3 py-3"
+              aria-current={active ? "step" : undefined}
+            >
               <div className="flex items-center gap-1.5">
                 <span
                   className={cn(
@@ -157,6 +173,15 @@ function toLocalInput(iso: string): string {
 
 export default function OrderDetailPage() {
   const { t, lang } = useI18n();
+  const c = localized(COPY, lang);
+  const fmtMoney = (value: number, opts?: { cents?: boolean; compact?: boolean }) =>
+    money(value, lang, opts);
+  const fmtPerKg = (value: number, digits = 2) => perKg(value, lang, digits);
+  const fmtDate = (value: string | Date, opts?: { withYear?: boolean }) =>
+    dateText(value, lang, opts);
+  const fmtDateTime = (value: string | Date) => dateTimeText(value, lang);
+  const fmtRelative = (value: string | Date) => relativeText(value, lang);
+  const fmtTime = (value: string | Date) => timeText(value, lang);
   const params = useParams<{ id: string }>();
   const orderId = params.id;
   const org = useCurrentOrg();
@@ -268,18 +293,18 @@ export default function OrderDetailPage() {
       t(`Quantità: ${formatKg(activeOrder.quantityKg)}`),
       t(`Fornitore: ${supplier?.name ?? "—"}`),
       t(`Acquirente: ${buyer?.name ?? "—"}`),
-      t(`Prezzo materiale: ${breakdown ? formatCurrency(breakdown.materialCost, { cents: true }) : "—"}`),
-      t(`Commissione Offcut (${breakdown ? Math.round(breakdown.commissionRate * 100) : 6}%): ${breakdown ? formatCurrency(breakdown.commissionAmount, { cents: true }) : "—"}`),
-      t(`Trasporto: ${breakdown ? formatCurrency(breakdown.transportCost, { cents: true }) : "—"}`),
-      t(`Lavorazione: ${breakdown ? formatCurrency(breakdown.processingCost, { cents: true }) : "—"}`),
-      t(`IVA: ${breakdown ? formatCurrency(breakdown.taxAmount, { cents: true }) : "—"}`),
-      t(`Totale consegnato: ${breakdown ? formatCurrency(breakdown.total, { cents: true }) : "—"}`),
+      t(`Prezzo materiale: ${breakdown ? fmtMoney(breakdown.materialCost, { cents: true }) : "—"}`),
+      t(`Commissione Offcut (${breakdown ? Math.round(breakdown.commissionRate * 100) : 6}%): ${breakdown ? fmtMoney(breakdown.commissionAmount, { cents: true }) : "—"}`),
+      t(`Trasporto: ${breakdown ? fmtMoney(breakdown.transportCost, { cents: true }) : "—"}`),
+      t(`Lavorazione: ${breakdown ? fmtMoney(breakdown.processingCost, { cents: true }) : "—"}`),
+      t(`IVA: ${breakdown ? fmtMoney(breakdown.taxAmount, { cents: true }) : "—"}`),
+      t(`Totale consegnato: ${breakdown ? fmtMoney(breakdown.total, { cents: true }) : "—"}`),
       "",
       t(`Modalità: ${transportChoice === "company" ? t("Trasporto gestito da Offcut") : t("Ritiro presso punto di ritiro Offcut")}`),
       t(`Ritiro: ${listingLocation?.city ?? "—"}`),
       t(`Consegna / punto di ritiro: ${requestLocation?.city ?? "—"}`),
       "",
-      t(`Generato il ${formatDate(new Date().toISOString())}`),
+      t(`Generato il ${fmtDate(new Date().toISOString())}`),
     ];
     const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -344,8 +369,13 @@ export default function OrderDetailPage() {
         content: (
           <div className="space-y-2">
             <div className="flex items-center gap-2 rounded-lg border border-sage/40 bg-mist/60 px-3 py-2 text-[12px] text-forest">
-              <ShieldCheck className="size-3.5" /> {t("Certificato QC QC-2026-8891 · superato")}
+              <ShieldCheck className="size-3.5" /> {c.qcCertificate(order.reference)}
             </div>
+            {quote ? (
+              <Button variant="outline" className="w-full" onClick={downloadQuote}>
+                <Download className="size-3.5" /> {t("Scarica preventivo")}
+              </Button>
+            ) : null}
             <Button variant="outline" className="w-full" onClick={() => window.print()}>
               <Printer className="size-3.5" /> {t("Stampa riepilogo")}
             </Button>
@@ -362,7 +392,7 @@ export default function OrderDetailPage() {
       return {
         title: t("Ritiro prenotato"),
         body: order.collection
-          ? t(`${transportPartner?.name ?? t("Trasportatore")} arriva ${formatDateTime(order.collection.windowStart)}. Conferma la consegna quando il QC è superato.`)
+          ? t(`${transportPartner?.name ?? t("Trasportatore")} arriva ${fmtDateTime(order.collection.windowStart)}. Conferma la consegna quando il QC è superato.`)
           : t("Ritiro prenotato. Conferma la consegna quando il QC è superato."),
         icon: Truck,
         content: (
@@ -381,11 +411,11 @@ export default function OrderDetailPage() {
               {busy ? <Loader2 className="size-3.5 animate-spin" /> : <ClipboardCheck className="size-3.5" />}
               {t("Conferma consegna e QC")}
             </Button>
-            <Button variant="ghost" size="sm" className="w-full text-muted" asChild>
-              <Link href="/app/orders">
-                <Download className="size-3.5" /> {t("Esporta elenco ordini")}
-              </Link>
-            </Button>
+            {quote ? (
+              <Button variant="outline" className="w-full" onClick={downloadQuote}>
+                <Download className="size-3.5" /> {t("Scarica preventivo")}
+              </Button>
+            ) : null}
           </div>
         ),
       };
@@ -605,8 +635,8 @@ export default function OrderDetailPage() {
           </h1>
           <p className="mt-2 text-[12px] text-muted">
             {isBuyer ? t(`Fornito da ${supplier?.name ?? "—"}`) : t(`Venduto a ${buyer?.name ?? "—"}`)} ·{" "}
-            {t(`${formatKg(order.quantityKg)} · creato il ${formatDate(order.createdAt)} · aggiornato`)}{" "}
-            {t(relativeTime(order.updatedAt))}
+            {t(`${formatKg(order.quantityKg)} · creato il ${fmtDate(order.createdAt)} · aggiornato`)}{" "}
+            {t(fmtRelative(order.updatedAt))}
           </p>
         </div>
         <div className="shrink-0 rounded-xl border border-line bg-white px-4 py-3 text-right">
@@ -614,10 +644,10 @@ export default function OrderDetailPage() {
             {quote ? t("Totale consegnato") : t("Totale indicativo")}
           </p>
           <p className="mt-1 font-display text-[28px] leading-none">
-            {breakdown ? formatCurrency(breakdown.total, { cents: true }) : "—"}
+            {breakdown ? fmtMoney(breakdown.total, { cents: true }) : "—"}
           </p>
           <p className="mt-1 font-mono text-[11.5px] text-muted">
-            {breakdown ? formatPerKg(breakdown.deliveredPerKg) : ""} {t("· IVA inclusa")}
+            {breakdown ? fmtPerKg(breakdown.deliveredPerKg) : ""} {t("· IVA inclusa")}
           </p>
         </div>
       </div>
@@ -712,7 +742,7 @@ export default function OrderDetailPage() {
                 <p className="mt-0.5 font-mono text-[13px]">{formatKg(order.quantityKg)}</p>
                 {listing ? (
                   <p className="mt-0.5 font-mono text-[11.5px] text-muted">
-                    {formatPerKg(listing.pricePerKg)} {t("materiale")}
+                    {fmtPerKg(listing.pricePerKg)} {t("materiale")}
                   </p>
                 ) : null}
               </div>
@@ -744,7 +774,7 @@ export default function OrderDetailPage() {
                   <p className="eyebrow">{t("Dettaglio preventivo")}</p>
                   <p className="mt-1 text-[12px] text-muted">
                     {quote
-                      ? t(`Emesso il ${formatDate(quote.issuedAt)} · valido fino al ${formatDate(quote.validUntil)}`)
+                      ? t(`Emesso il ${fmtDate(quote.issuedAt)} · valido fino al ${fmtDate(quote.validUntil)}`)
                       : t("Stima provvisoria dalle specifiche abbinate. Emetti per bloccarla.")}
                   </p>
                 </div>
@@ -803,16 +833,7 @@ export default function OrderDetailPage() {
                 <div className="rounded-xl bg-paper/60 p-3.5">
                   <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">{t("Fascia")}</p>
                   <p className="mt-1 text-[12px] font-medium">
-                    {formatDate(order.collection.windowStart)} ·{" "}
-                    {new Date(order.collection.windowStart).toLocaleTimeString(lang === "it" ? "it-IT" : "en-GB", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                    –{" "}
-                    {new Date(order.collection.windowEnd).toLocaleTimeString(lang === "it" ? "it-IT" : "en-GB", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
+                    {fmtDate(order.collection.windowStart)} · {fmtTime(order.collection.windowStart)}–{fmtTime(order.collection.windowEnd)}
                   </p>
                   <p className="mt-1 text-[11.5px] text-muted">
                     {listingLocation?.addressLine ?? t("Sede fornitore")}
@@ -881,7 +902,7 @@ export default function OrderDetailPage() {
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-baseline justify-between gap-2">
                         <p className="text-[11.5px] font-medium">{t(event.label)}</p>
-                        <p className="font-mono text-[12px] text-muted">{t(formatDateTime(event.at))}</p>
+                        <p className="font-mono text-[12px] text-muted">{fmtDateTime(event.at)}</p>
                       </div>
                       {event.note ? (
                         <p className="mt-0.5 text-[12px] leading-relaxed text-muted">{t(event.note)}</p>
@@ -904,7 +925,7 @@ export default function OrderDetailPage() {
               {[
                 {
                   title: quote ? t(`Preventivo ${order.reference}`) : t("Preventivo in attesa"),
-                  meta: quote ? t(`${formatCurrency(quote.breakdown.total, { cents: true })} · ${t(QUOTE_STATUS_LABELS[quote.status] ?? quote.status)}`) : t("Emetti per generare"),
+                  meta: quote ? t(`${fmtMoney(quote.breakdown.total, { cents: true })} · ${t(QUOTE_STATUS_LABELS[quote.status] ?? quote.status)}`) : t("Emetti per generare"),
                   ready: Boolean(quote),
                   icon: Receipt,
                 },
@@ -912,7 +933,7 @@ export default function OrderDetailPage() {
                   title: t("Certificato QC"),
                   meta:
                     order.collection?.qcStatus === "passed"
-                      ? t("QC-2026-8891 · superato")
+                      ? c.qcDocument(order.reference)
                       : t("Emesso dopo il campionamento"),
                   ready: order.collection?.qcStatus === "passed",
                   icon: ShieldCheck,
@@ -925,7 +946,7 @@ export default function OrderDetailPage() {
                 },
                 {
                   title: t("Fattura commissione"),
-                  meta: quote ? formatCurrency(quote.breakdown.commissionAmount, { cents: true }) : "—",
+                  meta: quote ? fmtMoney(quote.breakdown.commissionAmount, { cents: true }) : "—",
                   ready: order.status === "completed",
                   icon: FileCheck2,
                 },
@@ -999,7 +1020,6 @@ export default function OrderDetailPage() {
                       </p>
                       <p className="mt-0.5 flex items-center gap-1 truncate text-[11.5px] font-medium">
                         {party.org?.name ?? "—"}
-                        {party.org?.verified ? <BadgeCheck className="size-3 text-moss" /> : null}
                       </p>
                       <p className="mt-0.5 text-[11.5px] text-muted">
                         {party.org?.vatNumber ?? "—"}
@@ -1017,7 +1037,7 @@ export default function OrderDetailPage() {
               </div>
               <div className="flex justify-between">
                 <span>{t("Data ordine")}</span>
-                <span className="text-ink">{t(formatDate(order.createdAt))}</span>
+                <span className="text-ink">{fmtDate(order.createdAt)}</span>
               </div>
               <div className="flex justify-between">
                 <span>{t("Punteggio abbinamento")}</span>

@@ -7,7 +7,7 @@
   --apple-blue-focus: #166534;
   --apple-blue-on-dark: #6ee7a8;
   --apple-ink: #1d1d1f;
-  --apple-muted: #7a7a7a;
+  --apple-muted: #5f5f5f;
   --apple-canvas: #ffffff;
   --apple-parchment: #f5f5f7;
   --apple-pearl: #fafafc;
@@ -26,7 +26,7 @@
   --sf: #ffffff;
   --sf2: #fafafc;
   --ink: #1d1d1f;
-  --mut: #7a7a7a;
+  --mut: #5f5f5f;
   --line: #e0e0e0;
   --moss: #14532d;
   --moss-hover: #166534;
@@ -413,11 +413,25 @@ header#top nav {
   gap: 1px;
   min-width: 0;
   overflow-x: auto;
-  scrollbar-width: none;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: var(--apple-blue) transparent;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
 }
 
 header#top nav::-webkit-scrollbar {
-  display: none;
+  display: block;
+  height: 3px;
+}
+
+header#top nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+header#top nav::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--apple-blue);
 }
 
 header#top nav a {
@@ -510,6 +524,9 @@ main.offcut-main-bare {
 }
 
 .offcut-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   color: var(--apple-blue);
 }
 
@@ -1441,22 +1458,6 @@ main.offcut-main-no-header {
   font-size: 27px;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28), 0 0 0 6px rgb(110 231 168 / 0.16);
   transition: transform 280ms var(--apple-ease), background-color 220ms ease;
-  animation: apple-breathe 2.8s ease-in-out infinite;
-}
-
-#chat-toggle::before {
-  content: "";
-  position: absolute;
-  inset: -9px;
-  border-radius: 999px;
-  border: 2px solid rgb(110 231 168 / 0.35);
-  animation: chat-pulse-ring 2.2s ease-out infinite;
-  pointer-events: none;
-}
-
-@keyframes chat-pulse-ring {
-  0% { transform: scale(0.85); opacity: 0.7; }
-  100% { transform: scale(1.25); opacity: 0; }
 }
 
 #chat-toggle:hover {
@@ -1499,7 +1500,6 @@ main.offcut-main-no-header {
 .ai-status i,
 .ai-status > i {
   background: #30d158;
-  animation: apple-pulse 2s ease-in-out infinite;
 }
 
 .chat-chips button {
@@ -1555,25 +1555,6 @@ main.offcut-main-no-header {
   }
 }
 
-@keyframes apple-breathe {
-  0%, 100% {
-    box-shadow: 3px 5px 30px rgba(0, 0, 0, 0.22);
-  }
-  50% {
-    box-shadow: 3px 5px 38px color-mix(in srgb, var(--apple-blue) 40%, transparent);
-  }
-}
-
-@keyframes apple-pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(0.8);
-  }
-}
 
 .js .apple-reveal {
   opacity: 0;
@@ -1824,6 +1805,34 @@ section[data-v="auth"] .seg a.on {
 
   .offcut-app-search {
     width: 120px;
+  }
+
+  /* Tablet: give the public nav its own row so no link is clipped by the
+     utility cluster at 768 px. */
+  :root {
+    --header-h: 76px;
+  }
+
+  header#top {
+    height: var(--header-h);
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 2px 4px;
+    padding: 6px 18px;
+  }
+
+  header#top .brand {
+    order: 0;
+  }
+
+  header#top .ctrl-group {
+    order: 1;
+  }
+
+  header#top nav {
+    order: 2;
+    flex: 0 0 100%;
+    width: 100%;
   }
 
   .apple-tile {

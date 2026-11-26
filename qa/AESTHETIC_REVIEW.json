@@ -1,0 +1,1139 @@
+{
+  "generatedAt": "2026-11-26T11:20:48.127Z",
+  "results": [
+    {
+      "name": "home-desktop-light-en",
+      "width": 1440,
+      "height": 900,
+      "lang": "en",
+      "theme": "light",
+      "path": "/",
+      "screenshot": {
+        "bytes": 877942
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Waste is only the beginning.",
+          "fontSize": "92.16px",
+          "lineHeight": "90.3168px",
+          "letterSpacing": "-4.42368px",
+          "weight": "500",
+          "family": "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Geor"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 11,
+          "h3": 13
+        },
+        "interactive": {
+          "total": 33,
+          "minWidth": 32,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 25,
+          "srOnlyExcluded": 1,
+          "accentElements": 2,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 21,
+        "surfaces": 7,
+        "radii": [
+          "0px",
+          "99px",
+          "999px",
+          "8px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": false,
+          "links": 0
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "en"
+      }
+    },
+    {
+      "name": "home-desktop-dark-it",
+      "width": 1440,
+      "height": 900,
+      "lang": "it",
+      "theme": "dark",
+      "path": "/",
+      "screenshot": {
+        "bytes": 134968
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#000000",
+          "sf": "#1d1d1f",
+          "ink": "#ffffff",
+          "mut": "#cccccc",
+          "accent": "#1b6e45",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#6ee7a8",
+          "mint": "#10291c"
+        },
+        "body": {
+          "background": "rgb(0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "contrastBody": 21
+        },
+        "h1": {
+          "text": "Lo scarto è solo l'inizio.",
+          "fontSize": "92.16px",
+          "lineHeight": "90.3168px",
+          "letterSpacing": "-4.42368px",
+          "weight": "500",
+          "family": "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Geor"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 11,
+          "h3": 13
+        },
+        "interactive": {
+          "total": 33,
+          "minWidth": 32,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 25,
+          "srOnlyExcluded": 1,
+          "accentElements": 2,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 21,
+        "surfaces": 7,
+        "radii": [
+          "0px",
+          "99px",
+          "999px",
+          "8px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": false,
+          "links": 0
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "dark",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "home-tablet-light-it",
+      "width": 768,
+      "height": 1024,
+      "lang": "it",
+      "theme": "light",
+      "path": "/",
+      "screenshot": {
+        "bytes": 125827
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Lo scarto è solo l'inizio.",
+          "fontSize": "49.152px",
+          "lineHeight": "48.169px",
+          "letterSpacing": "-2.3593px",
+          "weight": "500",
+          "family": "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Geor"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 11,
+          "h3": 13
+        },
+        "interactive": {
+          "total": 33,
+          "minWidth": 32,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 25,
+          "srOnlyExcluded": 1,
+          "accentElements": 2,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 21,
+        "surfaces": 7,
+        "radii": [
+          "0px",
+          "99px",
+          "999px",
+          "8px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": false,
+          "links": 0
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "home-mobile-light-it",
+      "width": 390,
+      "height": 844,
+      "lang": "it",
+      "theme": "light",
+      "path": "/",
+      "screenshot": {
+        "bytes": 659101
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Lo scarto è solo l'inizio.",
+          "fontSize": "40px",
+          "lineHeight": "39.2px",
+          "letterSpacing": "-1.92px",
+          "weight": "500",
+          "family": "\"Iowan Old Style\", \"Palatino Linotype\", \"Book Antiqua\", Geor"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 11,
+          "h3": 13
+        },
+        "interactive": {
+          "total": 33,
+          "minWidth": 32,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 25,
+          "srOnlyExcluded": 1,
+          "accentElements": 2,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 21,
+        "surfaces": 7,
+        "radii": [
+          "0px",
+          "99px",
+          "999px",
+          "8px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": false,
+          "links": 0
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "dashboard-desktop-light-it",
+      "width": 1440,
+      "height": 900,
+      "lang": "it",
+      "theme": "light",
+      "path": "/app/dashboard",
+      "auth": true,
+      "screenshot": {
+        "bytes": 167569
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Buongiorno, Elena.",
+          "fontSize": "38px",
+          "lineHeight": "39.9px",
+          "letterSpacing": "-0.912px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 7,
+          "h3": 1
+        },
+        "interactive": {
+          "total": 51,
+          "minWidth": 26,
+          "minHeight": 17,
+          "under24": 8,
+          "under24InlineExceptions": 8,
+          "under24Actionable": 0,
+          "under44": 42,
+          "srOnlyExcluded": 1,
+          "accentElements": 23,
+          "sampleUnder24": [
+            {
+              "w": 275,
+              "h": 21,
+              "label": "Fiocchi rPET food-grade — lavati, 99,5%",
+              "sel": "a.mt-1.5.block@div",
+              "exception": true
+            },
+            {
+              "w": 333,
+              "h": 21,
+              "label": "Ritagli di rovere essiccato in forno",
+              "sel": "a.mt-1.5.block@div",
+              "exception": true
+            },
+            {
+              "w": 39,
+              "h": 17,
+              "label": "Esplora",
+              "sel": "a.text-[11.5px].text-muted@div",
+              "exception": true
+            },
+            {
+              "w": 89,
+              "h": 18,
+              "label": "Tutti gli ordini",
+              "sel": "a.flex.items-center@div",
+              "exception": true
+            }
+          ],
+          "sampleActionable": []
+        },
+        "textContrast": 8.37,
+        "surfaces": 1,
+        "radii": [
+          "0px",
+          "999px",
+          "99px",
+          "12px",
+          "18px",
+          "9999px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": true,
+          "links": 8
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "marketplace-tablet-light-en",
+      "width": 768,
+      "height": 1024,
+      "lang": "en",
+      "theme": "light",
+      "path": "/app/marketplace",
+      "auth": true,
+      "screenshot": {
+        "bytes": 116958
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Surplus, with specification.",
+          "fontSize": "38px",
+          "lineHeight": "39.9px",
+          "letterSpacing": "-0.912px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 0,
+          "h3": 13
+        },
+        "interactive": {
+          "total": 39,
+          "minWidth": 24,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 26,
+          "srOnlyExcluded": 1,
+          "accentElements": 22,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 8.37,
+        "surfaces": 0,
+        "radii": [
+          "0px",
+          "999px",
+          "99px",
+          "12px",
+          "9999px",
+          "18px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": true,
+          "links": 8
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "en"
+      }
+    },
+    {
+      "name": "marketplace-mobile-dark-it",
+      "width": 390,
+      "height": 844,
+      "lang": "it",
+      "theme": "dark",
+      "path": "/app/marketplace",
+      "auth": true,
+      "screenshot": {
+        "bytes": 69103
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#000000",
+          "sf": "#1d1d1f",
+          "ink": "#ffffff",
+          "mut": "#cccccc",
+          "accent": "#1b6e45",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#6ee7a8",
+          "mint": "#10291c"
+        },
+        "body": {
+          "background": "rgb(0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "contrastBody": 21
+        },
+        "h1": {
+          "text": "Eccedenza, in specifica.",
+          "fontSize": "32px",
+          "lineHeight": "33.6px",
+          "letterSpacing": "-0.768px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 0,
+          "h3": 13
+        },
+        "interactive": {
+          "total": 39,
+          "minWidth": 24,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 26,
+          "srOnlyExcluded": 1,
+          "accentElements": 23,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 13.66,
+        "surfaces": 0,
+        "radii": [
+          "0px",
+          "999px",
+          "99px",
+          "12px",
+          "9999px",
+          "18px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": true,
+          "links": 8
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "dark",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "detail-desktop-light-en",
+      "width": 1440,
+      "height": 900,
+      "lang": "en",
+      "theme": "light",
+      "path": "/app/marketplace/lst_occ",
+      "auth": true,
+      "screenshot": {
+        "bytes": 144166
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Kraft OCC offcuts 90/10",
+          "fontSize": "38px",
+          "lineHeight": "39.9px",
+          "letterSpacing": "-0.912px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 1,
+          "h3": 3
+        },
+        "interactive": {
+          "total": 28,
+          "minWidth": 26,
+          "minHeight": 17,
+          "under24": 2,
+          "under24InlineExceptions": 2,
+          "under24Actionable": 0,
+          "under44": 23,
+          "srOnlyExcluded": 1,
+          "accentElements": 11,
+          "sampleUnder24": [
+            {
+              "w": 85,
+              "h": 17,
+              "label": "Marketplace",
+              "sel": "a.inline-flex.items-center@div",
+              "exception": true
+            },
+            {
+              "w": 73,
+              "h": 18,
+              "label": "Explore all",
+              "sel": "a.flex.items-center@div",
+              "exception": true
+            }
+          ],
+          "sampleActionable": []
+        },
+        "textContrast": 8.37,
+        "surfaces": 1,
+        "radii": [
+          "0px",
+          "999px",
+          "99px",
+          "12px",
+          "18px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": true,
+          "links": 8
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "en"
+      }
+    },
+    {
+      "name": "wizard-tablet-light-it",
+      "width": 768,
+      "height": 1024,
+      "lang": "it",
+      "theme": "light",
+      "path": "/app/listings/new",
+      "auth": true,
+      "screenshot": {
+        "bytes": 90884
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Pubblica materiale in eccedenza",
+          "fontSize": "38px",
+          "lineHeight": "41.04px",
+          "letterSpacing": "-0.912px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 1,
+          "h3": 1
+        },
+        "interactive": {
+          "total": 32,
+          "minWidth": 24,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 22,
+          "srOnlyExcluded": 1,
+          "accentElements": 11,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 8.37,
+        "surfaces": 0,
+        "radii": [
+          "0px",
+          "999px",
+          "99px",
+          "12px",
+          "18px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": true,
+          "links": 8
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "quote-desktop-light-it",
+      "width": 1440,
+      "height": 900,
+      "lang": "it",
+      "theme": "light",
+      "path": "/preventivo",
+      "screenshot": {
+        "bytes": 91413
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Richiedi un preventivo",
+          "fontSize": "42px",
+          "lineHeight": "46.2px",
+          "letterSpacing": "-1.008px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 1,
+          "h3": 1
+        },
+        "interactive": {
+          "total": 37,
+          "minWidth": 16,
+          "minHeight": 16,
+          "under24": 2,
+          "under24InlineExceptions": 2,
+          "under24Actionable": 0,
+          "under44": 20,
+          "srOnlyExcluded": 1,
+          "accentElements": 9,
+          "sampleUnder24": [
+            {
+              "w": 16,
+              "h": 16,
+              "label": "INPUT",
+              "sel": "input#consent.mt-1.size-4@div",
+              "exception": true
+            },
+            {
+              "w": 49,
+              "h": 17,
+              "label": "Privacy",
+              "sel": "a.font-medium.text-forest@label",
+              "exception": true
+            }
+          ],
+          "sampleActionable": []
+        },
+        "textContrast": 21,
+        "surfaces": 1,
+        "radii": [
+          "0px",
+          "99px",
+          "999px",
+          "18px",
+          "12px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": false,
+          "links": 0
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "impact-mobile-light-en",
+      "width": 390,
+      "height": 844,
+      "lang": "en",
+      "theme": "light",
+      "path": "/impatto",
+      "screenshot": {
+        "bytes": 58977
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Know your footprint",
+          "fontSize": "40px",
+          "lineHeight": "42.8px",
+          "letterSpacing": "-0.96px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 0,
+          "h3": 3
+        },
+        "interactive": {
+          "total": 21,
+          "minWidth": 32,
+          "minHeight": 16,
+          "under24": 1,
+          "under24InlineExceptions": 1,
+          "under24Actionable": 0,
+          "under44": 17,
+          "srOnlyExcluded": 1,
+          "accentElements": 8,
+          "sampleUnder24": [
+            {
+              "w": 308,
+              "h": 16,
+              "label": "INPUT",
+              "sel": "input#fp-tons.@div",
+              "exception": true
+            }
+          ],
+          "sampleActionable": []
+        },
+        "textContrast": 21,
+        "surfaces": 2,
+        "radii": [
+          "0px",
+          "99px",
+          "999px",
+          "18px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": false,
+          "links": 0
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "en"
+      }
+    },
+    {
+      "name": "login-mobile-dark-it",
+      "width": 390,
+      "height": 844,
+      "lang": "it",
+      "theme": "dark",
+      "path": "/login",
+      "screenshot": {
+        "bytes": 54777
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#000000",
+          "sf": "#1d1d1f",
+          "ink": "#ffffff",
+          "mut": "#cccccc",
+          "accent": "#1b6e45",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#6ee7a8",
+          "mint": "#10291c"
+        },
+        "body": {
+          "background": "rgb(0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "contrastBody": 21
+        },
+        "h1": {
+          "text": "Lo scarto di un'azienda è la materia prima di un'altra.",
+          "fontSize": "36px",
+          "lineHeight": "38.88px",
+          "letterSpacing": "-1.08px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 2,
+          "h2": 0,
+          "h3": 1
+        },
+        "interactive": {
+          "total": 20,
+          "minWidth": 26,
+          "minHeight": 18,
+          "under24": 1,
+          "under24InlineExceptions": 1,
+          "under24Actionable": 0,
+          "under44": 16,
+          "srOnlyExcluded": 1,
+          "accentElements": 4,
+          "sampleUnder24": [
+            {
+              "w": 128,
+              "h": 18,
+              "label": "Password dimenticata?",
+              "sel": "a.text-[12px].text-muted@div",
+              "exception": true
+            }
+          ],
+          "sampleActionable": []
+        },
+        "textContrast": 21,
+        "surfaces": 2,
+        "radii": [
+          "0px",
+          "99px",
+          "999px",
+          "18px",
+          "4px",
+          "12px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": false,
+          "links": 0
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "dark",
+        "langAttr": "it"
+      }
+    },
+    {
+      "name": "inbox-desktop-dark-en",
+      "width": 1440,
+      "height": 900,
+      "lang": "en",
+      "theme": "dark",
+      "path": "/app/inbox",
+      "auth": true,
+      "screenshot": {
+        "bytes": 107497
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#000000",
+          "sf": "#1d1d1f",
+          "ink": "#ffffff",
+          "mut": "#cccccc",
+          "accent": "#1b6e45",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#6ee7a8",
+          "mint": "#10291c"
+        },
+        "body": {
+          "background": "rgb(0, 0, 0)",
+          "color": "rgb(255, 255, 255)",
+          "contrastBody": 21
+        },
+        "h1": {
+          "text": "Mail and appointments.",
+          "fontSize": "38px",
+          "lineHeight": "39.9px",
+          "letterSpacing": "-0.912px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 0,
+          "h3": 6
+        },
+        "interactive": {
+          "total": 29,
+          "minWidth": 26,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 18,
+          "srOnlyExcluded": 1,
+          "accentElements": 15,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 13.66,
+        "surfaces": 1,
+        "radii": [
+          "0px",
+          "999px",
+          "99px",
+          "12px",
+          "9999px",
+          "18px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": true,
+          "links": 8
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "dark",
+        "langAttr": "en"
+      }
+    },
+    {
+      "name": "settings-tablet-light-it",
+      "width": 768,
+      "height": 1024,
+      "lang": "it",
+      "theme": "light",
+      "path": "/app/settings",
+      "auth": true,
+      "screenshot": {
+        "bytes": 87390
+      },
+      "metrics": {
+        "tokens": {
+          "bg": "#f5f5f7",
+          "sf": "#ffffff",
+          "ink": "#1d1d1f",
+          "mut": "#5f5f5f",
+          "accent": "#14532d",
+          "accentOnDark": "#6ee7a8",
+          "moss": "#14532d",
+          "mint": "#e4f1e8"
+        },
+        "body": {
+          "background": "rgb(245, 245, 247)",
+          "color": "rgb(29, 29, 31)",
+          "contrastBody": 15.46
+        },
+        "h1": {
+          "text": "Organizzazione e accesso.",
+          "fontSize": "38px",
+          "lineHeight": "39.9px",
+          "letterSpacing": "-0.912px",
+          "weight": "600",
+          "family": "\"Inter Variable\", system-ui, -apple-system, BlinkMacSystemFo"
+        },
+        "headings": {
+          "h1": 1,
+          "h2": 0,
+          "h3": 1
+        },
+        "interactive": {
+          "total": 29,
+          "minWidth": 24,
+          "minHeight": 24,
+          "under24": 0,
+          "under24InlineExceptions": 0,
+          "under24Actionable": 0,
+          "under44": 27,
+          "srOnlyExcluded": 1,
+          "accentElements": 10,
+          "sampleUnder24": [],
+          "sampleActionable": []
+        },
+        "textContrast": 8.37,
+        "surfaces": 1,
+        "radii": [
+          "0px",
+          "999px",
+          "99px",
+          "9999px",
+          "18px",
+          "12px"
+        ],
+        "motion": {
+          "continuousAnimations": 0,
+          "samples": []
+        },
+        "nav": {
+          "visible": true,
+          "links": 8
+        },
+        "overflow": 0,
+        "brokenImages": 0,
+        "themeAttr": "light",
+        "langAttr": "it"
+      }
+    }
+  ],
+  "findings": []
+}

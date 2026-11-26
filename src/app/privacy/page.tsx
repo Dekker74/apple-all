@@ -32,9 +32,9 @@ const CONTENT = {
       ],
       [
         "Diritti",
-        "Puoi chiedere accesso, correzione o cancellazione dei tuoi dati scrivendo a hello@circularlink.app. Rispondiamo entro 30 giorni.",
+        "Puoi chiedere accesso, correzione o cancellazione dei tuoi dati usando il modulo preventivo e indicando “Privacy” nelle note. Rispondiamo entro 30 giorni.",
       ],
-      ["Contatti", "Per questioni privacy: hello@circularlink.app."],
+      ["Contatti", "Per questioni privacy usa il modulo preventivo."],
     ],
   },
   en: {
@@ -65,9 +65,9 @@ const CONTENT = {
       ],
       [
         "Rights",
-        "You can request access, correction or deletion of your data by writing to hello@circularlink.app. We reply within 30 days.",
+        "You can request access, correction or deletion of your data using the quote form and writing “Privacy” in the notes. We reply within 30 days.",
       ],
-      ["Contacts", "For privacy matters: hello@circularlink.app."],
+      ["Contacts", "For privacy matters, use the quote form."],
     ],
   },
 };

@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://all-1-2026.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://apple-all-andrea-grecos-projects.vercel.app";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Come Offcut tratta i dati inviati con la richiesta di preventivo e con la creazione di un account.",
+    "How Offcut handles data submitted with quote requests and when you create an account.",
   alternates: { canonical: "/privacy" },
-  openGraph: { title: "Privacy Policy · Offcut", url: `${siteUrl}/privacy`, type: "website" },
+  openGraph: {
+    title: "Privacy Policy · Offcut",
+    description: "How Offcut handles quote-request and account data.",
+    url: `${siteUrl}/privacy`,
+    type: "website",
+    locale: "en_GB",
+  },
 };
 
 export default function PrivacyLayout({ children }: { children: React.ReactNode }) {

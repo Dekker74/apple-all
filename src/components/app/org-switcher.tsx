@@ -3,7 +3,7 @@
 import { useI18n } from "@/lib/i18n";
 
 import Link from "next/link";
-import { BadgeCheck, Building2, Check, ChevronsUpDown, Plus, Settings } from "lucide-react";
+import { Building2, Check, ChevronsUpDown, Plus, Settings } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,7 +55,6 @@ export function OrgSwitcher({ className }: { className?: string }) {
               <span className="truncate text-[12px] font-medium leading-tight text-ink">
                 {currentOrg.name}
               </span>
-              {currentOrg.verified ? <BadgeCheck className="size-3.5 shrink-0 text-moss" /> : null}
             </span>
             <span className="mt-0.5 block font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
               {typeLabel}

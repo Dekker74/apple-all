@@ -15,7 +15,7 @@ const CONTENT = {
       ["Prenotazioni e stime", "Le stime mostrate in fase di prenotazione (trasporto €120, servizio €45, lavorazione per condizione) sono indicative: il preventivo conferma gli importi effettivi prima della conferma."],
       ["Controllo qualità", "Se il materiale non corrisponde alle specifiche concordate, le differenze vengono segnalate e il prezzo ricalcolato prima di procedere."],
       ["Responsabilità", "La piattaforma dimostrativa non garantisce la conclusione di operazioni commerciali e non sostituisce un contratto di fornitura."],
-      ["Contatti", "Per domande sui termini: hello@circularlink.app."],
+      ["Contatti", "Per domande sui termini usa il modulo preventivo."],
     ],
   },
   en: {
@@ -29,7 +29,7 @@ const CONTENT = {
       ["Bookings and estimates", "Estimates shown when booking (transport €120, service €45, processing by condition) are indicative: the quote confirms actual amounts before confirmation."],
       ["Quality control", "If material does not match the agreed specifications, differences are flagged and the price recalculated before proceeding."],
       ["Liability", "The demonstration platform does not guarantee that commercial transactions will be completed and does not replace a supply contract."],
-      ["Contacts", "For questions about these terms: hello@circularlink.app."],
+      ["Contacts", "For questions about these terms, use the quote form."],
     ],
   },
 };

@@ -8,7 +8,6 @@ import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
-  BadgeCheck,
   CalendarDays,
   Check,
   CircleAlert,
@@ -24,7 +23,8 @@ import {
   Warehouse,
 } from "lucide-react";
 import { toast } from "sonner";
-import { CategoryIcon } from "@/components/material/category-icon";
+import { localized } from "@/components/app/offcut-ux-copy";
+import { dateText, money, perKg } from "@/components/app/offcut-ux-text";
 import { ListingCard } from "@/components/material/listing-card";
 import { MaterialThumb } from "@/components/material/material-thumb";
 import { ProcessingChips } from "@/components/material/price-breakdown";
@@ -34,7 +34,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { CATEGORY_MAP, CONDITIONS, CONDITION_MAP, PROCESSING_MAP } from "@/lib/constants";
-import { addDaysInput, formatDate, todayInput } from "@/lib/format";
+import { addDaysInput, todayInput } from "@/lib/format";
 import {
   useCurrentOrg,
   useMatchViews,
@@ -42,17 +42,38 @@ import {
 } from "@/lib/hooks";
 import {
   computePriceBreakdown,
-  formatCurrency,
   formatKg,
-  formatPerKg,
   haversineKm,
   resolveProcessing,
 } from "@/lib/pricing";
 import { useAppStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
+const COPY = {
+  it: {
+    evidenceCount: (ready: number, total: number) => `${ready}/${total} disponibili`,
+    commission: (rate: number) => `Commissione ${Math.round(rate * 100)}%`,
+    tax: (rate: number) => `IVA ${Math.round(rate * 100)}%`,
+    category: "Categoria",
+    memberSince: "Membro dal",
+  },
+  en: {
+    evidenceCount: (ready: number, total: number) => `${ready}/${total} available`,
+    commission: (rate: number) => `Commission ${Math.round(rate * 100)}%`,
+    tax: (rate: number) => `VAT ${Math.round(rate * 100)}%`,
+    category: "Category",
+    memberSince: "Member since",
+  },
+};
+
 export default function ListingDetailPage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const c = localized(COPY, lang);
+  const fmtMoney = (value: number, opts?: { cents?: boolean; compact?: boolean }) =>
+    money(value, lang, opts);
+  const fmtPerKg = (value: number, digits = 2) => perKg(value, lang, digits);
+  const fmtDate = (value: string | Date, opts?: { withYear?: boolean }) =>
+    dateText(value, lang, opts);
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const org = useCurrentOrg();
@@ -228,20 +249,19 @@ export default function ListingDetailPage() {
                     {supplier?.name.slice(0, 2).toUpperCase()}
                   </span>
                   {supplier?.name}
-                  {supplier?.verified ? <BadgeCheck className="size-3.5 text-moss" /> : null}
                 </span>
                 <span className="flex items-center gap-1">
                   <MapPin className="size-3.5" /> {t(`${location?.city} · ${distanceKm} km da ${primary?.city ?? t("la tua sede")}`)}
                 </span>
                 <span className="flex items-center gap-1">
-                  <CalendarDays className="size-3.5" /> {t("Disponibile dal")} {t(formatDate(listing.availableFrom, { withYear: false }))} –{" "}
-                  {t(formatDate(listing.availableUntil))}
+                  <CalendarDays className="size-3.5" /> {t("Disponibile dal")} {t(fmtDate(listing.availableFrom, { withYear: false }))} –{" "}
+                  {t(fmtDate(listing.availableUntil))}
                 </span>
               </div>
 
               <div className="mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
                 {[
-                  { label: t("Prezzo materiale"), value: formatPerKg(listing.pricePerKg), icon: Package },
+                  { label: t("Prezzo materiale"), value: fmtPerKg(listing.pricePerKg), icon: Package },
                   { label: t("Quantità"), value: formatKg(listing.quantityKg), icon: Warehouse },
                   { label: t("Ordine min."), value: formatKg(listing.minOrderKg), icon: Truck },
                   { label: t("Condizione"), value: t(CONDITION_MAP[listing.condition].label), icon: ShieldCheck },
@@ -310,7 +330,7 @@ export default function ListingDetailPage() {
               <div className="flex items-center justify-between">
                 <p className="eyebrow">{t("Foto e evidenze")}</p>
                 <span className="font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                  {t(`${evidence.filter((e) => e.ok).length}/${evidence.length} verificato`)}
+                  {c.evidenceCount(evidence.filter((e) => e.ok).length, evidence.length)}
                 </span>
               </div>
               <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -379,10 +399,10 @@ export default function ListingDetailPage() {
                 <div>
                   <p className="eyebrow">{t("Stima consegnata immediata")}</p>
                   <p className="mt-1.5 font-display text-[36px] leading-none">
-                    {breakdown ? formatCurrency(breakdown.total, { cents: true }) : "—"}
+                    {breakdown ? fmtMoney(breakdown.total, { cents: true }) : "—"}
                   </p>
                   <p className="mt-1.5 text-[12px] text-muted">
-                    {breakdown ? formatPerKg(breakdown.deliveredPerKg) : ""} {t("· IVA inclusa")}
+                    {breakdown ? fmtPerKg(breakdown.deliveredPerKg) : ""} {t("· IVA inclusa")}
                   </p>
                 </div>
                 <span className="rounded-full border border-line bg-paper px-2 py-1 font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
@@ -440,23 +460,23 @@ export default function ListingDetailPage() {
                 <div className="mt-4 space-y-1.5 border-t border-line pt-3.5 text-[12px]">
                   <div className="flex justify-between">
                     <span className="text-muted">{t("Materiale")}</span>
-                    <span className="font-mono">{formatCurrency(breakdown.materialCost, { cents: true })}</span>
+                    <span className="font-mono">{fmtMoney(breakdown.materialCost, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted">{t("Commissione 6%")}</span>
-                    <span className="font-mono">{formatCurrency(breakdown.commissionAmount, { cents: true })}</span>
+                    <span className="text-muted">{c.commission(breakdown.commissionRate)}</span>
+                    <span className="font-mono">{fmtMoney(breakdown.commissionAmount, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted">{t("Lavorazione")}</span>
-                    <span className="font-mono">{formatCurrency(breakdown.processingCost, { cents: true })}</span>
+                    <span className="font-mono">{fmtMoney(breakdown.processingCost, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted">{t("Trasporto")}</span>
-                    <span className="font-mono">{formatCurrency(breakdown.transportCost, { cents: true })}</span>
+                    <span className="font-mono">{fmtMoney(breakdown.transportCost, { cents: true })}</span>
                   </div>
                   <div className="flex justify-between border-t border-line pt-1.5">
-                    <span className="text-muted">{t("IVA 22%")}</span>
-                    <span className="font-mono">{formatCurrency(breakdown.taxAmount, { cents: true })}</span>
+                    <span className="text-muted">{c.tax(breakdown.taxRate)}</span>
+                    <span className="font-mono">{fmtMoney(breakdown.taxAmount, { cents: true })}</span>
                   </div>
                 </div>
               ) : null}
@@ -497,20 +517,27 @@ export default function ListingDetailPage() {
                 </span>
                 <div className="min-w-0">
                   <p className="truncate text-[11.5px] font-medium">{supplier?.name}</p>
-                  <p className="text-[11.5px] text-paper/50">
-                    {supplier?.verified ? t("Partita IVA verificata · ") : ""}{t("Membro dal")}{" "}
-                    {supplier ? new Date(supplier.createdAt).getFullYear() : "—"}
-                  </p>
+                  {supplier?.vatNumber ? (
+                    <p className="text-[11.5px] text-paper/50">{supplier.vatNumber}</p>
+                  ) : null}
                 </div>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2 border-t border-paper/15 pt-3 text-center">
                 <div>
-                  <p className="font-display text-[20px] leading-none">4.8</p>
-                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/45">{t("Valutazione")}</p>
+                  <p className="truncate font-display text-[17px] leading-none">
+                    {t(CATEGORY_MAP[listing.category].short)}
+                  </p>
+                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-paper/45">
+                    {c.category}
+                  </p>
                 </div>
                 <div>
-                  <p className="font-display text-[20px] leading-none">96%</p>
-                  <p className="mt-1 font-mono text-[12px] uppercase tracking-[0.1em] text-paper/45">{t("Nei tempi")}</p>
+                  <p className="font-display text-[20px] leading-none">
+                    {supplier ? new Date(supplier.createdAt).getFullYear() : "—"}
+                  </p>
+                  <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.1em] text-paper/45">
+                    {c.memberSince}
+                  </p>
                 </div>
               </div>
             </div>

@@ -6,7 +6,7 @@ const COLORS = [
   "bg-clay text-paper",
   "bg-sky text-paper",
   "bg-amber text-paper",
-  "bg-sage text-forest",
+  "bg-sage text-paper",
 ];
 
 export function Avatar({

@@ -1,0 +1,97 @@
+{
+  "generatedAt": "2026-11-26T10:34:07.640Z",
+  "baseUrl": "http://127.0.0.1:3100",
+  "results": [
+    {
+      "name": "Homepage pubblica",
+      "status": "PASS",
+      "detail": "hero, doppia CTA buy/sell e messaggio no-role verificati"
+    },
+    {
+      "name": "Registrazione",
+      "status": "PASS",
+      "detail": "5 campi iniziali, 0 scelte di ruolo"
+    },
+    {
+      "name": "Recupero password",
+      "status": "PASS",
+      "detail": "form email presente"
+    },
+    {
+      "name": "Dashboard buyer",
+      "status": "PASS",
+      "detail": "KPI e azioni rapide buy/sell presenti"
+    },
+    {
+      "name": "Logout",
+      "status": "PASS",
+      "detail": "menu utente e sign out portano a /login"
+    },
+    {
+      "name": "Dashboard supplier",
+      "status": "PASS",
+      "detail": "KPI, annunci e azioni rapide presenti"
+    },
+    {
+      "name": "Ricerca marketplace",
+      "status": "PASS",
+      "detail": "12 annunci → 1 con q=rpet"
+    },
+    {
+      "name": "Filtro categoria",
+      "status": "PASS",
+      "detail": "Plastics: 5/12 annunci"
+    },
+    {
+      "name": "Empty state marketplace",
+      "status": "PASS",
+      "detail": "ricerca senza risultati mostra spiegazione e azioni"
+    },
+    {
+      "name": "Pubblicazione attiva",
+      "status": "PASS",
+      "detail": "annuncio LST-2026-4367 attivato dall'UI (status=active)"
+    },
+    {
+      "name": "Download preventivo",
+      "status": "PASS",
+      "detail": "preventivo-CL-2026-0139.txt · 443 byte · commissione presente"
+    },
+    {
+      "name": "Trasporto, processing e transazioni",
+      "status": "PASS",
+      "detail": "timeline, modalità, lavorazione e riepilogo economico verificati"
+    },
+    {
+      "name": "Messaggistica",
+      "status": "PASS",
+      "detail": "invio messaggio nel contesto demo verificato"
+    },
+    {
+      "name": "Centro notifiche",
+      "status": "PASS",
+      "detail": "menu con collegamento diretto all'ordine"
+    },
+    {
+      "name": "Assistente AI",
+      "status": "PASS",
+      "detail": "apertura manuale e chiusura senza auto-open"
+    },
+    {
+      "name": "Profilo e impostazioni",
+      "status": "PASS",
+      "detail": "tab presenti e nessun badge di verifica inventato"
+    },
+    {
+      "name": "Stato errore",
+      "status": "PASS",
+      "detail": "ordine inesistente mostra messaggio e azione di ritorno"
+    },
+    {
+      "name": "Console e HTTP",
+      "status": "PASS",
+      "detail": "0 errori console/pageerror/HTTP nelle sessioni finali"
+    }
+  ],
+  "failures": []
+}

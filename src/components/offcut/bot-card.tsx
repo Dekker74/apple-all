@@ -8,11 +8,11 @@ type Message = { role: "bot" | "user"; content: string };
 const COPY = {
   it: {
     eyebrow: "ASSISTENTE DI CONOSCENZA OFFCUT",
-    title: "Offcut Bot",
-    desc: "Chiedi a Offcut Bot come funzionano gli abbinamenti, prezzi e commissioni, ritiro e consegna.",
+    title: "Offcut AI",
+    desc: "Chiedi a Offcut AI come funzionano gli abbinamenti, prezzi e commissioni, ritiro e consegna.",
     welcome:
-      "Ciao! Sono Offcut Bot. Chiedimi come funziona l'abbinamento, come si calcolano prezzo, trasporto e lavorazione, o come prenotare un ritiro.",
-    placeholder: "Fai una domanda a Offcut Bot…",
+      "Ciao! Sono Offcut AI. Chiedimi come funziona l'abbinamento, come si calcolano prezzo, trasporto e lavorazione, o come prenotare un ritiro.",
+    placeholder: "Fai una domanda a Offcut AI…",
     speak: "Parla",
     read: "Leggi la risposta",
     send: "Invia",
@@ -21,11 +21,11 @@ const COPY = {
   },
   en: {
     eyebrow: "OFFCUT KNOWLEDGE ASSISTANT",
-    title: "Offcut Bot",
-    desc: "Ask Offcut Bot about material matching, pricing & fees, or pick-up/drop-off scheduling.",
+    title: "Offcut AI",
+    desc: "Ask Offcut AI about material matching, pricing & fees, or pick-up/drop-off scheduling.",
     welcome:
-      "Hello! I’m Offcut Bot. Ask me how matching works, how total prices and transport/processing fees are calculated, or how to book a pick-up or drop-off.",
-    placeholder: "Ask Offcut Bot a question…",
+      "Hello! I’m Offcut AI. Ask me how matching works, how total prices and transport/processing fees are calculated, or how to book a pick-up or drop-off.",
+    placeholder: "Ask Offcut AI a question…",
     speak: "Speak",
     read: "Read answer",
     send: "Send",

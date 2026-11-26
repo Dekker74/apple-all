@@ -7,44 +7,18 @@ import { useTheme } from "@/components/theme-provider";
 import { OffcutLogo } from "@/components/offcut/logo";
 import { LanguageButtons } from "@/components/offcut/language-buttons";
 
-const LABELS = {
-  it: {
-    about: "Chi siamo",
-    auth: "Accedi / Registrati",
-    footprint: "Calcola la tua impronta",
-    profile: "Il mio profilo",
-    matches: "Abbinamenti",
-    inbox: "Posta in arrivo",
-    logout: "Esci",
-    dark: "Scuro",
-    light: "Chiaro",
-  },
-  en: {
-    about: "Who we are",
-    auth: "Log in / Sign up",
-    footprint: "Know your footprint",
-    profile: "My profile",
-    matches: "Matches",
-    inbox: "Inbox",
-    logout: "Log out",
-    dark: "Dark",
-    light: "Light",
-  },
-} as const;
-
 export function OffcutHeader() {
   const pathname = usePathname();
-  const { lang } = useI18n();
+  const { t } = useI18n();
   const { theme, toggleTheme } = useTheme();
-  const l = LABELS[lang];
 
   const links = [
-    { href: "/chi-siamo", label: l.about },
-    { href: "/login", label: l.auth },
-    { href: "/impatto", label: l.footprint },
-    { href: "/app/settings", label: l.profile },
-    { href: "/app/matches", label: l.matches },
-    { href: "/app/inbox", label: l.inbox },
+    { href: "/chi-siamo", label: t("header.about") },
+    { href: "/login", label: t("header.auth") },
+    { href: "/impatto", label: t("header.footprint") },
+    { href: "/app/settings", label: t("header.profile") },
+    { href: "/app/matches", label: t("header.matches") },
+    { href: "/app/inbox", label: t("header.inbox") },
   ].filter((link) => !(pathname.startsWith("/app") && link.href === "/login"));
 
   return (
@@ -62,8 +36,8 @@ export function OffcutHeader() {
       </nav>
       <div className="ctrl-group">
         <LanguageButtons />
-        <button type="button" id="theme-toggle" className="pill-btn" onClick={toggleTheme} aria-label="Toggle color theme">
-          {theme === "dark" ? l.light : l.dark}
+        <button type="button" id="theme-toggle" className="pill-btn" onClick={toggleTheme} aria-label={t("header.themeToggle")}>
+          {theme === "dark" ? t("header.light") : t("header.dark")}
         </button>
       </div>
     </header>

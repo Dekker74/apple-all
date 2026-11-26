@@ -1,0 +1,5 @@
+[chat-api] PASS payload oltre 10 KB → 413
+[chat-api] PASS messaggio vuoto → 400
+[chat-api] PASS 20 richieste accettate nella finestra
+[chat-api] PASS 21ª richiesta → 429 con Retry-After
+[chat-api] 4 verifiche PASS

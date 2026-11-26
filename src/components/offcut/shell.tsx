@@ -21,7 +21,7 @@ export function OffcutShell({
   return (
     <div className="offcut-site">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-moss focus:px-4 focus:py-2 focus:text-[14px] focus:text-white">
-        Vai al contenuto / Skip to content
+        {t("shell.skip")}
       </a>
       {header ? <OffcutHeader /> : null}
       <main id="main" className={`offcut-main${wide ? " offcut-main-wide" : ""}${bare ? " offcut-main-bare" : ""}${header ? "" : " offcut-main-no-header"}`}>
@@ -32,7 +32,7 @@ export function OffcutShell({
           <div className="offcut-footer-inner">
             <p>© 2026 Offcut — {t("Materiali in movimento.")}</p>
             <p>
-              <Link href="/privacy">Privacy</Link> · <Link href="/terms">{t("Termini")}</Link> ·{" "}
+              <Link href="/privacy">{t("footer.privacy")}</Link> · <Link href="/terms">{t("Termini")}</Link> ·{" "}
               <Link href="/preventivo">{t("Preventivo")}</Link>
             </p>
           </div>

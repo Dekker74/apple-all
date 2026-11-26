@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Offcut 2.1 — confronto visivo prima/dopo</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1d1d1f; background: #fff; }
+  .wrap { width: 100%; padding: 16px; }
+  h1 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.03em; }
+  p { margin: 0 0 16px; color: #5f5f5f; }
+  h2 { font-size: 16px; margin: 24px 0 8px; letter-spacing: -0.02em; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .cell { min-width: 0; }
+  .cell img { display: block; width: 100%; max-height: 360px; object-fit: contain; object-position: top left; border: 1px solid #e0e0e0; background: #fafafc; }
+  .cap { padding: 4px 2px; font-size: 12px; font-weight: 600; }
+  .tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; margin-right: 5px; background: #e4f1e8; color: #14532d; }
+  .tag.after { background: #14532d; color: #fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Offcut 2.1 — confronto visivo prima/dopo</h1>
+  <p>Stesse viste catturate con Playwright su Chromium headless. Il confronto è fornito all'utente; il modello corrente non può analizzare direttamente le immagini PNG.</p>
+
+  <h2>Homepage desktop — prima / dopo</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>home desktop light EN</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/home-desktop-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>home desktop light EN</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/home-desktop-light-en.png"></div>
+  </div>
+
+  <h2>Homepage mobile — prima / dopo</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>home mobile light IT</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/home-mobile-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>home mobile light IT</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/home-mobile-light-it.png"></div>
+  </div>
+
+  <h2>Dark e tablet — prima / dopo</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>home desktop dark IT</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/home-desktop-dark-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>home desktop dark IT</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/home-desktop-dark-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>home tablet light IT</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/home-tablet-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>home tablet light IT</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/home-tablet-light-it.png"></div>
+  </div>
+
+  <h2>Dashboard, marketplace, dettaglio — prima / dopo</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>dashboard desktop light IT</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/dashboard-desktop-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>dashboard desktop light IT</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/dashboard-desktop-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>marketplace tablet light EN</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/marketplace-tablet-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>marketplace tablet light EN</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/marketplace-tablet-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>dettaglio annuncio desktop EN</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/detail-desktop-light-en.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>dettaglio annuncio desktop EN</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/detail-desktop-light-en.png"></div>
+  </div>
+
+  <h2>Form e account — prima / dopo</h2>
+  <div class="grid">
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>preventivo desktop light IT</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/quote-desktop-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>preventivo desktop light IT</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/quote-desktop-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>wizard annuncio tablet IT</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/wizard-tablet-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>wizard annuncio tablet IT</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/wizard-tablet-light-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag">PRIMA</span>login mobile dark IT</div><img src="/root/apple-all/qa/audit-v2.1/before/visual-review/login-mobile-dark-it.png"></div>
+    <div class="cell"><div class="cap"><span class="tag after">DOPO</span>login mobile dark IT</div><img src="/root/apple-all/qa/audit-v2.1/after/visual-review/login-mobile-dark-it.png"></div>
+  </div>
+</div>
+</body>
+</html>

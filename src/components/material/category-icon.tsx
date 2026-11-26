@@ -31,6 +31,7 @@ export function CategoryIcon({
   };
   return (
     <span
+      aria-hidden="true"
       className={cn(
         "inline-flex shrink-0 items-center justify-center border border-ink/[0.04]",
         TONES[category],

@@ -1,141 +1,139 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const SYSTEM_INSTRUCTION = `Sei Offcut AI, l'assistente di Offcut, una piattaforma che mette in contatto aziende per il recupero di materiali industriali in eccedenza (carta e cartone, legno, plastica).
 
-const SYSTEM_INSTRUCTION = `Sei Offcut Bot, l'assistente AI di Offcut, una piattaforma che connette aziende per il recupero di materiali industriali in eccedenza (carta, legno, plastica).
+## Regole
+- Rispondi in modo breve e professionale, nella lingua indicata dall'interfaccia.
+- Usa solo le informazioni verificabili qui sotto. Se non sai una cifra o un dettaglio, dichiara che non è disponibile e invita a richiedere un preventivo dal modulo dedicato.
+- Non inventare prezzi, costi di trasporto, fattori emissivi, tempi di consegna o promesse non documentate. Non presentare una stima come un prezzo emesso.
+- Un account Offcut consente sia di vendere materiale sia di acquistare: non si sceglie un ruolo.
 
-## Il tuo ruolo
-- Rispondi in italiano o inglese in base alla lingua dell'utente
-- Sii conciso, chiaro e professionale
-- Fornisci informazioni accurate su: matching materiali, prezzi, commissioni, ritiro/consegna, impatto ambientale
-- Se non sai qualcosa, ammettilo onestamente
-- Non inventare informazioni o prezzi specifici non documentati
-
-## Knowledge Base
-
-### Come funziona il matching
-- Le aziende registrano materiali in eccesso (venditori) o bisogni (acquirenti)
-- L'algoritmo abbina per: tipo materiale, quantità, condizione, distanza (max 120 km default)
-- Ogni match mostra: nome azienda, settore, città, compatibilità %
-- Contatto diretto via inbox della piattaforma
-
-### Prezzi e commissioni
-- Registrazione: GRATUITA
-- Ritiro scarti: GRATUITO (chi vende scarto paga 0€)
-- Commissione piattaforma: 6% sul prezzo concordato (pagata dall'acquirente)
-- Trasporto: ~€120 fisso (varia per distanza)
-- Servizio logistica: €45
-- Lavorazione: dipende dalla condizione del materiale
-  - Buona: €5/ton
-  - Discreta: €15/ton
-  - Da lavorare: €30/ton
-- Prezzo finale = Prezzo materiale lordo - 6% commissione + trasporto + servizio + lavorazione
-
-### Ritiro e consegna
-- Prenotazione via piattaforma: seleziona data, orario, indirizzo
-- Offcut gestisce ritiro presso fornitore e consegna presso acquirente
-- Tracciamento in tempo reale
-- Finestra oraria: mattina (9-13) o pomeriggio (14-18)
-- Necessaria presenza di un referente per ritiro/consegna
-
-### Materiali supportati
-- Plastica (PET, HDPE, PVC, PP, PS, etc.)
-- Carta e cartone (ondulato, kraft, patinato, etc.)
-- Legno (pallet, trucioli, scarti lavorazione, MDF, etc.)
-- Condizioni: Buona (pronto all'uso), Discreta (minima lavorazione), Da lavorare (richiede processing)
-
-### Impatto ambientale
-- Calcolatore footprint: stima risparmio CO₂e per tonnellata recuperata
-- Plastica: ~1.8 ton CO₂e/ton evitata
-- Carta: ~0.9 ton CO₂e/ton evitata
-- Legno: ~0.4 ton CO₂e/ton evitata
-- Focus regionale: riduce trasporti, supporta economia circolare locale
-
-### Area operativa
-- Attualmente: Emilia-Romagna
-- Espansione futura pianificata
+## Fatti verificati
+- Servizio al lancio: solo Bologna e comuni limitrofi.
+- Registrazione gratuita; la commissione della piattaforma è del 6% sugli affari conclusi.
+- Il prezzo finale è un unico prezzo consegnato che comprende materiale, lavorazioni eventuali e trasporto. Le lavorazioni e il trasporto dipendono dal caso concreto: vengono definiti nel preventivo, non sono importi fissi.
+- Ritiro presso il venditore e consegna presso l'acquirente sono organizzati attraverso la piattaforma; la data di consegna è scelta dall'acquirente.
+- L'abbinamento confronta tipo di materiale, quantità, condizione e distanza, e mostra una valutazione qualitativa della compatibilità (solida, da verificare o debole) con le relative motivazioni. Non è una garanzia di esito commerciale.
+- Le condizioni del materiale sono selezionabili (pulito, misto, da lavorare) e il venditore può caricare foto.
+- Il calcolatore di impatto fornisce una stima indicativa con fattori medi di settore: non è un certificato né un risparmio garantito.
+- Per richieste commerciali, il modulo /preventivo raccoglie materiale, quantità, zona ed email; la risposta arriva entro 48 ore lavorative con un preventivo.
 
 ## Tono
-Professionale ma accessibile. Usa esempi concreti quando possibile.`;
+Professionale ma accessibile. Se ti chiedono un prezzo preciso, spiega che serve il preventivo e indica i dati da preparare (materiale, quantità in kg, zona, condizione).`;
+
+type ChatMessage = { role: "user" | "model"; parts: { text: string }[] };
+
+const MAX_BODY_BYTES = 10_000;
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX = 20;
+const rateBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function clientKey(req: NextRequest): string {
+  const forwarded = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  return forwarded || req.headers.get("x-real-ip")?.trim() || "unknown";
+}
+
+function checkRateLimit(req: NextRequest): { allowed: boolean; retryAfter: number } {
+  const key = clientKey(req);
+  const now = Date.now();
+  if (rateBuckets.size > 1000) {
+    for (const [bucketKey, bucket] of rateBuckets) {
+      if (bucket.resetAt <= now) rateBuckets.delete(bucketKey);
+    }
+  }
+  const current = rateBuckets.get(key);
+  if (!current || current.resetAt <= now) {
+    rateBuckets.set(key, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return { allowed: true, retryAfter: Math.ceil(RATE_WINDOW_MS / 1000) };
+  }
+  current.count += 1;
+  return {
+    allowed: current.count <= RATE_MAX,
+    retryAfter: Math.max(1, Math.ceil((current.resetAt - now) / 1000)),
+  };
+}
+
+function normaliseHistory(input: unknown): ChatMessage[] {
+  if (!Array.isArray(input)) return [];
+  const out: ChatMessage[] = [];
+  for (const item of input.slice(-10)) {
+    if (!item || typeof item !== "object") continue;
+    const msg = item as { role?: unknown; content?: unknown };
+    if (typeof msg.content !== "string" || !msg.content.trim()) continue;
+    if (msg.content.length > 2000) continue;
+    const role = msg.role === "user" ? "user" : msg.role === "bot" || msg.role === "model" || msg.role === "assistant" ? "model" : null;
+    if (!role) continue;
+    const text = msg.content.trim();
+    const previous = out[out.length - 1];
+    if (previous && previous.role === role) {
+      previous.parts[0].text += `\n${text}`;
+    } else {
+      out.push({ role, parts: [{ text }] });
+    }
+  }
+  while (out.length && out[0].role === "model") out.shift();
+  return out;
+}
 
 export async function POST(req: NextRequest) {
-  try {
-    const { message, history } = await req.json();
-
-    if (!message || typeof message !== "string") {
-      return NextResponse.json({ error: "Invalid message" }, { status: 400 });
-    }
-
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: "Gemini API key not configured. Please add GEMINI_API_KEY to your environment variables." },
-        { status: 500 }
-      );
-    }
-
-    // Gemini requires history to start with the user and alternate roles.
-    // The UI includes an initial bot welcome message, so normalise it here.
-    const normalisedHistory = Array.isArray(history)
-      ? history
-          .filter(
-            (msg: { role?: string; content?: string }) =>
-              msg &&
-              typeof msg.content === "string" &&
-              ["user", "bot", "model", "assistant"].includes(msg.role ?? ""),
-          )
-          .map((msg: { role: string; content: string }) => ({
-            role: (msg.role === "user" ? "user" : "model") as "user" | "model",
-            parts: [{ text: msg.content }],
-          }))
-      : [];
-
-    while (normalisedHistory.length && normalisedHistory[0].role === "model") {
-      normalisedHistory.shift();
-    }
-
-    const chatHistory: { role: "user" | "model"; parts: { text: string }[] }[] = [];
-    for (const entry of normalisedHistory) {
-      const previous = chatHistory[chatHistory.length - 1];
-      if (previous && previous.role === entry.role) {
-        previous.parts[0].text += `\n${entry.parts[0].text}`;
-      } else {
-        chatHistory.push(entry);
-      }
-    }
-
-    // Gemini retires/overloads models over time: try a few current ones in order.
-    const models = [
-      "gemini-3.5-flash-lite",
-      "gemini-flash-lite-latest",
-      "gemini-3.5-flash",
-      "gemini-3.6-flash",
-    ];
-    let lastError: unknown;
-
-    for (const modelName of models) {
-      try {
-        const model = genAI.getGenerativeModel({
-          model: modelName,
-          systemInstruction: SYSTEM_INSTRUCTION,
-        });
-        const chat = model.startChat({ history: chatHistory });
-        const result = await chat.sendMessage(message);
-        return NextResponse.json({ response: result.response.text() });
-      } catch (error) {
-        lastError = error;
-      }
-    }
-
-    throw lastError;
-  } catch (error: any) {
-    console.error("Gemini API error:", error);
+  const rate = checkRateLimit(req);
+  if (!rate.allowed) {
     return NextResponse.json(
-      {
-        error: "Failed to generate response",
-        details: error.message || "Unknown error",
-      },
-      { status: 500 }
+      { error: "rate_limited" },
+      { status: 429, headers: { "Retry-After": String(rate.retryAfter) } },
     );
   }
+
+  let body: unknown;
+  try {
+    const raw = await req.text();
+    if (new TextEncoder().encode(raw).length > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: "payload_too_large" }, { status: 413 });
+    }
+    body = JSON.parse(raw);
+  } catch {
+    return NextResponse.json({ error: "invalid_message" }, { status: 400 });
+  }
+
+  const payload = body && typeof body === "object"
+    ? (body as { message?: unknown; history?: unknown; locale?: unknown })
+    : {};
+  const message = typeof payload.message === "string" ? payload.message.trim() : "";
+  if (!message || message.length > 2000) {
+    return NextResponse.json({ error: "invalid_message" }, { status: 400 });
+  }
+
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  if (!apiKey) {
+    // Never expose configuration or provider details to the client.
+    return NextResponse.json({ error: "chat_unavailable" }, { status: 503 });
+  }
+
+  const locale = payload.locale === "en" ? "en" : "it";
+  const systemInstruction = `${SYSTEM_INSTRUCTION}\n\n## Lingua dell'interfaccia\nRispondi sempre in ${locale === "it" ? "italiano" : "inglese"}, indipendentemente dalla lingua in cui l'utente scrive. Non alternare le lingue.`;
+  const genAI = new GoogleGenerativeAI(apiKey);
+  const history = normaliseHistory(payload.history);
+  // Gemini retires/overloads models over time: try a few current ones in order.
+  const models = [
+    "gemini-3.5-flash-lite",
+    "gemini-flash-lite-latest",
+    "gemini-3.5-flash",
+    "gemini-3.6-flash",
+  ];
+
+  for (const modelName of models) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName, systemInstruction });
+      const chat = model.startChat({ history });
+      const result = await chat.sendMessage(message);
+      const text = result.response.text();
+      if (!text) continue;
+      return NextResponse.json({ response: text });
+    } catch (error) {
+      console.error(`Chat model ${modelName} unavailable:`, error instanceof Error ? error.message : "unknown error");
+    }
+  }
+
+  return NextResponse.json({ error: "chat_unavailable" }, { status: 502 });
 }

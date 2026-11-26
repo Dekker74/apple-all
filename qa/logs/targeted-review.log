@@ -1,0 +1,7 @@
+[targeted] PASS demo login + app nav: 8 link operativi visibili
+[targeted] PASS chat non intrusivo: chiuso all'avvio, icona SVG, nessuna animazione continua, open/close OK
+[targeted] PASS testi senza emoji: 0 emoji nelle liste annunci
+[targeted] PASS traduzione logistica EN: testo EN completo, nessun residuo IT
+[targeted] PASS badge verifica non inventati: nessun badge o stato KYC fittizio
+[targeted] PASS console e HTTP: 0 errori console/pageerror/HTTP
+[targeted] 6 PASS, 0 errori

@@ -356,6 +356,7 @@ interface Actions {
   }) => void;
   inviteMember: (input: { email: string; role: MemberRole; fullName?: string }) => void;
   createListing: (input: NewListingInput) => string;
+  updateListing: (listingId: string, input: NewListingInput) => void;
   updateListingStatus: (listingId: string, status: ListingStatus) => void;
   createRequest: (input: NewRequestInput) => string;
   generateMatches: () => number;
@@ -457,7 +458,7 @@ function event(label: string, actor: string, kind: OrderEvent["kind"], note?: st
 }
 
 function applySupabaseUser(state: DataState, user: { id: string; email?: string; user_metadata?: Record<string, unknown> }): Partial<DataState> {
-  const email = user.email?.toLowerCase() ?? `user-${user.id.slice(0, 6)}@circularlink.local`;
+  const email = user.email?.toLowerCase() ?? `user-${user.id.slice(0, 6)}@offcut.local`;
   let profiles = state.profiles;
   let profile = profiles.find((p) => p.id === user.id) ?? profiles.find((p) => p.email.toLowerCase() === email);
   if (!profile) {
@@ -776,6 +777,32 @@ export const useAppStore = create<AppStore>()(
           return { listings, matches, lastMatchRunAt: nowIso() };
         });
         return id;
+      },
+
+      updateListing: (listingId, input) => {
+        const state = get();
+        if (!state.currentOrgId) throw new Error("Select an organization first.");
+        const existing = state.listings.find((listing) => listing.id === listingId);
+        if (!existing || existing.orgId !== state.currentOrgId) throw new Error("Listing not found.");
+        set((s) => {
+          const listings = s.listings.map((listing) =>
+            listing.id === listingId
+              ? {
+                  ...existing,
+                  ...input,
+                  id: existing.id,
+                  reference: existing.reference,
+                  orgId: existing.orgId,
+                  currency: existing.currency,
+                  createdAt: existing.createdAt,
+                  views: existing.views,
+                  status: input.status ?? existing.status,
+                }
+              : listing,
+          );
+          const matches = rebuildMatches({ ...s, listings });
+          return { listings, matches, lastMatchRunAt: nowIso() };
+        });
       },
 
       updateListingStatus: (listingId, status) => {
@@ -1214,7 +1241,7 @@ export const useAppStore = create<AppStore>()(
       },
     }),
     {
-      name: "circularlink-state-v1",
+      name: "offcut-state-v1",
       version: 2,
       migrate: (persisted, version) => {
         const state = persisted as DataState;
@@ -1224,7 +1251,24 @@ export const useAppStore = create<AppStore>()(
           ...demoWorkspacePatch(state, isDemoUserId(state.session?.userId)),
         };
       },
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => ({
+        getItem: (name) => {
+          try {
+            return localStorage.getItem(name) ?? localStorage.getItem("circularlink-state-v1");
+          } catch {
+            return null;
+          }
+        },
+        setItem: (name, value) => {
+          try { localStorage.setItem(name, value); } catch {}
+        },
+        removeItem: (name) => {
+          try {
+            localStorage.removeItem(name);
+            localStorage.removeItem("circularlink-state-v1");
+          } catch {}
+        },
+      })),
       partialize: (state) => {
         // Functions are dropped by JSON serialization; data is persisted as-is.
         const { ...data } = state;

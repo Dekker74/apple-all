@@ -1,0 +1,9 @@
+[visual-before] before-home-desktop-light-en
+[visual-before] before-home-mobile-light-en
+[visual-before] FAIL before-impact-desktop-light-en: page.waitForSelector: Timeout 20000ms exceeded.
+Call log:
+[2m  - waiting for locator('h1') to be visible[22m
+
+[visual-before] before-quote-desktop-light-en
+[visual-before] before-login-desktop-light-en
+[visual-before] 4/5 screenshot, 1 errori

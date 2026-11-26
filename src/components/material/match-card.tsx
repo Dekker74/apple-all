@@ -134,7 +134,7 @@ export function MatchCard({
             </div>
             <Link
               href={`/app/marketplace/${listing.id}`}
-              className="mt-1.5 block truncate text-[14px] font-medium leading-[1.5] text-ink hover:underline"
+              className="mt-1.5 inline-flex min-h-6 max-w-full items-center truncate text-[14px] font-medium leading-[1.5] text-ink hover:underline"
             >
               {t(listing.title)}
             </Link>

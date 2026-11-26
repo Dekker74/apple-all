@@ -4,7 +4,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 export type Theme = "light" | "dark";
 
-const STORAGE_KEY = "circularlink-theme";
+const STORAGE_KEY = "offcut-theme";
+const LEGACY_STORAGE_KEY = "circularlink-theme";
 
 type ThemeContextValue = {
   theme: Theme;
@@ -30,9 +31,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let initial: Theme = "light";
     try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
+      const stored = window.localStorage.getItem(STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
       if (stored === "dark" || stored === "light") {
         initial = stored;
+        window.localStorage.setItem(STORAGE_KEY, stored);
       } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
         initial = "dark";
       }

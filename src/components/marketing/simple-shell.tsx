@@ -45,7 +45,7 @@ export function SimpleShell({ children }: { children: React.ReactNode }) {
             <Link href="/chi-siamo" className="hover:text-ink">{t("footer.about")}</Link>
             <Link href="/privacy" className="hover:text-ink">{t("footer.privacy")}</Link>
             <Link href="/terms" className="hover:text-ink">{t("footer.terms")}</Link>
-            <a href="mailto:hello@circularlink.app" className="hover:text-ink">hello@circularlink.app</a>
+            <Link href="/preventivo" className="hover:text-ink">{t("nav.ctaShort")}</Link>
           </div>
         </div>
       </footer>

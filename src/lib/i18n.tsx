@@ -4,7 +4,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 
 export type Lang = "it" | "en";
 
-const STORAGE_KEY = "circularlink.lang";
+const STORAGE_KEY = "offcut.lang";
+const LEGACY_STORAGE_KEY = "circularlink.lang";
 
 const it: Record<string, string> = {
   "nav.how": "Come funziona",
@@ -247,7 +248,7 @@ const it: Record<string, string> = {
   "quote.sending": "Invio in corso…",
   "quote.errorTitle": "Non siamo riusciti a inviare la richiesta",
   "quote.errorValidationTitle": "Controlla i campi",
-  "quote.errorGeneric": "Riprova tra qualche istante. Se il problema continua, scrivi a hello@circularlink.app.",
+  "quote.errorGeneric": "Riprova tra qualche istante. Se il problema continua, riprova dal modulo preventivo.",
   "quote.errorValidation": "Controlla i campi evidenziati qui sotto.",
   "quote.errorRate": "Hai inviato troppe richieste da questo indirizzo. Riprova tra qualche minuto.",
   "quote.errorNetwork": "Connessione assente o risposta non valida. Controlla la rete e riprova.",
@@ -257,9 +258,9 @@ const it: Record<string, string> = {
   "quote.next2": "Ti inviamo un preventivo con un solo prezzo consegnato.",
   "quote.next3": "Se ti convince, organizziamo ritiro, lavorazione e trasporto.",
   "quote.successEmail": "Ti abbiamo inviato una copia della richiesta via email.",
-  "quote.successNoEmail": "La conferma automatica non è partita. La richiesta è registrata: se non ricevi risposta entro 48 ore lavorative, scrivi a hello@circularlink.app citando il riferimento.",
-  "quote.successNoStorage": "L'archiviazione automatica non è disponibile. Conserva il riferimento e scrivi a hello@circularlink.app.",
-  "quote.manual": "Scrivi direttamente a hello@circularlink.app",
+  "quote.successNoEmail": "La conferma automatica non è partita. La richiesta è registrata: conserva il riferimento qui sopra e, se non ricevi risposta entro 48 ore lavorative, riprova dal modulo preventivo.",
+  "quote.successNoStorage": "L'archiviazione automatica non è disponibile. Conserva il riferimento qui sopra e riprova dal modulo preventivo.",
+  "quote.manual": "Richiedi un preventivo",
   "quote.panelTitle": "Cosa ottieni",
   "quote.panel1": "Risposta entro 48 ore lavorative.",
   "quote.panel2": "Un prezzo consegnato: materiale, lavorazione e trasporto.",
@@ -278,6 +279,31 @@ const it: Record<string, string> = {
   "forgot.success": "Controlla la tua casella di posta.",
   "forgot.error": "Recupero password non disponibile in questa versione.",
   "forgot.back": "Torna al login",
+
+  "shell.skip": "Vai al contenuto",
+  "common.close": "Chiudi",
+  "header.about": "Chi siamo",
+  "header.auth": "Accedi / Registrati",
+  "header.footprint": "Calcola la tua impronta",
+  "header.profile": "Il mio profilo",
+  "header.matches": "Abbinamenti",
+  "header.inbox": "Posta in arrivo",
+  "header.dark": "Scuro",
+  "header.light": "Chiaro",
+  "header.themeToggle": "Cambia tema",
+  "theme.lightAction": "Attiva modalità chiara",
+  "theme.darkAction": "Attiva modalità scura",
+  "theme.light": "Modalità chiara",
+  "theme.dark": "Modalità scura",
+  "lang.group": "Lingua",
+  "lang.it": "Italiano",
+  "lang.en": "Inglese",
+  "notFound.eyebrow": "404 · Pagina non trovata",
+  "notFound.title": "Qui non c’è nulla.",
+  "notFound.desc": "La pagina richiesta non esiste o è stata spostata.",
+  "notFound.nav": "Pagine utili",
+  "notFound.home": "Home",
+  "notFound.about": "Chi siamo",
 };
 
 const en: Record<string, string> = {
@@ -522,7 +548,7 @@ const en: Record<string, string> = {
   "quote.sending": "Sending…",
   "quote.errorTitle": "We couldn't send your request",
   "quote.errorValidationTitle": "Check the fields",
-  "quote.errorGeneric": "Try again in a moment. If the problem persists, write to hello@circularlink.app.",
+  "quote.errorGeneric": "Try again in a moment. If the problem persists, try the quote form again.",
   "quote.errorValidation": "Check the highlighted fields below.",
   "quote.errorRate": "Too many requests from this address. Try again in a few minutes.",
   "quote.errorNetwork": "No connection or invalid response. Check your network and try again.",
@@ -532,9 +558,9 @@ const en: Record<string, string> = {
   "quote.next2": "We send a quote with one delivered price.",
   "quote.next3": "If it works for you, we arrange pickup, processing and transport.",
   "quote.successEmail": "We emailed you a copy of the request.",
-  "quote.successNoEmail": "The automatic confirmation did not go out. Your request is recorded: if you don't hear from us within 48 working hours, write to hello@circularlink.app quoting the reference.",
-  "quote.successNoStorage": "Automatic storage is unavailable. Keep the reference and write to hello@circularlink.app.",
-  "quote.manual": "Write directly to hello@circularlink.app",
+  "quote.successNoEmail": "The automatic confirmation did not go out. Your request is recorded: keep the reference above and, if you don't hear from us within 48 working hours, try the quote form again.",
+  "quote.successNoStorage": "Automatic storage is unavailable. Keep the reference above and try the quote form again.",
+  "quote.manual": "Request a quote",
   "quote.panelTitle": "What you get",
   "quote.panel1": "A reply within 48 working hours.",
   "quote.panel2": "One delivered price: material, processing and transport.",
@@ -553,6 +579,31 @@ const en: Record<string, string> = {
   "forgot.success": "Check your inbox.",
   "forgot.error": "Password reset is unavailable in this version.",
   "forgot.back": "Back to sign in",
+
+  "shell.skip": "Skip to content",
+  "common.close": "Close",
+  "header.about": "Who we are",
+  "header.auth": "Log in / Sign up",
+  "header.footprint": "Know your footprint",
+  "header.profile": "My profile",
+  "header.matches": "Matches",
+  "header.inbox": "Inbox",
+  "header.dark": "Dark",
+  "header.light": "Light",
+  "header.themeToggle": "Toggle colour theme",
+  "theme.lightAction": "Switch to light mode",
+  "theme.darkAction": "Switch to dark mode",
+  "theme.light": "Light mode",
+  "theme.dark": "Dark mode",
+  "lang.group": "Language",
+  "lang.it": "Italian",
+  "lang.en": "English",
+  "notFound.eyebrow": "404 · Page not found",
+  "notFound.title": "Nothing here.",
+  "notFound.desc": "The page you requested doesn’t exist or has moved.",
+  "notFound.nav": "Useful pages",
+  "notFound.home": "Home",
+  "notFound.about": "About us",
 };
 
 
@@ -825,7 +876,7 @@ const appLabels: Record<string, string> = {
   "Pubblica materiale in vendita o cerca materiale di cui hai bisogno.": "Post material for sale or search for material you need.",
   "Prova con un altro filtro o cerca qualcosa di diverso.": "Try another filter or search for something else.",
   "Cerca materiale": "Search material",
-  "💡 Hai trovato qualcuno interessante?": "💡 Found someone interesting?",
+  "Hai trovato qualcuno interessante?": "Found someone interesting?",
   "Clicca sulla scheda per vedere i dettagli e contattare direttamente la persona.": "Click a card to see details and contact the partner directly.",
   "I tuoi materiali in vendita": "Your materials for sale",
   "Materiali che vendi": "Materials you sell",
@@ -840,7 +891,7 @@ const appLabels: Record<string, string> = {
   "Nessun materiale in questo stato": "No material in this status",
   "Pubblica il tuo primo materiale e inizia a ricevere richieste.": "Post your first material and start receiving requests.",
   "Prova un altro filtro o pubblica nuovo materiale.": "Try another filter or post new material.",
-  "💡 Consiglio": "💡 Tip",
+  "Consiglio": "Tip",
   "Descrivi bene il materiale e le persone giuste lo troveranno più facilmente.": "Describe the material well and the right buyers will find it more easily.",
   "Esplora marketplace": "Explore marketplace",
   "Annuncio riattivato": "Listing reactivated",
@@ -939,7 +990,7 @@ const appLabels: Record<string, string> = {
   "Trasportato da Offcut": "Carried by Offcut",
   "Ritiro presso punto di ritiro": "Pick-up at hub",
   "destinazione": "destination",
-  ". Offcut coordina partner, working e controllo qualità.": ". Offcut coordinates partners, processing and quality control.",
+  ". Offcut coordina partner, lavorazione e controllo qualità.": ". Offcut coordinates partners, processing and quality control.",
   "Emilia-Romagna": "Emilia-Romagna",
   ". Il ritiro è a carico dell'azienda acquirente.": ". Pick-up is the buyer company's responsibility.",
   "Materiale non disponibile": "Material unavailable",
@@ -1474,7 +1525,7 @@ const appPhrases: Record<string, string> = {
   "IVA": "VAT",
   "Ritiro presso": "Pick-up at",
   "e consegna a": "and delivery to",
-  "Offcut coordina partner, working e controllo qualità.": "Offcut coordinates partners, processing and quality control.",
+  "Offcut coordina partner, lavorazione e controllo qualità.": "Offcut coordinates partners, processing and quality control.",
   "L'acquirente ritira il materiale presso il punto di ritiro Offcut di": "The buyer collects the material at the Offcut hub in",
   "Il ritiro è a carico dell'azienda acquirente.": "Pick-up is the buyer company's responsibility.",
   "il fornitore": "the supplier",
@@ -1748,8 +1799,11 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Lang>("en");
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored === "it" || stored === "en") setLangState(stored);
+    const stored = window.localStorage.getItem(STORAGE_KEY) ?? window.localStorage.getItem(LEGACY_STORAGE_KEY);
+    if (stored === "it" || stored === "en") {
+      setLangState(stored);
+      window.localStorage.setItem(STORAGE_KEY, stored);
+    }
   }, []);
 
   useEffect(() => {

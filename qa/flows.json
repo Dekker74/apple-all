@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-11-26T10:43:09.277Z",
+  "baseUrl": "http://127.0.0.1:3100",
+  "results": [
+    {
+      "name": "Prefill modifica IT",
+      "status": "PASS",
+      "detail": "Ritagli OCC kraft 90/10; editingId=lst_occ; campi chiave allineati"
+    },
+    {
+      "name": "Salvataggio modifica IT",
+      "status": "PASS",
+      "detail": "titolo aggiornato; riferimento=LST-2026-0401; stato=active; org=org_greenloop"
+    },
+    {
+      "name": "Persistenza dopo refresh",
+      "status": "PASS",
+      "detail": "Ritagli OCC kraft 90/10 — QA; riferimento invariato"
+    },
+    {
+      "name": "Prefill duplicazione EN",
+      "status": "PASS",
+      "detail": "Ritagli OCC kraft 90/10 (copy); editingId assente"
+    },
+    {
+      "name": "Duplicazione salvata EN",
+      "status": "PASS",
+      "detail": "id=lst_e9c7fc09; riferimento=LST-2026-7175; stato=draft"
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,540 @@
+{
+  "meta": {
+    "generatedAt": "2026-11-26T09:33:33.170Z",
+    "baseUrl": "http://127.0.0.1:3100",
+    "expectedHost": "apple-all.vercel.app",
+    "node": "v22.23.5",
+    "mode": "quick",
+    "playwright": "/root/.npm/_npx/e41f203b7505f1fb/node_modules/playwright/index.mjs"
+  },
+  "coverage": [
+    {
+      "route": "/",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 0,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/login",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/signup",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/terms",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "mobile-390",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/chi-siamo",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/impatto",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 0,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/preventivo",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/login",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/signup",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/privacy",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/terms",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 1,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 0
+    },
+    {
+      "route": "/app/dashboard",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/app/marketplace",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    },
+    {
+      "route": "/app/orders",
+      "viewport": "desktop-1440",
+      "status": 200,
+      "h1": 2,
+      "overflowPx": 0,
+      "consoleErrors": 0,
+      "httpErrors": 0,
+      "brokenImages": 0,
+      "residue": 1
+    }
+  ],
+  "checks": [
+    {
+      "name": "Link interni",
+      "status": "PASS",
+      "detail": "16 URL interni unici verificati; 0 rotti."
+    },
+    {
+      "name": "Dark/light + persistenza",
+      "status": "FAIL",
+      "detail": "iniziale=light, dopo toggle=dark, dopo reload=light, bodyBg=rgb(0, 0, 0)"
+    },
+    {
+      "name": "Toggle EN/IT",
+      "status": "PASS",
+      "detail": "lang=en, aria-pressed=true, testo cambiato=true"
+    },
+    {
+      "name": "App bar link + pill attiva",
+      "status": "PASS",
+      "detail": "3 route app; mobile active pill visibile=true; Panoramica"
+    },
+    {
+      "name": "Focus visibile da tastiera",
+      "status": "FAIL",
+      "detail": "7 tab stop, 1 senza indicatore; skip-link=true"
+    },
+    {
+      "name": "prefers-reduced-motion",
+      "status": "PASS",
+      "detail": "media query=true; elementi con animazione/transizione attiva=0"
+    },
+    {
+      "name": "Chatbot mobile",
+      "status": "PASS",
+      "detail": "apertura iniziale=true, chiusura=true, riapertura=true, overlap header=0px², nav=0px²"
+    },
+    {
+      "name": "Onboarding 2 passi / no scelta buyer-seller",
+      "status": "PASS",
+      "detail": "campi steps iniziali=5, radio=0"
+    },
+    {
+      "name": "Condizioni multi-select + upload foto",
+      "status": "PASS",
+      "detail": "condizioni=3, file multipli=1, testi chiave=true/true"
+    },
+    {
+      "name": "Ricorrenza settimanale + data consegna",
+      "status": "PASS",
+      "detail": "weekly=true, date=1, condizioni=3, etichetta=true"
+    },
+    {
+      "name": "Select allineate",
+      "status": "INFO",
+      "detail": "left selettori=561,113, spread=448px"
+    },
+    {
+      "name": "Trasporto ordine e data consegna acquirente",
+      "status": "PASS",
+      "detail": "dettaglio materiale: data=true, trasporto=true"
+    },
+    {
+      "name": "Buy e sell entrambi attivi",
+      "status": "PASS",
+      "detail": "Modalità acquirente e fornitore presente."
+    },
+    {
+      "name": "Form preventivo breve",
+      "status": "PASS",
+      "detail": "9 campi nel form."
+    },
+    {
+      "name": "Metadata dominio",
+      "status": "FAIL",
+      "detail": "canonical=https://apple-all.vercel.app, og:url=https://apple-all.vercel.app, hreflang=3, sitemap=5 URL, app indicizzato=true"
+    }
+  ],
+  "findings": [
+    {
+      "key": "residue|/|data",
+      "at": "2026-11-26T09:33:34.915Z",
+      "severity": "medium",
+      "category": "EN/IT",
+      "route": "/",
+      "viewport": "mobile-390",
+      "message": "1 parole italiane residue con lingua EN attiva.",
+      "evidence": "in the same marketplace, with clear data and different actions. BUYERS Spe | s. You upload photos and essential data, then control availability and cons | QUEST Interface preview: no sample data or invented prices. Open the marke | he product: we do not show invented data. Enter the platform → WHO WE ARE",
+      "dedupeKey": "residue|/|data"
+    },
+    {
+      "key": "contrast|/|a.landing_button__GRQ73.landing_buttonOnDark__WFU_j,p.landing_kicker__7B7Em,span.landing_stepNumber__9R54Z,span.landing_stepNumber__9R54Z,span.landing_stepNumber__9R54Z,span.landing_stepNumber__9R54Z,p.landing_kicker__7B7Em,p.landing_kicker__7B7Em",
+      "at": "2026-11-26T09:33:34.915Z",
+      "severity": "medium",
+      "category": "contrasto",
+      "route": "/",
+      "viewport": "mobile-390",
+      "message": "8 coppie testo/sfondo sotto la soglia WCAG AA stimata.",
+      "evidence": "[{\"sel\":\"a.landing_button__GRQ73.landing_buttonOnDark__WFU_j\",\"ratio\":1.32,\"min\":4.5,\"color\":\"rgb(245, 247, 244)\",\"bg\":\"rgb(191, 227, 163)\",\"text\":\"Sell materials\"},{\"sel\":\"p.landing_kicker__7B7Em\",\"ratio\":3.2,\"min\":4.5,\"color\":\"rgb(111, 156, 87)\",\"bg\":\"rgb(255, 255, 255)\",\"text\":\"HOW OFFCUT WORKS\"},{\"sel\":\"span.landing_stepNumber__9R54Z\",\"ratio\":3.2,\"min\":4.5,\"color\":\"rgb(111, 156, 87)\",\"bg\":\"rgb(255, 255, 255)\",\"text\":\"01\"},{\"sel\":\"span.landing_stepNumber__9R54Z\",\"ratio\":3.2,\"min\":4.5,\"color\":\"rgb(111, 156, 87)\",\"bg\":\"rgb(255, 255, 255)\",\"text\":\"02\"},{\"sel\":\"span.landing_stepNumber__9R54Z\",\"ratio\":3.2,\"min\":4.5,\"color\":\"rgb(111, 156, 87)\",\"bg\":\"rgb(255, 255, 255)\",\"text\":\"03\"}]",
+      "dedupeKey": "contrast|/|a.landing_button__GRQ73.landing_buttonOnDark__WFU_j,p.landing_kicker__7B7Em,span.landing_stepNumber__9R54Z,span.landing_stepNumber__9R54Z,span.landing_stepNumber__9R54Z,span.landing_stepNumber__9R54Z,p.landing_kicker__7B7Em,p.landing_kicker__7B7Em"
+    },
+    {
+      "key": "low|struttura|/impatto|mobile-390|Nessun H1 presente nella pagina.",
+      "at": "2026-11-26T09:33:37.263Z",
+      "severity": "low",
+      "category": "struttura",
+      "route": "/impatto",
+      "viewport": "mobile-390",
+      "message": "Nessun H1 presente nella pagina."
+    },
+    {
+      "key": "residue|/preventivo|data",
+      "at": "2026-11-26T09:33:38.449Z",
+      "severity": "medium",
+      "category": "EN/IT",
+      "route": "/preventivo",
+      "viewport": "mobile-390",
+      "message": "1 parole italiane residue con lingua EN attiva.",
+      "evidence": "he privacy policy and the use of my data to be contacted about this request.",
+      "dedupeKey": "residue|/preventivo|data"
+    },
+    {
+      "key": "residue|/login|data",
+      "at": "2026-11-26T09:33:39.857Z",
+      "severity": "medium",
+      "category": "EN/IT",
+      "route": "/login",
+      "viewport": "mobile-390",
+      "message": "1 parole italiane residue con lingua EN attiva.",
+      "evidence": "· Bologna Demo accounts use sample data kept separate from real data. 💬 | sample data kept separate from real data. 💬",
+      "dedupeKey": "residue|/login|data"
+    },
+    {
+      "key": "residue|/privacy|data",
+      "at": "2026-11-26T09:33:42.209Z",
+      "severity": "medium",
+      "category": "EN/IT",
+      "route": "/privacy",
+      "viewport": "mobile-390",
+      "message": "1 parole italiane residue con lingua EN attiva.",
+      "evidence": "oject in validation. We process the data you send only to answer your reques | s and to manage platform accounts. Data collected When you request a quote | es email and password; organization data stays in the project database. Pur | database. Purpose and legal basis Data is used to prepare your quote, cont | for email delivery. We do not sell data to third parties and do not use it | you ask us to delete them. Account data is kept while the account is active | ess, correction or deletion of your data by writing to hello@circularlink.ap",
+      "dedupeKey": "residue|/privacy|data"
+    },
+    {
+      "key": "medium|active pill|/app/dashboard|mobile-390|Nessuna pill attiva nella app bar.",
+      "at": "2026-11-26T09:33:45.184Z",
+      "severity": "medium",
+      "category": "active pill",
+      "route": "/app/dashboard",
+      "viewport": "mobile-390",
+      "message": "Nessuna pill attiva nella app bar.",
+      "evidence": "Nessun `.offcut-app-links a.on` visibile."
+    },
+    {
+      "key": "residue|/app/dashboard|data",
+      "at": "2026-11-26T09:33:45.184Z",
+      "severity": "medium",
+      "category": "EN/IT",
+      "route": "/app/dashboard",
+      "viewport": "mobile-390",
+      "message": "1 parole italiane residue con lingua EN attiva.",
+      "evidence": "· Bologna Demo accounts use sample data kept separate from real data. 💬 | sample data kept separate from real data. 💬",
+      "dedupeKey": "residue|/app/dashboard|data"
+    },
+    {
+      "key": "medium|active pill|/app/marketplace|mobile-390|Nessuna pill attiva nella app bar.",
+      "at": "2026-11-26T09:33:47.016Z",
+      "severity": "medium",
+      "category": "active pill",
+      "route": "/app/marketplace",
+      "viewport": "mobile-390",
+      "message": "Nessuna pill attiva nella app bar.",
+      "evidence": "Nessun `.offcut-app-links a.on` visibile."
+    },
+    {
+      "key": "residue|/app/marketplace|data",
+      "at": "2026-11-26T09:33:47.016Z",
+      "severity": "medium",
+      "category": "EN/IT",
+      "route": "/app/marketplace",
+      "viewport": "mobile-390",
+      "message": "1 parole italiane residue con lingua EN attiva.",
+      "evidence": "· Bologna Demo accounts use sample data kept separate from real data. 💬 | sample data kept separate from real data. 💬",
+      "dedupeKey": "residue|/app/marketplace|data"
+    },
+    {
+      "key": "medium|active pill|/app/orders|mobile-390|Nessuna pill attiva nella app bar.",
+      "at": "2026-11-26T09:33:48.873Z",
+      "severity": "medium",
+      "category": "active pill",
+      "route": "/app/orders",
+      "viewport": "mobile-390",
+      "message": "Nessuna pill attiva nella app bar.",
+      "evidence": "Nessun `.offcut-app-links a.on` visibile."
+    },
+    {
+      "key": "residue|/app/orders|data",
+      "at": "2026-11-26T09:33:48.873Z",
+      "severity": "medium",
+      "category": "EN/IT",
+      "route": "/app/orders",
+      "viewport": "mobile-390",
+      "message": "1 parole italiane residue con lingua EN attiva.",
+      "evidence": "· Bologna Demo accounts use sample data kept separate from real data. 💬 | sample data kept separate from real data. 💬",
+      "dedupeKey": "residue|/app/orders|data"
+    },
+    {
+      "key": "low|struttura|/impatto|desktop-1440|Nessun H1 presente nella pagina.",
+      "at": "2026-11-26T09:33:52.384Z",
+      "severity": "low",
+      "category": "struttura",
+      "route": "/impatto",
+      "viewport": "desktop-1440",
+      "message": "Nessun H1 presente nella pagina."
+    },
+    {
+      "key": "medium|active pill|/app/dashboard|desktop-1440|Nessuna pill attiva nella app bar.",
+      "at": "2026-11-26T09:34:00.315Z",
+      "severity": "medium",
+      "category": "active pill",
+      "route": "/app/dashboard",
+      "viewport": "desktop-1440",
+      "message": "Nessuna pill attiva nella app bar.",
+      "evidence": "Nessun `.offcut-app-links a.on` visibile."
+    },
+    {
+      "key": "medium|active pill|/app/marketplace|desktop-1440|Nessuna pill attiva nella app bar.",
+      "at": "2026-11-26T09:34:02.129Z",
+      "severity": "medium",
+      "category": "active pill",
+      "route": "/app/marketplace",
+      "viewport": "desktop-1440",
+      "message": "Nessuna pill attiva nella app bar.",
+      "evidence": "Nessun `.offcut-app-links a.on` visibile."
+    },
+    {
+      "key": "medium|active pill|/app/orders|desktop-1440|Nessuna pill attiva nella app bar.",
+      "at": "2026-11-26T09:34:03.948Z",
+      "severity": "medium",
+      "category": "active pill",
+      "route": "/app/orders",
+      "viewport": "desktop-1440",
+      "message": "Nessuna pill attiva nella app bar.",
+      "evidence": "Nessun `.offcut-app-links a.on` visibile."
+    },
+    {
+      "key": "theme-toggle",
+      "at": "2026-11-26T09:34:25.912Z",
+      "severity": "high",
+      "category": "tema",
+      "route": "/",
+      "message": "Toggle dark/light non coerente o preferenza non persistita.",
+      "evidence": "iniziale=light, toggle=dark, reload=light",
+      "dedupeKey": "theme-toggle"
+    },
+    {
+      "key": "focus-visible",
+      "at": "2026-11-26T09:34:35.576Z",
+      "severity": "medium",
+      "category": "accessibilità",
+      "route": "/",
+      "message": "1 tab stop senza outline/box-shadow visibile.",
+      "evidence": "[{\"tag\":\"nextjs-portal\",\"text\":\"\",\"focusVisible\":false,\"skip\":false}]",
+      "dedupeKey": "focus-visible"
+    },
+    {
+      "key": "robots-app",
+      "at": "2026-11-26T09:34:52.040Z",
+      "severity": "medium",
+      "category": "SEO",
+      "message": "robots.txt consente l'indicizzazione di /app.",
+      "evidence": "User-Agent: *\nAllow: /\nDisallow: /app\nDisallow: /api\nDisallow: /auth\nDisallow: /login\nDisallow: /signup\nDisallow: /onboarding\nDisallow: /forgot-password\n\nSitemap: https://apple-all.vercel.app/sitemap.xml\n",
+      "dedupeKey": "robots-app"
+    }
+  ],
+  "artifacts": [
+    "qa/screenshots/home-390-en-light.png",
+    "qa/screenshots/home-1440-it-dark.png",
+    "qa/screenshots/dashboard-390-it-light.png",
+    "qa/screenshots/marketplace-1440-en-light.png"
+  ],
+  "limits": [
+    "Verifica eseguita sul worktree locale, non sulla preview Vercel (SSO non richiesto).",
+    "Contrasto calcolato dai colori CSS compositi: non sostituisce un audit WCAG con screen reader.",
+    "Download preventivo e pagamento non eseguiti: flusso richiede creazione ordine; nessuna azione irreversibile avviata.",
+    "Lighthouse non eseguito: fuori dal perimetro dello script QA proporzionato; usare browser tool lighthouse separatamente."
+  ]
+}
