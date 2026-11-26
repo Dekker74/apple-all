@@ -17,7 +17,9 @@ import {
   SlidersHorizontal,
   Sparkles,
 } from "lucide-react";
+import { localized } from "@/components/app/offcut-ux-copy";
 import { PageHeader } from "@/components/app/page-header";
+import { StatusCallout } from "@/components/app/offcut-ux-primitives";
 import { ListingCard } from "@/components/material/listing-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -32,7 +34,7 @@ import {
 import { EmptyState } from "@/components/ui/empty-state";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { CATEGORIES, CATEGORY_MAP, CONDITIONS } from "@/lib/constants";
+import { CATEGORIES, CONDITIONS } from "@/lib/constants";
 import { useCurrentOrg, useMatchViews, useOrgLocations, usePrimaryLocation } from "@/lib/hooks";
 import { computePriceBreakdown, formatPerKg, haversineKm, resolveProcessing } from "@/lib/pricing";
 import { useAppStore } from "@/lib/store";
@@ -58,6 +60,23 @@ const SORTS = [
   { value: "newest", label: "Più recenti" },
 ] as const;
 
+const COPY = {
+  it: {
+    originLabel: "Sede di partenza",
+    clearSearch: "Cancella ricerca",
+    showResults: (count: number) => `Mostra ${count} risultati`,
+    resultSummary: (count: number, radius: number, city: string) =>
+      `${count} materiali${radius < 500 ? ` entro ${radius} km da ${city}` : ""}`,
+  },
+  en: {
+    originLabel: "Origin site",
+    clearSearch: "Clear search",
+    showResults: (count: number) => `Show ${count} results`,
+    resultSummary: (count: number, radius: number, city: string) =>
+      `${count} materials${radius < 500 ? ` within ${radius} km of ${city}` : ""}`,
+  },
+};
+
 function FilterSection({
   title,
   children,
@@ -69,8 +88,8 @@ function FilterSection({
 }) {
   return (
     <div className="border-b border-line/70 py-4 first:pt-0 last:border-0 last:pb-0">
-      <div className="mb-2.5 flex items-center justify-between">
-        <p className="font-mono text-[12px] uppercase tracking-[0.15em] text-muted">{title}</p>
+      <div className="mb-2.5 flex items-center justify-between gap-2">
+        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">{title}</p>
         {action}
       </div>
       {children}
@@ -79,7 +98,8 @@ function FilterSection({
 }
 
 export default function MarketplacePage() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const c = localized(COPY, lang);
   const org = useCurrentOrg();
   const locations = useOrgLocations();
   const primary = usePrimaryLocation();
@@ -105,7 +125,6 @@ export default function MarketplacePage() {
   const [sort, setSort] = useState<(typeof SORTS)[number]["value"]>("fit");
   const [mobileFilters, setMobileFilters] = useState(false);
 
-  // Keep the origin site valid when the workspace hydrates or the org changes.
   useEffect(() => {
     if (!primary) return;
     const current = allLocations.find((l) => l.id === filters.locationId);
@@ -114,15 +133,13 @@ export default function MarketplacePage() {
     }
   }, [primary, org?.id, filters.locationId, allLocations]);
 
-  // The single header search drives this page through ?q=.
   useEffect(() => {
     setFilters((prev) => (prev.query === queryParam ? prev : { ...prev, query: queryParam }));
   }, [queryParam]);
 
   const orgMap = useMemo(() => new Map(organizations.map((o) => [o.id, o])), [organizations]);
   const locationMap = useMemo(() => new Map(allLocations.map((l) => [l.id, l])), [allLocations]);
-  const origin =
-    locationMap.get(filters.locationId) ?? primary ?? locations[0] ?? null;
+  const origin = locationMap.get(filters.locationId) ?? primary ?? locations[0] ?? null;
 
   const enriched = useMemo(() => {
     return listings
@@ -130,12 +147,8 @@ export default function MarketplacePage() {
       .filter((l) => l.orgId !== org?.id)
       .map((listing) => {
         const location = locationMap.get(listing.locationId);
-        const distanceKm =
-          origin && location ? haversineKm(origin, location) : 0;
-        const quantityKg = Math.max(
-          listing.minOrderKg,
-          Math.min(listing.quantityKg, 8000),
-        );
+        const distanceKm = origin && location ? haversineKm(origin, location) : 0;
+        const quantityKg = Math.max(listing.minOrderKg, Math.min(listing.quantityKg, 8000));
         const breakdown = computePriceBreakdown({
           listing,
           quantityKg,
@@ -202,7 +215,8 @@ export default function MarketplacePage() {
     (filters.maxKg ? 1 : 0) +
     (filters.maxDelivered ? 1 : 0) +
     filters.conditions.length +
-    (filters.radiusKm < 500 ? 1 : 0);
+    (filters.radiusKm < 500 ? 1 : 0) +
+    (filters.query ? 1 : 0);
 
   const avgDelivered =
     filtered.length > 0
@@ -225,6 +239,11 @@ export default function MarketplacePage() {
         ? prev.conditions.filter((c) => c !== value)
         : [...prev.conditions, value],
     }));
+  }
+
+  function clearQuery() {
+    setFilters((prev) => ({ ...prev, query: "" }));
+    if (queryParam) router.replace("/app/marketplace", { scroll: false });
   }
 
   function reset() {
@@ -263,20 +282,20 @@ export default function MarketplacePage() {
               <label
                 key={cat.value}
                 className={cn(
-                  "flex cursor-pointer items-center justify-between rounded-lg border px-2.5 py-2 transition-colors",
+                  "flex cursor-pointer items-center justify-between gap-2 rounded-lg border px-2.5 py-2 transition-colors",
                   checked ? "border-forest bg-mist/40" : "border-line hover:border-sage",
                 )}
               >
-                <span className="flex items-center gap-2">
+                <span className="flex min-w-0 items-center gap-2">
                   <input
                     type="checkbox"
                     checked={checked}
                     onChange={() => toggleCategory(cat.value)}
-                    className="size-3.5 accent-[#14532d]"
+                    className="size-3.5 shrink-0 accent-[#14532d]"
                   />
-                  <span className="text-[11.5px]">{t(cat.label)}</span>
+                  <span className="truncate text-[11.5px]">{t(cat.label)}</span>
                 </span>
-                <span className="font-mono text-[12px] text-muted">
+                <span className="shrink-0 font-mono text-[11px] text-muted">
                   {enriched.filter((e) => e.listing.category === cat.value).length}
                 </span>
               </label>
@@ -296,9 +315,9 @@ export default function MarketplacePage() {
             placeholder={t("Kg min")}
             value={filters.minKg}
             onChange={(e) => setFilters((p) => ({ ...p, minKg: e.target.value }))}
-            className="h-9 text-[11.5px]"
+            className="h-9 min-w-0 text-[11.5px]"
           />
-          <span className="text-muted">–</span>
+          <span className="shrink-0 text-muted">–</span>
           <Input
             type="number"
             inputMode="numeric"
@@ -308,7 +327,7 @@ export default function MarketplacePage() {
             placeholder={t("Kg max")}
             value={filters.maxKg}
             onChange={(e) => setFilters((p) => ({ ...p, maxKg: e.target.value }))}
-            className="h-9 text-[11.5px]"
+            className="h-9 min-w-0 text-[11.5px]"
           />
         </div>
       </FilterSection>
@@ -338,7 +357,9 @@ export default function MarketplacePage() {
 
       <FilterSection title={t("Condizioni del materiale")}>
         <p className="mb-2 text-[11.5px] leading-relaxed text-muted">
-          {t("Seleziona una o più condizioni. I materiali che corrispondono anche solo a una verranno mostrati.")}
+          {t(
+            "Seleziona una o più condizioni. I materiali che corrispondono anche solo a una verranno mostrati.",
+          )}
         </p>
         <div className="flex flex-wrap gap-1.5">
           {CONDITIONS.map((option) => {
@@ -369,7 +390,8 @@ export default function MarketplacePage() {
           <Select
             value={filters.locationId}
             onChange={(e) => setFilters((p) => ({ ...p, locationId: e.target.value }))}
-            className="h-9 text-[11.5px]"
+            className="h-9 min-w-0 text-[11.5px]"
+            aria-label={c.originLabel}
           >
             {locations.map((loc) => (
               <option key={loc.id} value={loc.id}>
@@ -381,7 +403,7 @@ export default function MarketplacePage() {
         <div className="mt-3">
           <div className="flex items-center justify-between text-[11.5px]">
             <span className="text-muted">{t("Raggio")}</span>
-            <span className="font-mono">{filters.radiusKm} km</span>
+            <span className="font-mono tabular-nums">{filters.radiusKm} km</span>
           </div>
           <input
             type="range"
@@ -404,16 +426,20 @@ export default function MarketplacePage() {
     </div>
   );
 
+  const resultSummary = c.resultSummary(
+    filtered.length,
+    filters.radiusKm,
+    origin?.city ?? "—",
+  );
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <PageHeader
         eyebrow={t("Marketplace · solo categorie di lancio")}
         title={t("Eccedenza, in specifica.")}
-        description={
-          <>
-            {t(`${listings.filter((l) => l.status === "active").length} annunci attivi nelle categorie carta, legno e plastica. I prezzi indicati si riferiscono al solo materiale; la scheda stima un ordine consegnato da ${origin?.city ?? t("la tua sede")}.`)}
-          </>
-        }
+        description={t(
+          `${listings.filter((l) => l.status === "active").length} annunci attivi nelle categorie carta, legno e plastica. I prezzi indicati si riferiscono al solo materiale; la scheda stima un ordine consegnato da ${origin?.city ?? t("la tua sede")}.`,
+        )}
         actions={
           <>
             <Button variant="outline" size="sm" asChild>
@@ -438,6 +464,7 @@ export default function MarketplacePage() {
               <button
                 key={cat.value}
                 onClick={() => toggleCategory(cat.value)}
+                aria-pressed={active}
                 className={cn(
                   "rounded-full border px-3 py-1.5 text-[12px] transition-colors",
                   active
@@ -454,9 +481,9 @@ export default function MarketplacePage() {
           <Dialog open={mobileFilters} onOpenChange={setMobileFilters}>
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="lg:hidden">
-                <Filter className="size-3.5" /> Filtri
+                <Filter className="size-3.5" /> {t("Filtri")}
                 {activeFilters > 0 ? (
-                  <span className="rounded-full bg-forest px-1.5 py-0.5 font-mono text-[12px] text-lime">
+                  <span className="rounded-full bg-forest px-1.5 py-0.5 font-mono text-[11px] text-lime">
                     {activeFilters}
                   </span>
                 ) : null}
@@ -471,16 +498,16 @@ export default function MarketplacePage() {
               </DialogHeader>
               {panel}
               <Button onClick={() => setMobileFilters(false)}>
-                Show {filtered.length} risultati
+                {c.showResults(filtered.length)}
               </Button>
             </DialogContent>
           </Dialog>
-          <div className="flex items-center gap-1.5">
-            <ArrowUpDown className="size-3.5 text-muted" />
+          <div className="flex min-w-0 items-center gap-1.5">
+            <ArrowUpDown className="size-3.5 shrink-0 text-muted" />
             <Select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="h-9 w-[150px] text-[12px]"
+              className="h-9 min-w-0 text-[12px] sm:w-[160px]"
               aria-label={t("Ordina risultati")}
             >
               {SORTS.map((s) => (
@@ -509,21 +536,27 @@ export default function MarketplacePage() {
         <div className="min-w-0">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <p className="text-[11.5px] text-muted">
-              <span className="font-medium text-ink">{filtered.length}</span> {t("materiali")}
-              {filters.radiusKm < 500 ? t(` entro ${filters.radiusKm} km da ${origin?.city}`) : ""}
+              <span className="font-medium text-ink">{resultSummary}</span>
               {avgDelivered > 0 ? (
-                <span className="ml-2 font-mono text-[11.5px] text-muted">
+                <span className="mt-0.5 block font-mono text-[11px] text-muted sm:mt-0 sm:inline sm:ml-2">
                   {t("prezzo medio consegnato")} {formatPerKg(avgDelivered)}
                 </span>
               ) : null}
             </p>
-            <div className="flex items-center gap-2">
-              {views.length > 0 ? (
-                <span className="flex items-center gap-1 font-mono text-[12px] uppercase tracking-[0.1em] text-muted">
-                  <Sparkles className="size-3 text-moss" /> {t("Punteggi AI dalle tue richieste aperte")}
-                </span>
-              ) : null}
-            </div>
+            {views.length > 0 || filters.query ? (
+              <div className="flex flex-wrap items-center gap-2">
+                {views.length > 0 ? (
+                  <span className="flex items-center gap-1 font-mono text-[11px] uppercase tracking-[0.1em] text-muted">
+                    <Sparkles className="size-3 text-moss" /> {t("Punteggi AI dalle tue richieste aperte")}
+                  </span>
+                ) : null}
+                {filters.query ? (
+                  <button onClick={clearQuery} className="text-[11.5px] text-muted underline hover:text-forest">
+                    {c.clearSearch}
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
           </div>
 
           {filtered.length > 0 ? (
@@ -544,9 +577,11 @@ export default function MarketplacePage() {
             <EmptyState
               icon={Search}
               title={t("Nessun materiale corrisponde a questi filtri")}
-              description={t("Aumenta il raggio, alza il budget consegnato o rimuovi una categoria. L'MVP tratta solo carta, legno e plastica.")}
+              description={t(
+                "Aumenta il raggio, alza il budget consegnato o rimuovi una categoria. L'MVP tratta solo carta, legno e plastica.",
+              )}
               action={
-                <div className="flex gap-2">
+                <div className="flex flex-wrap justify-center gap-2">
                   <Button size="sm" variant="outline" onClick={reset}>
                     <RotateCcw className="size-3.5" /> {t("Azzera filtri")}
                   </Button>
@@ -560,21 +595,19 @@ export default function MarketplacePage() {
             />
           )}
 
-          <div className="mt-6 rounded-2xl border border-line bg-white/60 p-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-[12px] font-medium">{t("Non trovi la qualità giusta?")}</p>
-                <p className="mt-0.5 text-[12px] text-muted">
-                  {t("Pubblica una specifica di domanda. Il motore continuerà a cercare nuova offerta.")}
-                </p>
-              </div>
+          <StatusCallout
+            className="mt-5"
+            icon={Compass}
+            title={t("Non trovi la qualità giusta?")}
+            description={t("Pubblica una specifica di domanda. Il motore continuerà a cercare nuova offerta.")}
+            action={
               <Button size="sm" variant="accent" asChild>
                 <Link href="/app/requests/new">
                   <Plus className="size-3.5" /> {t("Pubblica una richiesta")}
                 </Link>
               </Button>
-            </div>
-          </div>
+            }
+          />
         </div>
       </div>
     </div>
