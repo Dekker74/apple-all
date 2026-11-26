@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { MessageSquare, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 interface Message {
@@ -8,267 +9,309 @@ interface Message {
   content: string;
 }
 
-const SUGGESTED_CHIPS = [
-  "Come funziona il matching?",
-  "Quali sono i costi?",
-  "Come prenoto un ritiro?",
-  "Quali materiali supportate?",
-  "Calcola il mio impatto CO₂",
-];
-
-const GREETING: Message = {
-  role: "bot",
-  content:
-    "Ciao! Sono Offcut Bot. Chiedimi come funziona il matching, i costi, come prenotare un ritiro, o calcolare il tuo impatto ambientale.",
-};
-
-const FIRST_VISIT_INTRO: Message = {
-  role: "bot",
-  content:
-    "Ciao! Sono Offcut Bot, l'assistente di Offcut. Ti aiuto a capire come funziona il marketplace per i materiali in eccedenza: abbinamenti, prezzi e commissioni, ritiro e consegna, impatto ambientale. Scegli una domanda qui sotto o scrivimi pure.",
-};
+const COPY = {
+  it: {
+    title: "Offcut AI",
+    status: "Offcut AI",
+    open: "Apri chat con Offcut AI",
+    close: "Chiudi chat",
+    you: "Tu",
+    greeting: "Ciao! Sono Offcut AI. Posso spiegarti come funzionano abbinamenti, costi, ritiro e consegna e impatto. Per un prezzo preciso serve il preventivo.",
+    intro: "Ciao! Sono Offcut AI: ti aiuto a capire come funziona il marketplace per i materiali in eccedenza. Operiamo a Bologna e dintorni. Scegli una domanda qui sotto o scrivimi pure.",
+    typing: "Sto scrivendo…",
+    placeholder: "Scrivi la tua domanda…",
+    send: "Invia il messaggio",
+    askBot: "Chiedi a Offcut AI",
+    voiceInput: "Detta la domanda",
+    readAloud: "Leggi l'ultima risposta",
+    noVoice: "Il riconoscimento vocale non è disponibile in questo browser.",
+    noSpeech: "La sintesi vocale non è disponibile in questo browser.",
+    errorUnavailable: "L'assistente non è disponibile in questo momento. Per domande commerciali scrivi a hello@circularlink.app o richiedi un preventivo.",
+    errorInvalid: "Il messaggio non è valido. Prova a riscriverlo in modo più breve.",
+    errorGeneric: "Non è stato possible ottenere una risposta. Riprova tra poco o scrivi a hello@circularlink.app.",
+    historyLabel: "Conversazione con Offcut AI",
+    chips: [
+      "Come funziona il matching?",
+      "Quali sono i costi?",
+      "Come prenoto un ritiro?",
+      "Quali materiali supportate?",
+      "Come si calcola l'impatto?",
+    ],
+  },
+  en: {
+    title: "Offcut AI",
+    status: "Offcut AI",
+    open: "Open chat with Offcut AI",
+    close: "Close chat",
+    you: "You",
+    greeting: "Hi! I'm Offcut AI. I can explain matching, costs, pick-up and delivery, and impact. For an exact price you need a quote.",
+    intro: "Hi! I'm Offcut AI: I can help you understand the marketplace for surplus material. We operate in Bologna and nearby towns. Pick a question below or write to me.",
+    typing: "Typing…",
+    placeholder: "Write your question…",
+    send: "Send message",
+    askBot: "Ask Offcut AI",
+    voiceInput: "Dictate your question",
+    readAloud: "Read the last reply",
+    noVoice: "Voice input is not available in this browser.",
+    noSpeech: "Speech output is not available in this browser.",
+    errorUnavailable: "The assistant is unavailable right now. For commercial questions write to hello@circularlink.app or request a quote.",
+    errorInvalid: "That message isn't valid. Try rewriting it more briefly.",
+    errorGeneric: "We couldn't get a reply. Try again shortly or write to hello@circularlink.app.",
+    historyLabel: "Conversation with Offcut AI",
+    chips: [
+      "How does matching work?",
+      "What are the costs?",
+      "How do I book a pick-up?",
+      "Which materials do you support?",
+      "How is impact estimated?",
+    ],
+  },
+} as const;
 
 const HISTORY_KEY = "circularlink-chat-history";
 const INTRO_KEY = "circularlink-chat-intro-shown";
 
 export function ChatWidget() {
-  const { t } = useI18n();
+  const { lang } = useI18n();
+  const c = COPY[lang];
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([GREETING]);
+  const [messages, setMessages] = useState<Message[]>([{ role: "bot", content: COPY.it.greeting }]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const reduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    messagesEndRef.current?.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "end" });
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (isOpen) scrollToBottom();
+  }, [messages, isLoading, isOpen]);
 
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
+    if (isOpen) inputRef.current?.focus();
   }, [isOpen]);
 
-  // Load history and, on the very first visit only, open with a short intro.
+  // Load history and, on the first homepage visit only, seed an intro message.
   useEffect(() => {
-    let hasHistory = false;
+    let initial: Message[] = [{ role: "bot", content: c.greeting }];
     try {
       const stored = localStorage.getItem(HISTORY_KEY);
       if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setMessages(parsed);
-          hasHistory = true;
+        const parsed: unknown = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          const valid = parsed.filter(
+            (m): m is Message =>
+              Boolean(m) &&
+              typeof m === "object" &&
+              typeof (m as Message).content === "string" &&
+              ["user", "bot"].includes((m as Message).role),
+          );
+          if (valid.length > 0) initial = valid.slice(-20);
         }
       }
-    } catch (e) {
-      console.error("Failed to parse chat history:", e);
+    } catch {
+      /* corrupted history: start fresh */
     }
 
     try {
-      // The intro should welcome someone landing on the public homepage; it
-      // must not cover forms when a user opens a deep link such as /login.
       if (!localStorage.getItem(INTRO_KEY) && window.location.pathname === "/") {
-        if (!hasHistory) setMessages([FIRST_VISIT_INTRO]);
-        setIsOpen(true);
+        if (initial.length === 1) initial = [{ role: "bot", content: c.intro }];
         localStorage.setItem(INTRO_KEY, "1");
       }
-    } catch (e) {
-      console.error("Failed to save chat intro state:", e);
+    } catch {
+      /* storage may be disabled */
     }
+    setMessages(initial);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Save chat history to localStorage
   useEffect(() => {
-    if (messages.length > 1) {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(messages));
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(messages.slice(-20)));
+    } catch {
+      /* storage may be disabled */
     }
   }, [messages]);
 
-  const sendMessage = async (text: string) => {
-    if (!text.trim() || isLoading) return;
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen]);
 
-    const userMessage: Message = { role: "user", content: text.trim() };
-    setMessages((prev) => [...prev, userMessage]);
+  function errorText(code: unknown): string {
+    if (code === "chat_unavailable" || code === "invalid_message") {
+      return code === "invalid_message" ? c.errorInvalid : c.errorUnavailable;
+    }
+    return c.errorGeneric;
+  }
+
+  async function sendMessage(text: string) {
+    const value = text.trim();
+    if (!value || isLoading) return;
+
+    const userMessage: Message = { role: "user", content: value };
+    const history = messages.slice(-10).map(({ role, content }) => ({ role, content }));
+    setMessages((prev) => [...prev.slice(-19), userMessage]);
     setInput("");
+    setNotice(null);
     setIsLoading(true);
 
     try {
-      const history = messages.map((msg) => ({
-        role: msg.role,
-        content: msg.content,
-      }));
-
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text.trim(), history }),
+        body: JSON.stringify({ message: value, history }),
       });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to send message");
+      const data = (await response.json().catch(() => null)) as { response?: string; error?: string } | null;
+      if (!response.ok || !data || typeof data.response !== "string" || !data.response.trim()) {
+        setMessages((prev) => [...prev.slice(-19), { role: "bot", content: errorText(data?.error) }]);
+        return;
       }
-
-      const data = await response.json();
-      const botMessage: Message = { role: "bot", content: data.response };
-      setMessages((prev) => [...prev, botMessage]);
-    } catch (error: any) {
-      console.error("Chat error:", error);
-      const errorMessage: Message = {
-        role: "bot",
-        content: t(`Scusa, si è verificato un errore: ${error.message}. Riprova tra poco.`),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      const reply = data.response.trim().slice(0, 2000);
+      setMessages((prev) => [...prev.slice(-19), { role: "bot", content: reply }]);
+    } catch {
+      setMessages((prev) => [...prev.slice(-19), { role: "bot", content: c.errorGeneric }]);
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    sendMessage(input);
-  };
-
-  const handleChipClick = (text: string) => {
-    sendMessage(text);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
-
-  const handleVoiceInput = () => {
-    if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
-      alert(t("Il riconoscimento vocale non è supportato dal tuo browser."));
+  function handleVoiceInput() {
+    type RecognitionLike = {
+      lang: string;
+      interimResults: boolean;
+      onresult: ((event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+      onerror: (() => void) | null;
+      start: () => void;
+    };
+    type RecognitionCtor = new () => RecognitionLike;
+    const scope = window as unknown as {
+      SpeechRecognition?: RecognitionCtor;
+      webkitSpeechRecognition?: RecognitionCtor;
+    };
+    const Recognition = scope.SpeechRecognition ?? scope.webkitSpeechRecognition;
+    if (!Recognition) {
+      setNotice(c.noVoice);
       return;
     }
+    try {
+      const recognition = new Recognition();
+      recognition.lang = lang === "it" ? "it-IT" : "en-US";
+      recognition.interimResults = false;
+      recognition.onresult = (event: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => {
+        const transcript = event.results[0]?.[0]?.transcript;
+        if (transcript) setInput(transcript);
+      };
+      recognition.onerror = () => setNotice(c.noVoice);
+      recognition.start();
+    } catch {
+      setNotice(c.noVoice);
+    }
+  }
 
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    const recognition = new SpeechRecognition();
-    recognition.lang = "it-IT";
-    recognition.interimResults = false;
-
-    recognition.onresult = (event: any) => {
-      const transcript = event.results[0][0].transcript;
-      setInput(transcript);
-    };
-
-    recognition.onerror = (event: any) => {
-      console.error("Speech recognition error:", event.error);
-    };
-
-    recognition.start();
-  };
-
-  const handleVoiceOutput = () => {
+  function handleVoiceOutput() {
     if (!("speechSynthesis" in window)) {
-      alert(t("La sintesi vocale non è supportata dal tuo browser."));
+      setNotice(c.noSpeech);
       return;
     }
-
-    const lastBotMessage = [...messages].reverse().find((msg) => msg.role === "bot");
-    if (!lastBotMessage) return;
-
-    const utterance = new SpeechSynthesisUtterance(lastBotMessage.content);
-    utterance.lang = "it-IT";
-    speechSynthesis.speak(utterance);
-  };
-
-  const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === "Escape" && isOpen) {
-      setIsOpen(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen]);
+    const lastBot = [...messages].reverse().find((m) => m.role === "bot");
+    if (!lastBot) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(lastBot.content);
+    utterance.lang = lang === "it" ? "it-IT" : "en-US";
+    window.speechSynthesis.speak(utterance);
+  }
 
   return (
     <div id="chat-widget">
-      <div id="chat-panel" className={isOpen ? "open" : ""}>
+      <div id="chat-panel" className={isOpen ? "open" : ""} role="dialog" aria-label={c.title}>
         <div id="chat-header">
           <h3>
-            Offcut Bot
-            <span className="ai-status">
-              <i></i>Online
-            </span>
+            {c.title}
+            <span className="ai-status"><i aria-hidden />{c.status}</span>
           </h3>
-          <button id="chat-close" onClick={() => setIsOpen(false)} aria-label={t("Chiudi chat")}>
+          <button id="chat-close" type="button" onClick={() => { setIsOpen(false); window.speechSynthesis?.cancel(); }} aria-label={c.close}>
             &times;
           </button>
         </div>
 
-        <div id="chat-messages">
+        <div id="chat-messages" role="log" aria-live="polite" aria-label={c.historyLabel}>
           {messages.map((msg, idx) => (
             <div key={idx} className={`chat-message ${msg.role}`}>
-              <b>{msg.role === "bot" ? "Offcut Bot" : t("Tu")}</b>
-              <p>{t(msg.content)}</p>
+              <b>{msg.role === "bot" ? c.title : c.you}</b>
+              <p>{msg.content}</p>
             </div>
           ))}
-          {isLoading && (
+          {isLoading ? (
             <div className="chat-message bot">
-              <b>Offcut Bot</b>
-              <p>{t("Sto scrivendo...")}</p>
+              <b>{c.title}</b>
+              <p>{c.typing}</p>
             </div>
-          )}
+          ) : null}
           <div ref={messagesEndRef} />
         </div>
 
-        {messages.length === 1 && (
+        {messages.length === 1 ? (
           <div className="chat-chips">
-            {SUGGESTED_CHIPS.map((chip) => (
-              <button key={chip} onClick={() => handleChipClick(chip)}>
-                {t(chip)}
+            {c.chips.map((chip) => (
+              <button key={chip} type="button" onClick={() => sendMessage(chip)} disabled={isLoading}>
+                {chip}
               </button>
             ))}
           </div>
-        )}
+        ) : null}
 
         <div id="chat-input-area">
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              sendMessage(input);
+            }}
+          >
+            <label htmlFor="chat-input" className="sr-only">{c.placeholder}</label>
             <textarea
+              id="chat-input"
               ref={inputRef}
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder={t("Scrivi la tua domanda...")}
+              onChange={(event) => setInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  sendMessage(input);
+                }
+              }}
+              placeholder={c.placeholder}
               maxLength={2000}
               disabled={isLoading}
             />
+            <p className="sr-only" role="status" aria-live="polite">{notice}</p>
+            {notice ? <p className="mt-2 text-[12px] leading-relaxed text-muted" aria-hidden="true">{notice}</p> : null}
             <div className="chat-actions">
               <div style={{ display: "flex", gap: "8px" }}>
-                <button
-                  type="button"
-                  className="btn-offcut ghost sm"
-                  onClick={handleVoiceInput}
-                  disabled={isLoading}
-                  title={t("Input vocale")}
-                >
-                  🎤
+                <button type="button" className="btn-offcut ghost sm" onClick={handleVoiceInput} disabled={isLoading} title={c.voiceInput} aria-label={c.voiceInput}>
+                  <span aria-hidden="true">🎤</span>
                 </button>
                 <button
                   type="button"
                   className="btn-offcut ghost sm"
                   onClick={handleVoiceOutput}
-                  disabled={isLoading || messages.filter((m) => m.role === "bot").length === 0}
-                  title={t("Leggi risposta")}
+                  disabled={isLoading || !messages.some((m) => m.role === "bot")}
+                  title={c.readAloud}
+                  aria-label={c.readAloud}
                 >
-                  🔊
+                  <span aria-hidden="true">🔊</span>
                 </button>
               </div>
-              <button type="submit" className="btn-offcut sm" disabled={isLoading || !input.trim()}>
-                {t("Invia")}
+              <button type="submit" className="btn-offcut sm" disabled={isLoading || !input.trim()} aria-label={c.send}>
+                {c.send}
               </button>
             </div>
           </form>
@@ -276,16 +319,17 @@ export function ChatWidget() {
       </div>
 
       <div className="chat-launcher">
-        <span className="chat-launcher-label" aria-hidden="true">
-          {t("Chiedi al bot")}
-        </span>
+        <span className="chat-launcher-label" aria-hidden="true">{c.askBot}</span>
         <button
           id="chat-toggle"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? t("Chiudi chat") : t("Apri chat con Offcut Bot")}
-          title="Offcut Bot"
+          type="button"
+          onClick={() => setIsOpen((v) => !v)}
+          aria-label={isOpen ? c.close : c.open}
+          aria-expanded={isOpen}
+          aria-controls="chat-panel"
+          title={c.title}
         >
-          {isOpen ? "✕" : "💬"}
+          {isOpen ? <X className="size-6" aria-hidden="true" /> : <MessageSquare className="size-6" aria-hidden="true" />}
         </button>
       </div>
     </div>
