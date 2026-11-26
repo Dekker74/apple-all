@@ -9,6 +9,8 @@ import { useI18n } from "@/lib/i18n";
 type MaterialKey = "cardboard" | "wood" | "plastic";
 type Intent = "sell" | "buy";
 
+/** Indicative sector averages shared with /impatto, not issued prices.
+ *  EUR values are per tonne; CO₂e values are tonnes avoided per tonne. */
 const FP_DATA: Record<MaterialKey, { virginPrice: number; offcutPrice: number; disposalCost: number; co2SavedPerTon: number }> = {
   plastic: { virginPrice: 1350, offcutPrice: 230, disposalCost: 190, co2SavedPerTon: 1.85 },
   cardboard: { virginPrice: 420, offcutPrice: 60, disposalCost: 110, co2SavedPerTon: 1.1 },
@@ -19,7 +21,7 @@ const CONTENT = {
   it: {
     eyebrow: "Impatto",
     title: "Calcola il tuo impatto.",
-    lead: "Scegli materiale e volume mensile: stimiamo quanto puoi risparmiare ogni anno e quanta CO₂e eviti rispetto allo smaltimento o alla materia prima vergine.",
+    lead: "Scegli materiale e volume mensile: stimiamo quanto puoi risparmiare ogni anno e quanta CO₂e eviti rispetto allo smaltimento o alla materia prima vergine. È una stima indicativa: il preventivo conferma i valori reali.",
     materialLabel: "Materiale",
     intentLabel: "Cosa fai con il materiale?",
     sell: "Ho materiale",
@@ -32,15 +34,16 @@ const CONTENT = {
     co2Note: "Sottratte a discarica e incenerimento",
     tonsUnit: "tonnellate / mese",
     co2Unit: "tonnellate",
-    disclaimer: "Stima indicativa basata su fattori medi di settore: il preventivo conferma i valori reali sul tuo materiale.",
-    source: "Fattore carta: JRC 2018 (Roth et al., 2016) · carta e cartone, emissioni di CO₂.",
+    disclaimer: "Metodo: per chi vende, costo medio di smaltimento evitato × t/mese × 12; per chi compra, differenza tra prezzo medio della materia vergine e del recuperato × t/mese × 12. CO₂e con fattori medi di settore: carta 1,1, legno 0,92, plastica 1,85 tCO₂e/tonnellata.",
+    scope: "Servizio al lancio solo a Bologna e dintorni; ritiro e trasporto sono definiti nel preventivo.",
+    notOffer: "I numeri mostrati sono una stima, non un prezzo emesso né un risparmio garantito.",
     cta: "Richiedi un preventivo",
     materials: { cardboard: "Carta e cartone", wood: "Legno", plastic: "Plastica" } as Record<MaterialKey, string>,
   },
   en: {
     eyebrow: "Impact",
     title: "Know your footprint.",
-    lead: "Pick a material and monthly volume: we estimate your annual savings and the CO₂e you avoid versus disposal or virgin raw material.",
+    lead: "Pick a material and monthly volume: we estimate your annual savings and the CO₂e you avoid versus disposal or virgin raw material. This is an indicative estimate: your quote confirms the real values.",
     materialLabel: "Material",
     intentLabel: "What do you do with the material?",
     sell: "I have material",
@@ -53,8 +56,9 @@ const CONTENT = {
     co2Note: "Kept out of landfill & incineration",
     tonsUnit: "tons / month",
     co2Unit: "tons",
-    disclaimer: "Indicative estimate based on sector-average factors: your quote confirms real values for your material.",
-    source: "Paper factor: JRC 2018 (Roth et al., 2016) · paper and cardboard, CO₂ emissions.",
+    disclaimer: "Method: for sellers, average avoided disposal cost × tonnes/month × 12; for buyers, the difference between average virgin and recovered material prices × tonnes/month × 12. CO₂e uses sector-average factors: paper 1.1, wood 0.92, plastic 1.85 tCO₂e per tonne.",
+    scope: "At launch we serve Bologna and nearby towns only; collection and transport are set out in the quote.",
+    notOffer: "These figures are an estimate, not an issued price or a guaranteed saving.",
     cta: "Request a quote",
     materials: { cardboard: "Paper & cardboard", wood: "Wood", plastic: "Plastic" } as Record<MaterialKey, string>,
   },
@@ -84,8 +88,8 @@ export function FootprintCalculator() {
   return (
     <div className="rounded-2xl border border-line bg-white p-5 shadow-soft sm:p-8">
       <fieldset>
-        <legend className="field-label">{c.materialLabel}</legend>
-        <div className="mt-1.5 grid grid-cols-1 gap-2 rounded-xl border border-line bg-paper p-1 sm:grid-cols-3" role="radiogroup" aria-label={c.materialLabel}>
+        <legend id="calc-material-label" className="field-label">{c.materialLabel}</legend>
+        <div className="mt-1.5 grid grid-cols-1 gap-2 rounded-xl border border-line bg-paper p-1 sm:grid-cols-3" role="radiogroup" aria-labelledby="calc-material-label">
           {(Object.keys(FP_DATA) as MaterialKey[]).map((key) => (
             <label key={key} className="relative">
               <input
@@ -103,8 +107,8 @@ export function FootprintCalculator() {
       </fieldset>
 
       <fieldset className="mt-5">
-        <legend className="field-label">{c.intentLabel}</legend>
-        <div className="mt-1.5 grid grid-cols-2 gap-2 rounded-xl border border-line bg-paper p-1" role="radiogroup" aria-label={c.intentLabel}>
+        <legend id="calc-intent-label" className="field-label">{c.intentLabel}</legend>
+        <div className="mt-1.5 grid grid-cols-2 gap-2 rounded-xl border border-line bg-paper p-1" role="radiogroup" aria-labelledby="calc-intent-label">
           {(["sell", "buy"] as Intent[]).map((key) => (
             <label key={key} className="relative">
               <input
@@ -167,7 +171,8 @@ export function FootprintCalculator() {
       </div>
 
       <p className="mt-5 text-[13px] leading-relaxed text-muted">{c.disclaimer}</p>
-      <p className="mt-1 text-[12px] leading-relaxed text-muted">{c.source}</p>
+      <p className="mt-1 text-[12px] leading-relaxed text-muted">{c.scope}</p>
+      <p className="mt-1 text-[12px] leading-relaxed text-muted">{c.notOffer}</p>
 
       <Button className="mt-6 w-full sm:w-auto" size="lg" asChild>
         <Link href="/preventivo">

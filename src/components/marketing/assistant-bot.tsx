@@ -12,7 +12,7 @@ const COPY = {
   it: {
     open: "Apri assistente",
     close: "Chiudi assistente",
-    title: "Assistente Offcut",
+    title: "Offcut AI",
     placeholder: "Scrivi una domanda…",
     send: "Invia",
     readAloud: "Leggi ad alta voce",
@@ -20,11 +20,11 @@ const COPY = {
     greeting: "Ciao! Posso spiegarti commissioni, prenotazioni, abbinamenti o aiutarti a stimare il tuo impatto. Cosa ti serve?",
     chips: ["Come funzionano le commissioni?", "Prenotare un ritiro", "Calcolare il mio impatto", "Richiedere un preventivo"],
     fees: "Iscrizione gratuita: la commissione è del 6% solo sugli affari conclusi. Trasporto e lavorazione sono voci separate del preventivo, così ricevi un unico prezzo consegnato.",
-    booking: "Dopo l'abbinamento puoi prenotare ritiro o consegna dalla Inbox dell'app: vedi subito il dettaglio costi (materiale, commissione 6%, trasporto, lavorazione) e confermi data e fascia oraria.",
-    footprint: "Apri il calcolatore: scegli materiale e tonnellate mensili, stimiamo risparmio annuo e CO₂e evitata.",
-    quote: "Compila il form: bastano materiale, quantità, zona ed email. Rispondiamo entro 48 ore lavorative.",
-    match: "L'abbinamento confronta materiale, volume, raggio e condizione e spiega ogni punteggio. Puoi esplorare la demo con un account sandbox.",
-    fallback: "Posso aiutarti su: commissioni e prezzi, prenotazione ritiri/consegne, abbinamenti, calcolo dell'impatto e richieste di preventivo. Prova una delle domande qui sotto.",
+    booking: "Dopo l'abbinamento puoi prenotare ritiro o consegna dalla Inbox dell'app: vedi il dettaglio costi (materiale, commissione 6%, trasporto e lavorazione definiti nel preventivo) e scegli data e fascia oraria della consegna.",
+    footprint: "Apri il calcolatore: scegli materiale e tonnellate mensili per una stima indicativa di risparmio annuo e CO₂e evitata. Il preventivo conferma i valori reali.",
+    quote: "Compila il form: bastano materiale, quantità, zona ed email. Rispondiamo entro 48 ore lavorative con un preventivo; non è un prezzo emesso.",
+    match: "L'abbinamento confronta materiale, volume, distanza e condizione e spiega ogni punteggio. Operiamo solo a Bologna e dintorni; puoi esplorare la demo con un account sandbox.",
+    fallback: "Posso aiutarti su: commissioni e prezzi, prenotazione ritiri/consegne, abbinamenti, calcolo dell'impatto e richieste di preventivo. Operiamo a Bologna e dintorni. Prova una delle domande qui sotto.",
     quoteLink: "Richiedi un preventivo",
     impactLink: "Calcola il tuo impatto",
     demoLink: "Prova la demo",
@@ -32,7 +32,7 @@ const COPY = {
   en: {
     open: "Open assistant",
     close: "Close assistant",
-    title: "Offcut assistant",
+    title: "Offcut AI",
     placeholder: "Ask a question…",
     send: "Send",
     readAloud: "Read aloud",
@@ -40,11 +40,11 @@ const COPY = {
     greeting: "Hi! I can explain commissions, bookings, matching, or help you estimate your impact. What do you need?",
     chips: ["How do commissions work?", "Book a pick-up", "Estimate my impact", "Request a quote"],
     fees: "Free to join: the 6% commission applies only to completed deals. Transport and processing are separate quote line items, so you get one delivered price.",
-    booking: "After matching, book a pick-up or drop-off from the app Inbox: you see the cost breakdown (material, 6% commission, transport, processing) and confirm date and time slot.",
-    footprint: "Open the calculator: pick a material and monthly tons, we estimate annual savings and CO₂e avoided.",
-    quote: "Fill in the form: material, quantity, area and email are enough. We reply within 48 working hours.",
-    match: "Matching compares material, volume, radius and condition and explains every score. You can explore the demo with a sandbox account.",
-    fallback: "I can help with: commissions and pricing, pick-up/drop-off bookings, matching, impact estimates and quote requests. Try one of the questions below.",
+    booking: "After matching, book a pick-up or drop-off from the app Inbox: you see the cost breakdown (material, 6% commission, transport and processing set out in the quote) and choose the delivery date and time slot.",
+    footprint: "Open the calculator: pick a material and monthly tons for an indicative estimate of annual savings and CO₂e avoided. Your quote confirms the real values.",
+    quote: "Fill in the form: material, quantity, area and email are enough. We reply within 48 working hours with a quote, not an issued price.",
+    match: "Matching compares material, volume, distance and condition and explains every score. We operate in Bologna and nearby towns only; you can explore the demo with a sandbox account.",
+    fallback: "I can help with: commissions and pricing, pick-up/drop-off bookings, matching, impact estimates and quote requests. We operate in Bologna and nearby towns. Try one of the questions below.",
     quoteLink: "Request a quote",
     impactLink: "Estimate your impact",
     demoLink: "Try the demo",
@@ -109,6 +109,17 @@ export function AssistantBot() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
+
+  // Keep the greeting in the selected language if it has not been replaced by a conversation.
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length !== 1 || prev[0].role !== "bot") return prev;
+      if (prev[0].text === COPY.it.greeting || prev[0].text === COPY.en.greeting) {
+        return [{ role: "bot", text: c.greeting }];
+      }
+      return prev;
+    });
+  }, [lang, c.greeting]);
 
   useEffect(() => {
     if (!open) return;
@@ -243,7 +254,7 @@ export function AssistantBot() {
               onChange={(e) => setInput(e.target.value)}
               placeholder={c.placeholder}
               autoComplete="off"
-              className="h-10 flex-1 rounded-xl border border-line bg-white px-3 text-[16px] text-ink placeholder:text-muted/60 focus-visible:border-moss sm:text-[14px]"
+              className="h-10 flex-1 rounded-xl border border-line bg-white px-3 text-[16px] text-ink placeholder:text-muted focus-visible:border-moss sm:text-[14px]"
             />
             <button
               type="submit"

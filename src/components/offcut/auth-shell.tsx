@@ -12,6 +12,7 @@ const COPY = {
     step1: "Indica cosa hai o cosa cerchi",
     step2: "Ricevi gli abbinamenti",
     step3: "Concludi lo scambio",
+    both: "Un solo account per acquistare e vendere",
     signup: "Registrati",
     login: "Accedi",
   },
@@ -21,6 +22,7 @@ const COPY = {
     step1: "List what you have or need",
     step2: "Get matched",
     step3: "Make the exchange",
+    both: "One account to buy and sell",
     signup: "Sign up",
     login: "Log in",
   },
@@ -47,20 +49,21 @@ export function OffcutAuthShell({
             <h1>{c.title}</h1>
             <p className="lead mut">{c.sub}</p>
             <div className="offcut-flow">
-              <span>{c.step1}</span><i>→</i>
-              <span>{c.step2}</span><i>→</i>
+              <span>{c.step1}</span><i aria-hidden>→</i>
+              <span>{c.step2}</span><i aria-hidden>→</i>
               <span>{c.step3}</span>
             </div>
+            <p className="mt-3 text-[13px] leading-relaxed mut">{c.both}</p>
           </div>
           <div className="card">
-            <div className="seg" id="am">
-              <Link href="/signup" className={mode === "signup" ? "on" : undefined} role="button">
+            <nav className="seg" id="am" aria-label={mode === "signup" ? c.signup : c.login}>
+              <Link href="/signup" className={mode === "signup" ? "on" : undefined} aria-current={mode === "signup" ? "page" : undefined}>
                 {c.signup}
               </Link>
-              <Link href="/login" className={mode === "signin" ? "on" : undefined} role="button">
+              <Link href="/login" className={mode === "signin" ? "on" : undefined} aria-current={mode === "signin" ? "page" : undefined}>
                 {c.login}
               </Link>
-            </div>
+            </nav>
             <div className="offcut-auth-form">{children}</div>
           </div>
         </div>

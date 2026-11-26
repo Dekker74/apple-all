@@ -50,7 +50,7 @@ export function MaterialThumb({
     >
       <div className="flex h-full flex-col justify-between p-3">
         <CategoryIcon category={category} size="sm" className="border-white/40 bg-white/50 backdrop-blur" />
-        <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-ink/55">
+        <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">
           {reference}
         </span>
       </div>
