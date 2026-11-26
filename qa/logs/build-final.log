@@ -1,0 +1,61 @@
+
+> apple-all@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.29
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 6.6s
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/28) ...
+   Generating static pages (7/28) 
+   Generating static pages (14/28) 
+   Generating static pages (21/28) 
+ ✓ Generating static pages (28/28)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    12.8 kB         152 kB
+├ ○ /_not-found                            161 B         103 kB
+├ ƒ /api/chat                              161 B         103 kB
+├ ƒ /api/quotes                            161 B         103 kB
+├ ○ /app/dashboard                       8.11 kB         265 kB
+├ ○ /app/inbox                           11.6 kB         281 kB
+├ ○ /app/listings                        5.87 kB         291 kB
+├ ○ /app/listings/new                    11.3 kB         273 kB
+├ ○ /app/marketplace                     13.2 kB         264 kB
+├ ƒ /app/marketplace/[id]                9.08 kB         262 kB
+├ ○ /app/matches                         4.91 kB         261 kB
+├ ○ /app/orders                          9.27 kB         249 kB
+├ ƒ /app/orders/[id]                     14.9 kB         279 kB
+├ ○ /app/requests                        4.16 kB         248 kB
+├ ○ /app/requests/new                    7.77 kB         270 kB
+├ ○ /app/settings                        9.94 kB         274 kB
+├ ƒ /auth/callback                         161 B         103 kB
+├ ○ /chi-siamo                           4.44 kB         144 kB
+├ ○ /forgot-password                     5.74 kB         228 kB
+├ ○ /icon.svg                                0 B            0 B
+├ ○ /impatto                             3.78 kB         143 kB
+├ ○ /login                               3.83 kB         258 kB
+├ ○ /onboarding                          8.09 kB         257 kB
+├ ○ /preventivo                          11.3 kB         161 kB
+├ ○ /privacy                             3.36 kB         143 kB
+├ ○ /robots.txt                            161 B         103 kB
+├ ○ /signup                              5.17 kB         262 kB
+├ ○ /sitemap.xml                           161 B         103 kB
+└ ○ /terms                               3.13 kB         142 kB
++ First Load JS shared by all             103 kB
+  ├ chunks/1255-b84741b894bb9354.js      46.6 kB
+  ├ chunks/4bd1b696-f785427dddbba9fb.js  54.2 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+ƒ Middleware                             95.8 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

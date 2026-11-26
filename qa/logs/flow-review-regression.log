@@ -1,0 +1,7 @@
+[flow] PASS Prefill modifica IT: Ritagli OCC kraft 90/10; editingId=lst_occ; campi chiave allineati
+[flow] PASS Salvataggio modifica IT: titolo aggiornato; riferimento=LST-2026-0401; stato=active; org=org_greenloop
+[flow] PASS Persistenza dopo refresh: Ritagli OCC kraft 90/10 — QA; riferimento invariato
+[flow] PASS Prefill duplicazione EN: Ritagli OCC kraft 90/10 (copy); editingId assente
+[flow] PASS Duplicazione salvata EN: id=lst_e9c7fc09; riferimento=LST-2026-7175; stato=draft
+[flow] 5 verifiche PASS, 0 errori
+[flow] report: /root/apple-all/qa/FLOW_REPORT.md

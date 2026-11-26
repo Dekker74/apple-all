@@ -1,0 +1,20 @@
+[final-flow] PASS Homepage pubblica: hero, doppia CTA buy/sell e messaggio no-role verificati
+[final-flow] PASS Registrazione: 5 campi iniziali, 0 scelte di ruolo
+[final-flow] PASS Recupero password: form email presente
+[final-flow] PASS Dashboard buyer: KPI e azioni rapide buy/sell presenti
+[final-flow] PASS Logout: menu utente e sign out portano a /login
+[final-flow] PASS Dashboard supplier: KPI, annunci e azioni rapide presenti
+[final-flow] PASS Ricerca marketplace: 12 annunci → 1 con q=rpet
+[final-flow] PASS Filtro categoria: Plastics: 5/12 annunci
+[final-flow] PASS Empty state marketplace: ricerca senza risultati mostra spiegazione e azioni
+[final-flow] PASS Pubblicazione attiva: annuncio LST-2026-4367 attivato dall'UI (status=active)
+[final-flow] PASS Download preventivo: preventivo-CL-2026-0139.txt · 443 byte · commissione presente
+[final-flow] PASS Trasporto, processing e transazioni: timeline, modalità, lavorazione e riepilogo economico verificati
+[final-flow] PASS Messaggistica: invio messaggio nel contesto demo verificato
+[final-flow] PASS Centro notifiche: menu con collegamento diretto all'ordine
+[final-flow] PASS Assistente AI: apertura manuale e chiusura senza auto-open
+[final-flow] PASS Profilo e impostazioni: tab presenti e nessun badge di verifica inventato
+[final-flow] PASS Stato errore: ordine inesistente mostra messaggio e azione di ritorno
+[final-flow] PASS Console e HTTP: 0 errori console/pageerror/HTTP nelle sessioni finali
+[final-flow] 18 verifiche PASS, 0 errori
+[final-flow] report: /root/apple-all/qa/FINAL_FLOW_REPORT.md
