@@ -28,12 +28,12 @@ function fromAddress(): string {
   return process.env.QUOTE_FROM_EMAIL?.trim() || "Offcut <onboarding@resend.dev>";
 }
 
-function teamAddress(): string {
+export function teamAddress(): string {
   return process.env.QUOTE_NOTIFICATION_EMAIL?.trim() || "hello@circularlink.app";
 }
 
 function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://all-1-2026.vercel.app").replace(/\/$/, "");
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://apple-all.vercel.app").replace(/\/$/, "");
 }
 
 const LABELS = {
@@ -49,6 +49,7 @@ const LABELS = {
     received: "Richiesta ricevuta",
     reference: "Riferimento",
     next: "Ti rispondiamo entro 48 ore lavorative con un preventivo consegnato.",
+    notQuote: "Questa è una richiesta di preventivo, non un prezzo emesso: il costo finale sarà confermato dopo la verifica del materiale.",
     summary: "Riepilogo della richiesta",
     reply: "Puoi rispondere direttamente a questa email.",
     notStored: "Questa è una conferma automatica: non serve rispondere se non hai inviato tu la richiesta.",
@@ -65,6 +66,7 @@ const LABELS = {
     received: "Request received",
     reference: "Reference",
     next: "We'll reply within 48 working hours with a delivered quote.",
+    notQuote: "This is a quote request, not an issued price: the final cost will be confirmed after the material has been checked.",
     summary: "Request summary",
     reply: "You can reply directly to this email.",
     notStored: "This is an automatic confirmation: no action needed if you did not send this request.",
@@ -120,6 +122,7 @@ function confirmationHtml(input: QuoteEmailInput, lang: "it" | "en"): string {
   <p style="margin:0 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5b6b62">Offcut · ${escapeHtml(input.reference)}</p>
   <h1 style="margin:0 0 12px;font-size:22px;line-height:1.25;color:#14261d">${escapeHtml(l.received)}</h1>
   <p style="margin:0 0 16px;font-size:15px;line-height:1.6;color:#1c2b24">${escapeHtml(l.next)}</p>
+  <p style="margin:0 0 16px;font-size:13px;line-height:1.6;color:#5b6b62">${escapeHtml(l.notQuote)}</p>
   <p style="margin:0 0 8px;font-size:13px;color:#5b6b62">${escapeHtml(l.summary)}</p>
   ${summaryTable(input, lang)}
   <hr style="border:none;border-top:1px solid #dfe3da;margin:20px 0" />

@@ -12,11 +12,12 @@ export type QuotePayload = {
   company?: string;
   notes?: string;
   locale?: QuoteLocale;
+  consent?: boolean;
   website?: string;
   clientRequestId?: string;
 };
 
-export type QuoteField = "intent" | "material" | "quantityKg" | "zone" | "email" | "company" | "notes";
+export type QuoteField = "intent" | "material" | "quantityKg" | "zone" | "email" | "company" | "notes" | "consent";
 
 export type ValidationResult =
   | { ok: true; value: Required<Pick<QuotePayload, "intent" | "material" | "quantityKg" | "zone" | "email">> & QuotePayload }
@@ -65,6 +66,7 @@ export function validateQuotePayload(input: unknown): ValidationResult {
   if (notes.length > 2000) fields.notes = "too_long";
 
   const locale = str(body.locale) === "en" ? "en" : "it";
+  if (body.consent !== true) fields.consent = "required";
   const clientRequestId = str(body.clientRequestId).slice(0, 64) || undefined;
 
   if (Object.keys(fields).length > 0) {
@@ -82,6 +84,7 @@ export function validateQuotePayload(input: unknown): ValidationResult {
       company: company || undefined,
       notes: notes || undefined,
       locale,
+      consent: true,
       clientRequestId,
     },
   };

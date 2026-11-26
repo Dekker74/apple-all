@@ -356,6 +356,7 @@ interface Actions {
   }) => void;
   inviteMember: (input: { email: string; role: MemberRole; fullName?: string }) => void;
   createListing: (input: NewListingInput) => string;
+  updateListing: (listingId: string, input: NewListingInput) => void;
   updateListingStatus: (listingId: string, status: ListingStatus) => void;
   createRequest: (input: NewRequestInput) => string;
   generateMatches: () => number;
@@ -776,6 +777,32 @@ export const useAppStore = create<AppStore>()(
           return { listings, matches, lastMatchRunAt: nowIso() };
         });
         return id;
+      },
+
+      updateListing: (listingId, input) => {
+        const state = get();
+        if (!state.currentOrgId) throw new Error("Select an organization first.");
+        const existing = state.listings.find((listing) => listing.id === listingId);
+        if (!existing || existing.orgId !== state.currentOrgId) throw new Error("Listing not found.");
+        set((s) => {
+          const listings = s.listings.map((listing) =>
+            listing.id === listingId
+              ? {
+                  ...existing,
+                  ...input,
+                  id: existing.id,
+                  reference: existing.reference,
+                  orgId: existing.orgId,
+                  currency: existing.currency,
+                  createdAt: existing.createdAt,
+                  views: existing.views,
+                  status: input.status ?? existing.status,
+                }
+              : listing,
+          );
+          const matches = rebuildMatches({ ...s, listings });
+          return { listings, matches, lastMatchRunAt: nowIso() };
+        });
       },
 
       updateListingStatus: (listingId, status) => {
