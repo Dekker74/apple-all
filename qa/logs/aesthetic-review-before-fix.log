@@ -1,0 +1,15 @@
+[aesthetic] home-desktop-light-en: h1=92.16px contrasto=15.46:1 tap<24=12 overflow=0 anim=1
+[aesthetic] home-desktop-dark-it: h1=92.16px contrasto=21:1 tap<24=12 overflow=0 anim=1
+[aesthetic] home-tablet-light-it: h1=49.152px contrasto=15.46:1 tap<24=12 overflow=0 anim=1
+[aesthetic] home-mobile-light-it: h1=40px contrasto=15.46:1 tap<24=12 overflow=0 anim=1
+[aesthetic] dashboard-desktop-light-it: h1=38px contrasto=15.46:1 tap<24=12 overflow=0 anim=1
+[aesthetic] marketplace-tablet-light-en: h1=38px contrasto=15.46:1 tap<24=4 overflow=0 anim=1
+[aesthetic] marketplace-mobile-dark-it: h1=32px contrasto=21:1 tap<24=4 overflow=0 anim=1
+[aesthetic] detail-desktop-light-en: h1=38px contrasto=15.46:1 tap<24=6 overflow=0 anim=1
+[aesthetic] wizard-tablet-light-it: h1=38px contrasto=15.46:1 tap<24=4 overflow=0 anim=1
+[aesthetic] quote-desktop-light-it: h1=42px contrasto=15.46:1 tap<24=6 overflow=0 anim=1
+[aesthetic] impact-mobile-light-en: h1=40px contrasto=15.46:1 tap<24=5 overflow=0 anim=1
+[aesthetic] login-mobile-dark-it: h1=36px contrasto=21:1 tap<24=2 overflow=0 anim=1
+[aesthetic] inbox-desktop-dark-en: h1=38px contrasto=21:1 tap<24=4 overflow=0 anim=1
+[aesthetic] settings-tablet-light-it: h1=38px contrasto=15.46:1 tap<24=4 overflow=0 anim=1
+[aesthetic] 14/14 schermate, 14 finding
